@@ -1,8 +1,8 @@
 package com.feedreader.myapplication;
 
 
-
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,29 +14,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+
 
 
 public class MainActivity extends AppCompatActivity {
-    int number=0;
-    ArrayList<String> rssLists = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,60 +30,90 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void putweb(int number,TextView web){
-        LinearLayout layout=(LinearLayout) findViewById(R.id.layout);
-        Button new_button=new Button(this);
-        new_button.setText(web.getText().toString());
+    public void putweb(TextView web) {
+        LinearLayout layout = findViewById(R.id.layout);
+        Button new_button = new Button(this);
+        new_button.setText("http://" + web.getText().toString());
+        new_button.setTag("http://" + web.getText().toString());
         new_button.setLayoutParams(new ViewGroup.LayoutParams(1500, 200));
         new_button.setX(0);
         new_button.setY(550);
-        layout.addView(new_button);
-        rssLists.add(web.getText().toString());
-        /*WebView browser = new WebView(this);
-        browser.loadUrl("http:"+web.getText().toString());
-        WebSettings webSettings = browser.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setAppCacheEnabled(true);
-        webSettings.setDatabaseEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        browser.setLayoutParams(new ViewGroup.LayoutParams(1500, 400));
-        browser.setX(0);
-        browser.setY(500+100*number);
-        layout.addView(browser);
-        browser.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+        new_button.setAllCaps(false);
+        new_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
+                intent.putExtra("url", v.getTag().toString());
+                startActivity(intent);
             }
-        });*/
-    }
-    public void addSite(View v){
-        TextView web=(TextView) findViewById(R.id.editText1);
-        putweb(number,web);
-
-        Intent intent = new Intent(this,RSSfeedshow.class);
-        intent.putExtra("url","http://"+web.getText().toString());
-        startActivity(intent);
-
-
-
-    }
-    public void Delete(View v){
-        TextView dweb=(TextView) findViewById(R.id.editText);
+        });
+        layout.addView(new_button);
     }
 
-    public void onClick(View view) {
-        float y=view.getY();
-        int count=0;
-        while (y>=550)
-        {
-            y-=200;
-            count++;
+    public void addSite(View v) {
+        TextView web = findViewById(R.id.editText1);
+        check checkweb = new check();
+        checkweb.execute("http://" + web.getText().toString());
+    }
+
+    public void Delete(View v) {
+
+    }
+
+    class check extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            final String url = args[0];
+            RSSFeedparser parser = new RSSFeedparser();
+            ArrayList<RSSElement> a = parser.getRSSfeedFromUrl(url);
+            if (a != null)
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        LinearLayout layout = findViewById(R.id.layout);
+                        Button new_button = new Button(getApplicationContext());
+                        new_button.setText(url);
+                        new_button.setTag(url);
+                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1500, 200));
+                        new_button.setX(0);
+                        new_button.setY(550);
+                        new_button.setAllCaps(false);
+                        new_button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
+                                intent.putExtra("url", v.getTag().toString());
+                                startActivity(intent);
+                            }
+                        });
+                        layout.addView(new_button);
+                    }
+                });
+            else {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        LinearLayout layout = findViewById(R.id.layout);
+                        TextView reminder = new Button(getApplicationContext());
+                        reminder.setText("This url is invalid" + "\r\n" +
+                                "Please press to close the window");
+                        reminder.setX(100);
+                        reminder.setY(800);
+                        reminder.setBackgroundColor(Color.WHITE);
+                        reminder.setTextColor(Color.RED);
+                        reminder.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                v.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                        layout.addView(reminder);
+                    }
+                });
+            }
+
+            return null;
         }
 
-
     }
-
 
 }

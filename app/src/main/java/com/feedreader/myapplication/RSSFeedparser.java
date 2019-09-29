@@ -47,6 +47,7 @@ public class RSSFeedparser  {
 
         }catch (Exception e) {
             System.out.println("Rss Feed Parser Catch exception = " + e);
+            return null;
         }
         return RSSelements;
     }

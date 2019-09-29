@@ -24,11 +24,11 @@ public class RSSfeedshow extends AppCompatActivity {
         setContentView(R.layout.feed_layout);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        putlayout layout=new putlayout();
-        layout.execute(url);
+        putLayout putlayout=new putLayout();
+        putlayout.execute(url);
     }
 
-    public class putlayout extends AsyncTask<String, String, String> {
+    public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
             String url = args[0];
@@ -43,6 +43,7 @@ public class RSSfeedshow extends AppCompatActivity {
                 new_button.setLayoutParams(new ViewGroup.LayoutParams(1500,800));
                 new_button.setX(0);
                 new_button.setY(200);
+                new_button.setAllCaps(false);
                 new_button.setTag(a.get(i).link);
                 new_button.setOnClickListener(new View.OnClickListener() {
                     @Override
