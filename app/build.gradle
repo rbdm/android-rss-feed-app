@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.feedreader.myapplication"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
