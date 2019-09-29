@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RSSfeedshow" />
+        <activity android:name=".webView" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
