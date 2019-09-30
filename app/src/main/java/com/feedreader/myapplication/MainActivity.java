@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setContentView(R.layout.activity);
+        //setContentView(R.layout.activity);
+        setContentView(R.layout.feed_layout);
     }
 
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addSite(View v) {
+        setContentView(R.layout.activity);
         TextView web = findViewById(R.id.editText1);
         check checkweb = new check();
         checkweb.execute("http://" + web.getText().toString());
@@ -114,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
+    }
+
+    public void returnHome(View v){
+        setContentView(R.layout.feed_layout);
     }
 
 }
