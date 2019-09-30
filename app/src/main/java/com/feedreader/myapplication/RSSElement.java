@@ -7,9 +7,10 @@ public class RSSElement {
     public RSSElement(){
 
     }
-    public RSSElement(String title, String link, String pubdate) {
+    public RSSElement(String title, String link, String pubdate,String description) {
         this.title = title;
         this.link = link;
         this.pubdate = pubdate;
+
     }
 }
