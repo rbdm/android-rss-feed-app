@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setContentView(R.layout.feed_layout);
+        setContentView(R.layout.activity);
     }
 
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addSitePage(View v) {
-        setContentView(R.layout.activity);
+        setContentView(R.layout.add);
     }
 
 }
