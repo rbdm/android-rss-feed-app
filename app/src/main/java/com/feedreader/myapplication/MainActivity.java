@@ -120,6 +120,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.feed_layout);
     }
 
+    public void savedSitePage(View v){
+        setContentView(R.layout.savedsite_layout);
+    }
+
     public void addSitePage(View v){
         setContentView(R.layout.activity);
     }
