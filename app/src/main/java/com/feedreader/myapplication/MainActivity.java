@@ -18,8 +18,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -116,15 +114,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void returnHome(View v){
+    public void returnHome(View v) {
         setContentView(R.layout.feed_layout);
     }
 
-    public void savedSitePage(View v){
-        setContentView(R.layout.savedsite_layout);
+    public void savedSitePage(View v) {
+        Intent intent = new Intent(getApplicationContext(), savedsiteshow.class);
+        startActivity(intent);
     }
 
-    public void addSitePage(View v){
+    public void addSitePage(View v) {
         setContentView(R.layout.activity);
     }
 
