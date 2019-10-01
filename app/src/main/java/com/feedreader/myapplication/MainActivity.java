@@ -18,15 +18,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setContentView(R.layout.feed_layout);
+        setContentView(R.layout.activity);
     }
 
 
@@ -116,16 +114,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void returnHome(View v){
+    public void returnHome(View v) {
         setContentView(R.layout.feed_layout);
     }
 
-    public void savedSitePage(View v){
-        setContentView(R.layout.savedsite_layout);
+    public void savedSitePage(View v) {
+        Intent intent = new Intent(getApplicationContext(), savedsiteshow.class);
+        startActivity(intent);
     }
 
-    public void addSitePage(View v){
-        setContentView(R.layout.activity);
+    public void addSitePage(View v) {
+        setContentView(R.layout.add);
     }
 
 }

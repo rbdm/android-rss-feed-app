@@ -16,42 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/button7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
     </LinearLayout>
 
-    <GridLayout android:layout_width="0dp" android:layout_height="51dp"
-                android:id="@+id/gridLayout"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent">
-        <Button
-                android:text="Home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/buttonHome"
-                style="?android:attr/buttonStyle"/>
-        <Button
-                android:text="Search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/buttonSearch"
-                style="?android:attr/buttonStyle"/>
-        <Button
-                android:text="AddSite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/buttonAdd"
-                style="?android:attr/buttonStyle" android:onClick="savedSitePage"/>
-        <Button
-                android:text="Favorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/buttonFavorite"
-                style="?android:attr/buttonStyle"/>
-        <Button
-                android:text="Sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/buttonSort"
-                style="?android:attr/buttonStyle"/>
-    </GridLayout>
 
 </android.support.constraint.ConstraintLayout>
