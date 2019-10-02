@@ -1,6 +1,7 @@
 package com.feedreader.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,11 +41,13 @@ public class RSSfeedshow extends AppCompatActivity {
                 Button new_button=new Button(getApplicationContext());
                 int number=i+1;
                 new_button.setText(number+". "+a.get(i).title+"\r\n"+a.get(i).pubdate);
-                new_button.setLayoutParams(new ViewGroup.LayoutParams(1500,800));
+                new_button.setLayoutParams(new ViewGroup.LayoutParams(1450,300));
                 new_button.setX(0);
-                new_button.setY(200);
+                new_button.setY(0);
                 new_button.setAllCaps(false);
                 new_button.setTag(a.get(i).link);
+                new_button.setBackgroundColor(Color.WHITE);
+                new_button.setFadingEdgeLength(10);
                 new_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
