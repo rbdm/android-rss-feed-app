@@ -4,16 +4,14 @@ package com.feedreader.myapplication;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import java.util.ArrayList;
 
@@ -28,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void putweb(TextView web) {
+    public void putWeb(TextView web) {
         LinearLayout layout = findViewById(R.id.layout);
         Button new_button = new Button(this);
         new_button.setText("http://" + web.getText().toString());
@@ -108,10 +106,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-
             return null;
         }
-
     }
 
     public void returnHome(View v) {
@@ -125,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void addSitePage(View v) {
         setContentView(R.layout.add);
+    }
+
+        //Skip to Favourites activity
+    public void openFavourites(View view) {
+
+        Intent i = new Intent(this, FavouritesActivity.class);
+        startActivity(i);
+
     }
 
 }

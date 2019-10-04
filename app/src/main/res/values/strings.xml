@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RSS feed Reader</string>
+    <string name="title_activity_favourites">FavouritesActivity</string>
 </resources>
