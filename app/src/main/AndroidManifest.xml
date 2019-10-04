@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".RSSfeedshow" />
         <activity android:name=".webView" />
-        <activity android:name=".savedsiteshow" />
+        <activity android:name=".addSitesShow" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
