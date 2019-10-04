@@ -40,13 +40,6 @@ public class addSitesShow extends AppCompatActivity {
         {    View c=layout.findViewWithTag(tag);
             layout.removeView(c);
         }
-        //int childCount = layout.getChildCount();
-        //for (int i = 0; i < childCount; i++) {
-          //  View c = layout.getChildAt(i);
-          //  if (c.findViewWithTag() && c.getTag().equals(tag)) {
-         //       layout.removeView(c);
-         //   }
-
         }
 
 
