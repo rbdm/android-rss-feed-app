@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
         //Skip to Favourites activity
-    public void openFavourites(View view) {
+    /*public void openFavourites(View view) {
 
         Intent i = new Intent(this, FavouritesActivity.class);
         startActivity(i);
 
     }
-
+*/
 }
