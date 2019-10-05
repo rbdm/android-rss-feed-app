@@ -8,12 +8,15 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -62,15 +65,36 @@ public class webView  extends AppCompatActivity {
         buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                        .setContentDescription("testCD")
-                        .setContentTitle("testCT")
-                        .setQuote(getIntent().getStringExtra("title"))
-                        .setContentUrl(Uri.parse(getIntent().getStringExtra("url")))
-                        .build();
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
-                    shareDialog.show(linkContent);
-                }
+
+                PopupMenu popupMenu = new PopupMenu(webView.this, buttonShare);
+
+                popupMenu.getMenuInflater().inflate(R.menu.share_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        Toast.makeText(webView.this, "Click Item:"+menuItem.getTitle(),Toast.LENGTH_LONG).show();
+
+                        if(menuItem.getItemId() == R.id.shareToFacebook) {
+                            ShareLinkContent facebookContent = new ShareLinkContent.Builder()
+                                    .setContentDescription("testCD")
+                                    .setContentTitle("testCT")
+                                    .setQuote(getIntent().getStringExtra("title"))
+                                    .setContentUrl(Uri.parse(getIntent().getStringExtra("url")))
+                                    .build();
+                            if (ShareDialog.canShow(ShareLinkContent.class)) {
+                                shareDialog.show(facebookContent);
+                            }
+                        }
+                        else {
+
+                        }
+
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
 
                 /*shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");

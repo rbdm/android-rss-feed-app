@@ -43,7 +43,8 @@ public class RSSfeedshow extends AppCompatActivity {
                         LinearLayout layout=findViewById(R.id.linearLayout);
                         Button new_button=new Button(getApplicationContext());
                         int number=i+1;
-                        new_button.setText(number+". "+a.get(i).title+"\r\n"+a.get(i).pubdate);
+                        final String newsTitle = a.get(i).title;
+                        new_button.setText(number+". "+newsTitle+"\r\n"+a.get(i).pubdate);
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450,300));
                         new_button.setX(0);
                         new_button.setY(0);
@@ -56,6 +57,7 @@ public class RSSfeedshow extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent intent=new Intent(getApplicationContext(),webView.class);
                                 intent.putExtra("url",v.getTag().toString());
+                                intent.putExtra("title",newsTitle);
                                 startActivity(intent);
                             }
                         });
