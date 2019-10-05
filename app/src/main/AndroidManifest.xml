@@ -33,7 +33,7 @@
         <provider
             android:authorities="com.facebook.app.FacebookContentProvider2394653474141111"
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"></provider>
+            android:exported="true" />
     </application>
 
 </manifest>

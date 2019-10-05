@@ -8,6 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telecom.Call;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -22,6 +23,10 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.List;
 
@@ -36,7 +41,15 @@ public class webView  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // initialize facebook SDK
         FacebookSdk.sdkInitialize(this.getApplicationContext());
+
+        // initialize twitter SDK
+        TwitterConfig twitterConfig = new TwitterConfig.Builder(this)
+                .twitterAuthConfig(new TwitterAuthConfig("@strings/twitter_consumer_key", "@strings/twitter_consumer_secret"))
+                .build();
+        Twitter.initialize(this);
 
         setContentView(R.layout.web_view);
         Intent intent = getIntent();
@@ -57,7 +70,8 @@ public class webView  extends AppCompatActivity {
         });
 
         buttonShare = findViewById(R.id.buttonShare);
-        //initialize FB
+
+        // initialize facebook dialog
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
 
@@ -66,15 +80,13 @@ public class webView  extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                // set popup menu to get options from res/menu/share_menu
                 PopupMenu popupMenu = new PopupMenu(webView.this, buttonShare);
-
                 popupMenu.getMenuInflater().inflate(R.menu.share_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        Toast.makeText(webView.this, "Click Item:"+menuItem.getTitle(),Toast.LENGTH_LONG).show();
-
                         if(menuItem.getItemId() == R.id.shareToFacebook) {
                             ShareLinkContent facebookContent = new ShareLinkContent.Builder()
                                     .setContentDescription("testCD")
@@ -85,6 +97,20 @@ public class webView  extends AppCompatActivity {
                             if (ShareDialog.canShow(ShareLinkContent.class)) {
                                 shareDialog.show(facebookContent);
                             }
+                        }
+                        else if(menuItem.getItemId() == R.id.shareToTwitter) {
+                            TweetComposer.Builder builder = new TweetComposer.Builder(webView.this)
+                                    .text(getIntent().getStringExtra("url"));
+                            builder.show();
+
+                            /*
+                            final TwitterSession twitterSession = TwitterCore.getInstance().getSessionManager().getActiveSession();
+                            final Intent intent = new ComposerActivity.Builder(webView.this)
+                                .session(twitterSession)
+                                .text("a")
+                                .createIntent();
+                            startActivity(intent);
+                            */
                         }
                         else {
 
