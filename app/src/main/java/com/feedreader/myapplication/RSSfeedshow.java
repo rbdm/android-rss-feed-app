@@ -5,15 +5,14 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-
 import java.util.ArrayList;
-
-
 
 
 public class RSSfeedshow extends AppCompatActivity {
@@ -21,6 +20,23 @@ public class RSSfeedshow extends AppCompatActivity {
     RSSFeedparser parser = new RSSFeedparser();
     Button buttonHome;
     Intent homeIntent;
+    webView mWebView;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.refresh_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+      /*  Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);*/
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +44,7 @@ public class RSSfeedshow extends AppCompatActivity {
         setContentView(R.layout.feed_layout);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        putLayout putlayout=new putLayout();
+        putLayout putlayout = new putLayout();
         putlayout.execute(url);
     }
 
@@ -36,16 +52,17 @@ public class RSSfeedshow extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             String url = args[0];
-            a=parser.getRSSfeedFromUrl(url);
+            a = parser.getRSSfeedFromUrl(url);
+
             runOnUiThread(new Runnable() {
                 public void run() {
-                    for(int i=0;i<a.size();i++){
-                        LinearLayout layout=findViewById(R.id.linearLayout);
-                        Button new_button=new Button(getApplicationContext());
-                        int number=i+1;
+                    for (int i = 0; i < a.size(); i++) {
+                        LinearLayout layout = findViewById(R.id.linearLayout);
+                        Button new_button = new Button(getApplicationContext());
+                        int number = i + 1;
                         final String newsTitle = a.get(i).title;
-                        new_button.setText(number+". "+newsTitle+"\r\n"+a.get(i).pubdate);
-                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1450,300));
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate);
+                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
                         new_button.setX(0);
                         new_button.setY(0);
                         new_button.setAllCaps(false);
@@ -55,9 +72,9 @@ public class RSSfeedshow extends AppCompatActivity {
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(getApplicationContext(),webView.class);
-                                intent.putExtra("url",v.getTag().toString());
-                                intent.putExtra("title",newsTitle);
+                                Intent intent = new Intent(getApplicationContext(), webView.class);
+                                intent.putExtra("url", v.getTag().toString());
+                                intent.putExtra("title", newsTitle);
                                 startActivity(intent);
                             }
                         });
@@ -65,8 +82,9 @@ public class RSSfeedshow extends AppCompatActivity {
                     }
                 }
             });
-             return null;
+            return null;
+        }
+
+
     }
-
-
-}}
+}

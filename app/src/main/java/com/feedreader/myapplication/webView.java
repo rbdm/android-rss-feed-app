@@ -1,16 +1,10 @@
 package com.feedreader.myapplication;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.telecom.Call;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -19,7 +13,6 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -33,13 +26,16 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.net.URL;
 
-public class webView  extends AppCompatActivity {
+public class webView extends AppCompatActivity {
 
     ImageButton buttonShare;
     Button buttonHome;
     Intent shareIntent, homeIntent;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +86,7 @@ public class webView  extends AppCompatActivity {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        if(menuItem.getItemId() == R.id.shareToFacebook) {
+                        if (menuItem.getItemId() == R.id.shareToFacebook) {
                             ShareHashtag facebookHashtag = new ShareHashtag.Builder().setHashtag("#RSSFeedGp19s2").build();
 
                             ShareLinkContent facebookContent = new ShareLinkContent.Builder()
@@ -103,8 +99,7 @@ public class webView  extends AppCompatActivity {
                             if (ShareDialog.canShow(ShareLinkContent.class)) {
                                 shareDialog.show(facebookContent);
                             }
-                        }
-                        else if (menuItem.getItemId() == R.id.shareToTwitter) {
+                        } else if (menuItem.getItemId() == R.id.shareToTwitter) {
                             TwitterResultReceiver a = new TwitterResultReceiver();
 
                             try {
@@ -116,8 +111,7 @@ public class webView  extends AppCompatActivity {
                                 builder.show();
 
                                 a.onReceive(webView.this, homeIntent);
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -129,8 +123,7 @@ public class webView  extends AppCompatActivity {
                                 .createIntent();
                             startActivity(intent);
                             */
-                        }
-                        else if (menuItem.getItemId() == R.id.shareToWeChat) {
+                        } else if (menuItem.getItemId() == R.id.shareToWeChat) {
 
                         }
 
