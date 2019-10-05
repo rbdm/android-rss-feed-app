@@ -1,6 +1,8 @@
 package com.feedreader.myapplication;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.twitter.sdk.android.core.Twitter;
@@ -28,7 +31,7 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
-import java.util.List;
+import java.net.URL;
 
 public class webView  extends AppCompatActivity {
 
@@ -88,9 +91,12 @@ public class webView  extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if(menuItem.getItemId() == R.id.shareToFacebook) {
+                            ShareHashtag facebookHashtag = new ShareHashtag.Builder().setHashtag("#RSSFeedGp19s2").build();
+
                             ShareLinkContent facebookContent = new ShareLinkContent.Builder()
                                     .setContentDescription("testCD")
                                     .setContentTitle("testCT")
+                                    .setShareHashtag(facebookHashtag)
                                     .setQuote(getIntent().getStringExtra("title"))
                                     .setContentUrl(Uri.parse(getIntent().getStringExtra("url")))
                                     .build();
@@ -98,10 +104,22 @@ public class webView  extends AppCompatActivity {
                                 shareDialog.show(facebookContent);
                             }
                         }
-                        else if(menuItem.getItemId() == R.id.shareToTwitter) {
-                            TweetComposer.Builder builder = new TweetComposer.Builder(webView.this)
-                                    .text(getIntent().getStringExtra("url"));
-                            builder.show();
+                        else if (menuItem.getItemId() == R.id.shareToTwitter) {
+                            TwitterResultReceiver a = new TwitterResultReceiver();
+
+                            try {
+                                URL url = new URL(getIntent().getStringExtra("url"));
+
+                                TweetComposer.Builder builder = new TweetComposer.Builder(webView.this)
+                                        .text("#RSSFeedGp19s2")
+                                        .url(url);
+                                builder.show();
+
+                                a.onReceive(webView.this, homeIntent);
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
                             /*
                             final TwitterSession twitterSession = TwitterCore.getInstance().getSessionManager().getActiveSession();
@@ -112,7 +130,7 @@ public class webView  extends AppCompatActivity {
                             startActivity(intent);
                             */
                         }
-                        else {
+                        else if (menuItem.getItemId() == R.id.shareToWeChat) {
 
                         }
 
