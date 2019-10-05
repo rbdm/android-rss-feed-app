@@ -20,7 +20,8 @@ public class RSSfeedshow extends AppCompatActivity {
     RSSFeedparser parser = new RSSFeedparser();
     Button buttonHome;
     Intent homeIntent;
-    webView mWebView;
+    private String mFeedUrl = "http://feeds.feedburner.com/techcrunch/android?format=xml";
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,10 +33,12 @@ public class RSSfeedshow extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
-      /*  Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);*/
+        Intent intent = new Intent(this, addSitesShow.class);
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
     @Override
@@ -47,6 +50,7 @@ public class RSSfeedshow extends AppCompatActivity {
         putLayout putlayout = new putLayout();
         putlayout.execute(url);
     }
+
 
     public class putLayout extends AsyncTask<String, String, String> {
         @Override

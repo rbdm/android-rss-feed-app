@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -30,11 +29,10 @@ public class webView extends AppCompatActivity {
 
     ImageButton buttonShare;
     Button buttonHome;
+    Button buttonLike;
     Intent shareIntent, homeIntent;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
-
-
 
 
     @Override
@@ -147,6 +145,14 @@ public class webView extends AppCompatActivity {
             public void onClick(View view) {
                 homeIntent = new Intent(webView.this, MainActivity.class);
                 webView.this.startActivity(homeIntent);
+            }
+        });
+
+
+        buttonLike = findViewById(R.id.buttonLike);
+        buttonLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
             }
         });
 
