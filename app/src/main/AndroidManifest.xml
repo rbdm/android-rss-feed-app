@@ -12,22 +12,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".FavouritesActivity"></activity>
+        <activity
+            android:name=".FavouritesActivity"
+            android:label="Favourites"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:label="Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RSSfeedshow" />
-        <activity android:name=".webView" />
-        <activity android:name=".addSitesShow" />
+        <activity
+            android:name=".RSSfeedshow"
+            android:label="Feeds" />
+        <activity
+            android:name=".webView"
+            android:label="News" />
+        <activity
+            android:name=".addSitesShow"
+            android:label="Add Sites" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"

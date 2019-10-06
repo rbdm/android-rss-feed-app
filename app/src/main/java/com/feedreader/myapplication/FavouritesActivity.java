@@ -18,11 +18,6 @@ public class FavouritesActivity extends AppCompatActivity {
         setContentView(R.layout.favourites_layout);
     }
 
-    public void openFavourites(View v) {
-        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/delete_menu.xmlfile.

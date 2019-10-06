@@ -61,7 +61,7 @@
             style="?android:attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favorite" />
+            android:text="Favorites" />
 
         <ImageButton
             android:id="@+id/imageButton3"
