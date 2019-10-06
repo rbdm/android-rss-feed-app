@@ -39,8 +39,6 @@ public class RSSfeedshow extends AppCompatActivity {
     }
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +80,7 @@ public class RSSfeedshow extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
+                        new_button.setGravity(0);//Text to the left
                         layout.addView(new_button);
                     }
                 }
