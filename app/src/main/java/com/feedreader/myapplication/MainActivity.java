@@ -1,7 +1,6 @@
 package com.feedreader.myapplication;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +14,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-
+    ArrayList<RSSElement> a = new ArrayList<>();
+    RSSFeedparser parser = new RSSFeedparser();
     private RecyclerView mRecyclerView;
     private ArrayList<HashMap<String, String>> resultItems = new ArrayList<>();
-    private String mFeedUrl = "http://feeds.feedburner.com/techcrunch/android?format=xml";
-    private ProgressDialog progressDialog;
-    private boolean isLoading;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void AddToFavourites(View view) {
-
+    public void openFavourites(View v) {
+        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
+        startActivity(intent);
     }
 
 }
