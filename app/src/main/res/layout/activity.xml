@@ -42,7 +42,8 @@
             style="?android:attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favorite" />
+            android:onClick="openFavourites"
+            android:text="Favorites" />
 
         <Button
             android:id="@+id/buttonSort"
