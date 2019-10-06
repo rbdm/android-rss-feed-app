@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 public class RSSfeedshow extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
     RSSFeedparser parser = new RSSFeedparser();
+    SwipeRefreshLayout swipeRefreshLayout;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,9 @@ public class RSSfeedshow extends AppCompatActivity {
         String url = intent.getStringExtra("url");
         putLayout putlayout=new putLayout();
         putlayout.execute(url);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout1);
+        textView = findViewById(R.id.swipeText1);
+
     }
 
     public class putLayout extends AsyncTask<String, String, String> {
@@ -37,7 +44,7 @@ public class RSSfeedshow extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
             for(int i=0;i<a.size();i++){
-                LinearLayout layout=findViewById(R.id.linearLayout);
+                LinearLayout layout=findViewById(R.id.swipeRefreshLayout1);
                 Button new_button=new Button(getApplicationContext());
                 int number=i+1;
                 new_button.setText(number+". "+a.get(i).title+"\r\n"+a.get(i).pubdate);
