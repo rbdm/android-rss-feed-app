@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import com.facebook.CallbackManager;
@@ -33,10 +34,16 @@ public class webView extends AppCompatActivity {
     Intent shareIntent, homeIntent;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
-
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+/*        Intent intent = getIntent();
+        url = intent.getStringExtra("url");
+        RSSfeedshow.putLayout putlayout = new RSSfeedshow.putLayout();
+        putlayout.execute(url);*/
+
+
         super.onCreate(savedInstanceState);
 
         // initialize facebook SDK
@@ -148,13 +155,20 @@ public class webView extends AppCompatActivity {
             }
         });
 
+/*
 
         buttonLike = findViewById(R.id.buttonLike);
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LinearLayout layout = findViewById(R.id.linearLayout);
+                layout.removeAllViews();
+                RSSfeedshow.putLayout putlayout = new RSSfeedshow.putLayout();
+                putlayout.execute(url);
             }
         });
+*/
+
 
     }
 }
