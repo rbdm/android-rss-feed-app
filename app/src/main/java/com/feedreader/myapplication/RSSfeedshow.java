@@ -19,8 +19,7 @@ public class RSSfeedshow extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
     RSSFeedparser parser = new RSSFeedparser();
     Button buttonHome;
-    Intent homeIntent;
-    private String mFeedUrl = "http://feeds.feedburner.com/techcrunch/android?format=xml";
+    String url;
 
 
     @Override
@@ -44,10 +43,23 @@ public class RSSfeedshow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_layout);
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
+        url = intent.getStringExtra("url");
         putLayout putlayout = new putLayout();
         putlayout.execute(url);
+
+        Button refreshBtn = findViewById(R.id.button7);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout layout = findViewById(R.id.linearLayout);
+                layout.removeAllViews();
+                putLayout putlayout = new putLayout();
+                putlayout.execute(url);
+            }
+        });
     }
+
+
 
 
     public class putLayout extends AsyncTask<String, String, String> {
