@@ -154,20 +154,25 @@ public class webView extends AppCompatActivity {
             }
         });
 
-        buttonLike = findViewById(R.id.buttonLike);
+/*        buttonLike = findViewById(R.id.buttonLike);
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-/*                LinearLayout layout = findViewById(R.id.linearLayout);
-                layout.removeAllViews();*/
 
                 Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
                 FavouritesIntent.putExtra("webLink", url);
                 startActivity(FavouritesIntent);
             }
-        });
+        });*/
 
 
+    }
+
+    public void AddToFavourites(View view) {
+
+        buttonLike = findViewById(R.id.buttonLike);
+        Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
+        FavouritesIntent.putExtra("webLink", url);
+        startActivity(FavouritesIntent);
     }
 }
