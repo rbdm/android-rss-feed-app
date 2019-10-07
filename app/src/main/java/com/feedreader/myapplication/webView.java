@@ -11,7 +11,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import com.facebook.CallbackManager;
@@ -31,7 +30,7 @@ public class webView extends AppCompatActivity {
     ImageButton buttonShare;
     Button buttonHome;
     Button buttonLike;
-    Intent shareIntent, homeIntent;
+    Intent shareIntent, homeIntent, FavouritesIntent;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     String url;
@@ -56,8 +55,8 @@ public class webView extends AppCompatActivity {
         Twitter.initialize(this);
 
         setContentView(R.layout.web_view);
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
+        final Intent intent = getIntent();
+        url = intent.getStringExtra("url");
         WebView browser = findViewById(R.id.webView);
         browser.loadUrl(url);
         WebSettings webSettings = browser.getSettings();
@@ -155,19 +154,17 @@ public class webView extends AppCompatActivity {
             }
         });
 
-/*
-
         buttonLike = findViewById(R.id.buttonLike);
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout layout = findViewById(R.id.linearLayout);
-                layout.removeAllViews();
-                RSSfeedshow.putLayout putlayout = new RSSfeedshow.putLayout();
-                putlayout.execute(url);
+/*                LinearLayout layout = findViewById(R.id.linearLayout);
+                layout.removeAllViews();*/
+                FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
+                FavouritesIntent.putExtra("url", url);
+                webView.this.startActivity(FavouritesIntent);
             }
         });
-*/
 
 
     }
