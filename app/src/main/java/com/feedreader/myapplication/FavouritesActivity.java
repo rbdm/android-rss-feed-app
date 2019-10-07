@@ -6,28 +6,53 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 
 public class FavouritesActivity extends AppCompatActivity {
-    ArrayList<String> collectionList;
+    ArrayList<String> collectionList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setContentView(R.layout.favourites_layout);
         Intent intent = getIntent();
         String url = intent.getStringExtra("webLink");
+
+
+        collectionList.add("111");
+        collectionList.add("1211");
+        collectionList.add("11331");
+        collectionList.add("114421");
+
         if (url != null) {
-            collectionList.add(url);
+
+            boolean flag = true;
+
+            if (collectionList != null) {
+                for (int i = 0; i < collectionList.size(); i++) {
+                    if (url.equals(collectionList.get(i))) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    collectionList.add(url);
+                }
+            }
         }
 
-        setContentView(R.layout.favourites_layout);
+
+        TextView favouritesView = new TextView(this);
 
 
-        // collectionList.add(url);
-
+        ArrayAdapter itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, collectionList);
+        ListView listView = (ListView) findViewById(R.id.list);
+        listView.setAdapter(itemsAdapter);
 
     }
 
