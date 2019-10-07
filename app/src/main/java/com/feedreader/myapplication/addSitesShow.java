@@ -42,6 +42,7 @@ public class addSitesShow extends AppCompatActivity {
         {    View c=layout.findViewWithTag(tag);
             layout.removeView(c);
         }
+        
         }
 
 
