@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class RSSfeedshow extends AppCompatActivity {
         putLayout putlayout = new putLayout();
         putlayout.execute(url);
 
-        ImageButton refreshBtn = findViewById(R.id.imageButton4);
+        Button refreshBtn = findViewById(R.id.button7);
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

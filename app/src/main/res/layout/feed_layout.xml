@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="5"
+            android:onClick="savedSitePage"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <Button
@@ -70,12 +71,12 @@
 
     </GridLayout>
 
-    <ImageButton
-        android:id="@+id/imageButton4"
+    <Button
+        android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Button"
         tools:layout_editor_absoluteX="294dp"
-        tools:layout_editor_absoluteY="0dp"
-        app:srcCompat="@android:drawable/ic_refresh"/>
+        tools:layout_editor_absoluteY="0dp" />
 
 </android.support.constraint.ConstraintLayout>
