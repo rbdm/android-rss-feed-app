@@ -25,11 +25,6 @@ public class FavouritesActivity extends AppCompatActivity {
         String url = intent.getStringExtra("webLink");
 
 
-        collectionList.add("111");
-        collectionList.add("1211");
-        collectionList.add("11331");
-        collectionList.add("114421");
-
         if (url != null) {
 
             boolean flag = true;
