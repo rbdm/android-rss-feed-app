@@ -16,7 +16,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
     /**
      * Name of the database file
      */
-    private static final String DATABASE_NAME = "shelter.db";
+    private static final String DATABASE_NAME = "favourites.db";
 
     /**
      * Database version. If you change the database schema, you must increment the database version.
@@ -43,8 +43,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
                 + FeedReaderContract.FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + FeedReaderContract.FeedEntry.Column_Name_Links + " TEXT NOT NULL );";
 
-
-        db.execSQL(SQL_CREATE_FEEDS_TABLE);
+        // db.execSQL(SQL_CREATE_FEEDS_TABLE);
     }
 
     /**

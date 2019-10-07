@@ -4,14 +4,12 @@ import android.provider.BaseColumns;
 
 public final class FeedReaderContract {
 
-    public FeedReaderContract() {
+    private FeedReaderContract() {
     }
 
-    public abstract class FeedEntry implements BaseColumns {
-        public static final String TABLE_NAME = "Favourites";
+    public static final class FeedEntry implements BaseColumns {
+        public final static String TABLE_NAME = "pets";
         public static final String _ID = BaseColumns._ID;
         public static final String Column_Name_Links = "EntryID";
-
-
     }
 }
