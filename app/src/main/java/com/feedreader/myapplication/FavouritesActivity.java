@@ -17,16 +17,34 @@ public class FavouritesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setContentView(R.layout.favourites_layout);
         Intent intent = getIntent();
         String url = intent.getStringExtra("webLink");
+
         if (url != null) {
-            collectionList.add(url);
+
+            boolean flag = true;
+
+            if (collectionList != null) {
+                for (int i = 0; i < collectionList.size(); i++) {
+                    if (url.equals(collectionList.get(i))) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    collectionList.add(url);
+                }
+            }
         }
 
-        setContentView(R.layout.favourites_layout);
 
 
-        // collectionList.add(url);
+
+
+
+
+
+
 
 
     }
