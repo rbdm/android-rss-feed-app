@@ -5,17 +5,30 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
+
+import java.util.ArrayList;
 
 
 public class FavouritesActivity extends AppCompatActivity {
+    ArrayList<String> collectionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        Intent intent = getIntent();
+        String url = intent.getStringExtra("webLink");
+        if (url != null) {
+            collectionList.add(url);
+        }
+
         setContentView(R.layout.favourites_layout);
+
+
+        // collectionList.add(url);
+
+
     }
 
     @Override
