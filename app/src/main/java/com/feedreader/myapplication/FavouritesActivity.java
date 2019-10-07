@@ -6,14 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.feedreader.myapplication.data.FeedReaderDbHelper;
-
 public class FavouritesActivity extends AppCompatActivity {
-    FeedReaderDbHelper mDbHelper;
-    Intent intent = getIntent();
+    RSSFeedparser parser = new RSSFeedparser();
+    private FavouritesAdapter adapter;
 
 
     @Override
@@ -23,11 +20,16 @@ public class FavouritesActivity extends AppCompatActivity {
         setContentView(R.layout.favourites_layout);
         Intent intent = getIntent();
         String url = intent.getStringExtra("webLink");
-
         MyApplication app = (MyApplication) getApplication();
 
 
         if (url != null) {
+            app.setContent(new MyContent(url));
+            app.getmDatas().add(app.getContent());
+        }
+
+
+        /*if (url != null) {
 
             boolean flag = true;
 
@@ -37,20 +39,39 @@ public class FavouritesActivity extends AppCompatActivity {
                         flag = false;
                     }
                 }
+
+
                 if (flag) {
                     app.getCollectionList().add(url);
                 }
+
+                for (int i = 0; i < app.getCollectionList().size(); i++) {
+
+                    for (MyContent content : app.getmDatas()) {
+                        content.setContent(app.getCollectionList().get(i));
+                    }
+                }
+
+
             }
-        }
+        }*/
 
 
-        ArrayAdapter itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, app.getCollectionList());
+
+
+      /*  FavouritesAdapter adapter = new FavouritesAdapter(this);
         ListView listView = (ListView) findViewById(R.id.list);
-        listView.setAdapter(itemsAdapter);
+        listView.setAdapter(adapter);*/
+        //ArrayAdapter itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, app.getCollectionList());
+        adapter = new FavouritesAdapter(this, app.getmDatas());
 
+
+        ListView listView = (ListView) findViewById(R.id.list);
+        //listView.setAdapter(itemsAdapter);
+
+        listView.setAdapter(adapter);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
