@@ -30,7 +30,7 @@ public class webView extends AppCompatActivity {
     ImageButton buttonShare;
     Button buttonHome;
     Button buttonLike;
-    Intent shareIntent, homeIntent, FavouritesIntent;
+    Intent shareIntent, homeIntent;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     String url;
@@ -158,11 +158,13 @@ public class webView extends AppCompatActivity {
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 /*                LinearLayout layout = findViewById(R.id.linearLayout);
                 layout.removeAllViews();*/
-                FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
-                FavouritesIntent.putExtra("url", url);
-                webView.this.startActivity(FavouritesIntent);
+
+                Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
+                FavouritesIntent.putExtra("webLink", url);
+                startActivity(FavouritesIntent);
             }
         });
 
