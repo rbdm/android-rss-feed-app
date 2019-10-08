@@ -1,5 +1,8 @@
 package com.feedreader.myapplication;
 
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -9,12 +12,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import java.io.InputStream;
 import java.io.StringReader;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 public class RSSFeedparser  {
+
     public static ArrayList<RSSElement> getRSSfeedFromUrl(String url){
         ArrayList<RSSElement> RSSelements=new ArrayList<>();
         String xml=null;
@@ -42,6 +49,9 @@ public class RSSFeedparser  {
                 rssElement.link=links.item(0).getFirstChild().getTextContent();
                 NodeList pubdates=e1.getElementsByTagName("pubDate");
                 rssElement.pubdate=pubdates.item(0).getFirstChild().getTextContent();
+                NodeList categorys=e1.getElementsByTagName("category");
+                if(categorys.getLength()!=0)
+                rssElement.category=categorys.item(0).getFirstChild().getTextContent();
                 RSSelements.add(rssElement);
             }
 

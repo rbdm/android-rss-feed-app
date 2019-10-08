@@ -75,7 +75,7 @@ public class RSSfeedshow extends AppCompatActivity {
                         Button new_button = new Button(getApplicationContext());
                         int number = i + 1;
                         final String newsTitle = a.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate);
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate+"\r\n"+a.get(i).category);
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
                         new_button.setX(0);
                         new_button.setY(0);

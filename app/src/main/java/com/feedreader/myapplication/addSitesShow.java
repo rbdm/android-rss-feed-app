@@ -38,30 +38,19 @@ public class addSitesShow extends AppCompatActivity {
         ConstraintLayout layout = findViewById(R.id.layout);
         EditText tag_text = findViewById(R.id.editText);
         String tag = "http://" + tag_text.getText().toString();
-        if(layout.findViewWithTag(tag)!=null)
-        {    View c=layout.findViewWithTag(tag);
+        if (layout.findViewWithTag(tag) != null) {
+            View c = layout.findViewWithTag(tag);
             layout.removeView(c);
         }
-        }
+    }
 
 
-    public void clickBbc(View v) {
+    public void Onclick(View v) {
         Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
         intent.putExtra("url", v.getTag().toString());
         startActivity(intent);
     }
 
-    public void clickCnn(View v) {
-        Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
-        intent.putExtra("url", v.getTag().toString());
-        startActivity(intent);
-    }
-
-    public void clickNbc(View v) {
-        Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
-        intent.putExtra("url", v.getTag().toString());
-        startActivity(intent);
-    }
 
     class Check extends AsyncTask<String, String, String> {
         @Override
