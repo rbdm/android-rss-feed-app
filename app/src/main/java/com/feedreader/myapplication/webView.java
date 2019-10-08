@@ -18,7 +18,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.feedreader.myapplication.data.Links;
+
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
@@ -160,8 +160,7 @@ public class webView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Links links = new Links();
-                links.setCOLUMN_WEBLINK(url);
+                
 
                 Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
                 FavouritesIntent.putExtra("webLink", url);

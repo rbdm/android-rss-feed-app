@@ -3,7 +3,6 @@ package com.feedreader.myapplication;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.litepal.LitePal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,8 +24,7 @@ public class MyApplication extends Application implements Serializable {
         super.onCreate();
 
 
-        LitePal.initialize(this);
-        SQLiteDatabase db = LitePal.getDatabase();
+
 
         setCollectionList(COLLECTIONLIST);
         setmDatas(MDATAS);
