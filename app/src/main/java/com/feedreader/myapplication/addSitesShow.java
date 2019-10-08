@@ -44,6 +44,11 @@ public class addSitesShow extends AppCompatActivity {
         }
     }
 
+    public void OnCheck(View v) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("url", v.getTag().toString());
+        startActivity(intent);
+    }
 
     public void Onclick(View v) {
         Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
