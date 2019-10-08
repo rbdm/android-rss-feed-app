@@ -11,7 +11,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import com.facebook.CallbackManager;
@@ -19,6 +18,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
@@ -56,8 +56,8 @@ public class webView extends AppCompatActivity {
         Twitter.initialize(this);
 
         setContentView(R.layout.web_view);
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
+        final Intent intent = getIntent();
+        url = intent.getStringExtra("url");
         WebView browser = findViewById(R.id.webView);
         browser.loadUrl(url);
         WebSettings webSettings = browser.getSettings();
@@ -155,20 +155,29 @@ public class webView extends AppCompatActivity {
             }
         });
 
-/*
-
         buttonLike = findViewById(R.id.buttonLike);
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout layout = findViewById(R.id.linearLayout);
-                layout.removeAllViews();
-                RSSfeedshow.putLayout putlayout = new RSSfeedshow.putLayout();
-                putlayout.execute(url);
+
+                
+
+                Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
+                FavouritesIntent.putExtra("webLink", url);
+
+
+                startActivity(FavouritesIntent);
             }
         });
-*/
 
 
+    }
+
+    public void AddToFavourites(View view) {
+
+        buttonLike = findViewById(R.id.buttonLike);
+        Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
+        FavouritesIntent.putExtra("webLink", url);
+        startActivity(FavouritesIntent);
     }
 }

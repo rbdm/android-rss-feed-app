@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    useLibrary 'org.apache.http.legacy'
+     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.feedreader.myapplication"
@@ -20,7 +20,6 @@ android {
 }
 
 dependencies {
-    implementation 'org.litepal.android:java:3.0.0'
     implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     implementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
     implementation 'com.twitter.sdk.android:tweet-ui:3.1.1'

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
 
-    <dbname value="demo" />
-    <version value="1" />
+    <!-- <dbname>用于设定数据库的名字 -->
+    <dbname value="collections"></dbname>
 
-    <list></list>
+    <!-- <version>用于设定数据库的版本号 -->
+    <version value="1"></version>
+
+    <list>
+        <mapping class="com.feedreader.myapplication.data.Links"></mapping>
+    </list>
 
 </litepal>
