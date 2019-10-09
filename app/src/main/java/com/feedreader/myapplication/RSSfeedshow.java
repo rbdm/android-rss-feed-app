@@ -106,4 +106,14 @@ public class RSSfeedshow extends AppCompatActivity {
 
 
     }
+
+    public void openFavourites(View v) {
+        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
+        startActivity(intent);
+    }
+
+    public void addSitePage(View v) {
+        Intent intent = new Intent(getApplicationContext(), addSitesShow.class);
+        startActivity(intent);
+    }
 }
