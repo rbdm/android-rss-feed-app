@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_add_32px" />
-                            <entry key="sourceFile" value="D:\ANU\Software Design Methodologies\icons\add-24px.svg" />
+                            <entry key="outputName" value="ic_refresh_32px" />
+                            <entry key="sourceFile" value="D:\ANU\Software Design Methodologies\icons\refresh-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>
