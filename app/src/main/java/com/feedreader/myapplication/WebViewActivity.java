@@ -19,6 +19,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.MyContent;
+import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
@@ -26,7 +27,7 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.net.URL;
 
-public class webView extends AppCompatActivity {
+public class WebViewActivity extends AppCompatActivity {
 
     ImageButton buttonShare;
     ImageButton buttonHome;
@@ -40,7 +41,7 @@ public class webView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 /*        Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        RSSfeedshow.putLayout putlayout = new RSSfeedshow.putLayout();
+        RSSfeedshowActivity.putLayout putlayout = new RSSfeedshowActivity.putLayout();
         putlayout.execute(url);*/
 
 
@@ -85,7 +86,7 @@ public class webView extends AppCompatActivity {
             public void onClick(View view) {
 
                 // set popup menu to get options from res/menu/share_menu
-                PopupMenu popupMenu = new PopupMenu(webView.this, buttonShare);
+                PopupMenu popupMenu = new PopupMenu(WebViewActivity.this, buttonShare);
                 popupMenu.getMenuInflater().inflate(R.menu.share_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -110,19 +111,19 @@ public class webView extends AppCompatActivity {
                             try {
                                 URL url = new URL(getIntent().getStringExtra("url"));
 
-                                TweetComposer.Builder builder = new TweetComposer.Builder(webView.this)
+                                TweetComposer.Builder builder = new TweetComposer.Builder(WebViewActivity.this)
                                         .text("#RSSFeedGp19s2")
                                         .url(url);
                                 builder.show();
 
-                                a.onReceive(webView.this, homeIntent);
+                                a.onReceive(WebViewActivity.this, homeIntent);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                             /*
                             final TwitterSession twitterSession = TwitterCore.getInstance().getSessionManager().getActiveSession();
-                            final Intent intent = new ComposerActivity.Builder(webView.this)
+                            final Intent intent = new ComposerActivity.Builder(WebViewActivity.this)
                                 .session(twitterSession)
                                 .text("a")
                                 .createIntent();
@@ -150,8 +151,8 @@ public class webView extends AppCompatActivity {
         buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeIntent = new Intent(webView.this, MainActivity.class);
-                webView.this.startActivity(homeIntent);
+                homeIntent = new Intent(WebViewActivity.this, MainActivity.class);
+                WebViewActivity.this.startActivity(homeIntent);
             }
         });
 

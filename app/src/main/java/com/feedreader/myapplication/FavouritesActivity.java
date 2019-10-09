@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
 
+import com.feedreader.myapplication.tools.FavouritesAdapter;
 import com.feedreader.myapplication.data.MyApplication;
+import com.feedreader.myapplication.tools.RSSFeedparser;
 
 public class FavouritesActivity extends AppCompatActivity {
     RSSFeedparser parser = new RSSFeedparser();
@@ -39,7 +41,7 @@ public class FavouritesActivity extends AppCompatActivity {
     }
 
     public void addSitePage(View v) {
-        Intent intent = new Intent(getApplicationContext(), addSitesShow.class);
+        Intent intent = new Intent(getApplicationContext(), AddSitesShowActivity.class);
         startActivity(intent);
     }
 

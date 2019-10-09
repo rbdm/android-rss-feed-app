@@ -1,4 +1,4 @@
-package com.feedreader.myapplication;
+package com.feedreader.myapplication.tools;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -18,7 +18,7 @@ public class TwitterResultReceiver extends BroadcastReceiver {
             // success
             Activity thisActivity = (Activity) context;
 
-            //returnIntent = new Intent(context, webView.class);
+            //returnIntent = new Intent(context, WebViewActivity.class);
             //context.startActivity(returnIntent);
 
             thisActivity.onBackPressed();

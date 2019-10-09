@@ -30,13 +30,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RSSfeedshow"
+            android:name=".RSSfeedshowActivity"
             android:label="Feeds" />
         <activity
-            android:name=".webView"
+            android:name=".WebViewActivity"
             android:label="News" />
         <activity
-            android:name=".addSitesShow"
+            android:name=".AddSitesShowActivity"
             android:label="Add Sites" />
 
         <provider
@@ -45,7 +45,7 @@
             android:exported="true" />
 
         <receiver
-            android:name=".TwitterResultReceiver"
+            android:name=".tools.TwitterResultReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.twitter.sdk.android.tweetcomposer.UPLOAD_SUCCESS" />

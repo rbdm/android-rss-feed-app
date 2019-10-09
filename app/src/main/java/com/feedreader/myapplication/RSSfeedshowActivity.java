@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,10 +13,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.feedreader.myapplication.data.RSSElement;
+import com.feedreader.myapplication.tools.RSSFeedparser;
+
 import java.util.ArrayList;
 
 
-public class RSSfeedshow extends AppCompatActivity {
+public class RSSfeedshowActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
     RSSFeedparser parser = new RSSFeedparser();
     Button buttonHome;
@@ -34,7 +36,7 @@ public class RSSfeedshow extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
-        Intent intent = new Intent(this, addSitesShow.class);
+        Intent intent = new Intent(this, AddSitesShowActivity.class);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
@@ -90,7 +92,7 @@ public class RSSfeedshow extends AppCompatActivity {
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), webView.class);
+                                Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                                 intent.putExtra("url", v.getTag().toString());
                                 intent.putExtra("title", newsTitle);
                                 startActivity(intent);
@@ -114,7 +116,7 @@ public class RSSfeedshow extends AppCompatActivity {
     }
 
     public void addSitePage(View v) {
-        Intent intent = new Intent(getApplicationContext(), addSitesShow.class);
+        Intent intent = new Intent(getApplicationContext(), AddSitesShowActivity.class);
         startActivity(intent);
     }
 

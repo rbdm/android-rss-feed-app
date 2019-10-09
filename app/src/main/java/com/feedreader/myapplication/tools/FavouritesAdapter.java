@@ -1,4 +1,4 @@
-package com.feedreader.myapplication;
+package com.feedreader.myapplication.tools;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.feedreader.myapplication.R;
+import com.feedreader.myapplication.WebViewActivity;
 import com.feedreader.myapplication.data.MyContent;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import static android.support.v4.content.ContextCompat.startActivity;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
- * This function set a style for Favourites shown by favourites_layout
+ * This class sets a style for Favourites shown by favourites_layout
  */
 
 public class FavouritesAdapter extends BaseAdapter {
@@ -64,7 +66,7 @@ public class FavouritesAdapter extends BaseAdapter {
         viewHolder.contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), webView.class);
+                Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                 intent.putExtra("url", ((TextView) v).getText());
                 startActivity(content, intent, bundle);
             }

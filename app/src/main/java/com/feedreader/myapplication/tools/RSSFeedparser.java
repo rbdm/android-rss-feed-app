@@ -1,7 +1,6 @@
-package com.feedreader.myapplication;
+package com.feedreader.myapplication.tools;
 
-import android.graphics.drawable.Drawable;
-import android.media.Image;
+import com.feedreader.myapplication.data.RSSElement;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,18 +12,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import java.io.InputStream;
 import java.io.StringReader;
-import java.net.URL;
 import java.util.ArrayList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class RSSFeedparser  {
+public class RSSFeedparser {
 
-    public static ArrayList<RSSElement> getRSSfeedFromUrl(String url){
-        ArrayList<RSSElement> RSSelements=new ArrayList<>();
-        String xml=null;
+    public static ArrayList<RSSElement> getRSSfeedFromUrl(String url) {
+        ArrayList<RSSElement> RSSelements = new ArrayList<>();
+        String xml = null;
         try {
             //Read String from website
             DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -43,19 +41,19 @@ public class RSSFeedparser  {
             for (int i = 0; i < items.getLength(); i++) {
                 Element e1 = (Element) items.item(i);
                 RSSElement rssElement = new RSSElement();
-                NodeList titles=e1.getElementsByTagName("title");
-                rssElement.title=titles.item(0).getFirstChild().getTextContent();
-                NodeList links=e1.getElementsByTagName("link");
-                rssElement.link=links.item(0).getFirstChild().getTextContent();
-                NodeList pubdates=e1.getElementsByTagName("pubDate");
-                rssElement.pubdate=pubdates.item(0).getFirstChild().getTextContent();
-                NodeList categorys=e1.getElementsByTagName("category");
-                if(categorys.getLength()!=0)
-                rssElement.category=categorys.item(0).getFirstChild().getTextContent();
+                NodeList titles = e1.getElementsByTagName("title");
+                rssElement.title = titles.item(0).getFirstChild().getTextContent();
+                NodeList links = e1.getElementsByTagName("link");
+                rssElement.link = links.item(0).getFirstChild().getTextContent();
+                NodeList pubdates = e1.getElementsByTagName("pubDate");
+                rssElement.pubdate = pubdates.item(0).getFirstChild().getTextContent();
+                NodeList categorys = e1.getElementsByTagName("category");
+                if (categorys.getLength() != 0)
+                    rssElement.category = categorys.item(0).getFirstChild().getTextContent();
                 RSSelements.add(rssElement);
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Rss Feed Parser Catch exception = " + e);
             return null;
         }

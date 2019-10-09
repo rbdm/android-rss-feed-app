@@ -1,4 +1,4 @@
-package com.feedreader.myapplication;
+package com.feedreader.myapplication.tools;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,15 +7,20 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
+import com.feedreader.myapplication.R;
+
+/**
+ * This class sets SlideLayout style for ListView
+ */
 public class SlideLayout extends FrameLayout {
     private View contentView;
     private View menuView;
 
-    private int viewHeight; //高是相同的
+    private int viewHeight; //The height should be the same
     private int contentWidth;
     private int menuWidth;
 
-    //滑动器
+
     private Scroller scroller;
 
     public SlideLayout(Context context, AttributeSet attrs) {
@@ -24,7 +29,7 @@ public class SlideLayout extends FrameLayout {
     }
 
     /**
-     * 布局文件加载完成时被调用
+     * The layout file is called when it is finished loading
      */
     @Override
     protected void onFinishInflate() {
@@ -58,6 +63,7 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         super.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -68,11 +74,12 @@ public class SlideLayout extends FrameLayout {
                 float endX = event.getX();
                 float endY = event.getY();
 
-                //计算偏移量
+                //Compute the offset
                 float distanceX = endX - startX;
 
                 int toScrollX = (int) (getScrollX() - distanceX);
-                //屏蔽非法值
+
+                //Remove illegal value
                 if (toScrollX < 0) {
                     toScrollX = 0;
                 }
@@ -87,7 +94,7 @@ public class SlideLayout extends FrameLayout {
                 float dx = Math.abs(event.getX() - downX);
                 float dy = Math.abs(event.getY() - downY);
                 if (dx > dy && dx > 6) {
-                    //事件反拦截，使父ListView的事件传递到自身SlideLayout
+                    //Event anti-interception. It causes the events of the parent ListView to be passed to its own SlideLayout
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
 
@@ -95,7 +102,6 @@ public class SlideLayout extends FrameLayout {
             case MotionEvent.ACTION_UP:
 
                 if (getScrollX() > menuWidth / 2) {
-                    //打开menu
                     openMenu();
                 } else {
                     closeMenu();
@@ -121,7 +127,7 @@ public class SlideLayout extends FrameLayout {
                 float dx = Math.abs(event.getX() - downX);
                 float dy = Math.abs(event.getY() - downY);
                 if (dx > dy && dx > 6) {
-                    //拦截事件
+                    //Intercept events
                     return true;
                 }
 
@@ -133,7 +139,7 @@ public class SlideLayout extends FrameLayout {
     }
 
     /**
-     * 打开menu菜单
+     * Method for opening Menu
      */
     public void openMenu() {
         int dx = menuWidth - getScrollX();
@@ -145,10 +151,10 @@ public class SlideLayout extends FrameLayout {
     }
 
     /**
-     * 关闭菜单
+     * Method for closing Menu
      */
     public void closeMenu() {
-        //0表示menu移动到的目标距离
+        //0 represents the target distance that menu moves to  0表示menu移动到的目标距离
         int dx = 0 - getScrollX();
         scroller.startScroll(getScrollX(), getScrollY(), dx, getScrollY());
         invalidate();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.feedreader.myapplication.SlideLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.feedreader.myapplication.tools.SlideLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -22,4 +22,4 @@
         android:padding="6dp"
         android:text="delete"
         android:textSize="16sp" />
-</com.feedreader.myapplication.SlideLayout>
+</com.feedreader.myapplication.tools.SlideLayout>

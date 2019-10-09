@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addSitePage(View v) {
-        Intent intent = new Intent(getApplicationContext(), addSitesShow.class);
+        Intent intent = new Intent(getApplicationContext(), AddSitesShowActivity.class);
         startActivity(intent);
     }
 

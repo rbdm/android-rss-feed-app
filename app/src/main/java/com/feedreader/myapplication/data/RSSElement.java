@@ -1,4 +1,4 @@
-package com.feedreader.myapplication;
+package com.feedreader.myapplication.data;
 
 public class RSSElement {
     public String title;

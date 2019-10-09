@@ -14,10 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.feedreader.myapplication.data.MyApplication;
+import com.feedreader.myapplication.data.RSSElement;
+import com.feedreader.myapplication.tools.RSSFeedparser;
 
 import java.util.ArrayList;
 
-public class addSitesShow extends AppCompatActivity {
+public class AddSitesShowActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
 
     @Override
@@ -52,7 +54,7 @@ public class addSitesShow extends AppCompatActivity {
     }
 
     public void Onclick(View v) {
-        Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
+        Intent intent = new Intent(getApplicationContext(), RSSfeedshowActivity.class);
         intent.putExtra("url", v.getTag().toString());
         startActivity(intent);
     }
@@ -78,7 +80,7 @@ public class addSitesShow extends AppCompatActivity {
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), RSSfeedshow.class);
+                                Intent intent = new Intent(getApplicationContext(), RSSfeedshowActivity.class);
                                 intent.putExtra("url", v.getTag().toString());
                                 startActivity(intent);
                             }
@@ -136,7 +138,7 @@ public class addSitesShow extends AppCompatActivity {
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), webView.class);
+                                Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                                 intent.putExtra("url", v.getTag().toString());
                                 intent.putExtra("title", newsTitle);
                                 startActivity(intent);
