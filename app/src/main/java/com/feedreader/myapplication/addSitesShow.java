@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class addSitesShow extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +119,7 @@ public class addSitesShow extends AppCompatActivity {
         protected String doInBackground(String... args) {
             final String url = args[0];
             RSSFeedparser parser = new RSSFeedparser();
-             a = parser.getRSSfeedFromUrl(url);
+            a = parser.getRSSfeedFromUrl(url);
             runOnUiThread(new Runnable() {
                 public void run() {
                     for (int i = 0; i < a.size(); i++) {
@@ -153,14 +154,15 @@ public class addSitesShow extends AppCompatActivity {
         }
 
 
-    public void openFavourites(View v) {
-        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
-        startActivity(intent);
-    }
+        public void openFavourites(View v) {
+            Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
+            startActivity(intent);
+        }
 
-    public void returnHome(View v) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-    }
+        public void returnHome(View v) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
 
+    }
 }

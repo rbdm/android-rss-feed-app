@@ -23,10 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<RSSElement> a = new ArrayList<>();
-    RSSFeedparser parser = new RSSFeedparser();
-    private RecyclerView mRecyclerView;
-    private ArrayList<HashMap<String, String>> resultItems = new ArrayList<>();
 
 
     @Override
@@ -36,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity);
         LinearLayout layout=findViewById(R.id.LinearLayout);
 
-        MyApplication app = new MyApplication();
+        MyApplication app = (MyApplication) getApplication();
         if(app.getButtonList()!=null){
             for (Button button : app.getButtonList()) {
             layout.addView(button);
