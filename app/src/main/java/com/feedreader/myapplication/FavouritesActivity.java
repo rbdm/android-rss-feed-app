@@ -19,15 +19,11 @@ public class FavouritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.favourites_layout);
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("webLink");
+
         MyApplication app = (MyApplication) getApplication();
 
 
-        if (url != null) {
-            app.setContent(new MyContent(url));
-            app.getmDatas().add(app.getContent());
-        }
+
 
 
         /*if (url != null) {

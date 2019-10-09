@@ -160,26 +160,18 @@ public class webView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                
 
-                Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
-                FavouritesIntent.putExtra("webLink", url);
-
-
-                startActivity(FavouritesIntent);
+                MyApplication app = (MyApplication) getApplication();
+                if (url != null) {
+                    app.setContent(new MyContent(url));
+                    app.getmDatas().add(app.getContent());
+                }
             }
         });
 
 
     }
 
-    public void AddToFavourites(View view) {
-
-        buttonLike = findViewById(R.id.imageButtonLike);
-        Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
-        FavouritesIntent.putExtra("webLink", url);
-        startActivity(FavouritesIntent);
-    }
 
     public void openFavourites(View v) {
         Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
