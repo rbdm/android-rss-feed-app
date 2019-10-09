@@ -117,4 +117,9 @@ public class addSitesShow extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void returnHome(View v) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
 }

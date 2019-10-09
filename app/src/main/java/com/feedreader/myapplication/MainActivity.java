@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
         startActivity(intent);
     }
+
+
+
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {

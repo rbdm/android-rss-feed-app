@@ -116,4 +116,9 @@ public class RSSfeedshow extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), addSitesShow.class);
         startActivity(intent);
     }
+
+    public void returnHome(View v) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
 }
