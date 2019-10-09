@@ -2,12 +2,15 @@ package com.feedreader.myapplication;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Button;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MyApplication extends Application implements Serializable {
+
+    private static final ArrayList<Button> BUTTONLIST = new ArrayList<>();
     private static final ArrayList<String> COLLECTIONLIST = new ArrayList<>();
     private static final ArrayList<MyContent> MDATAS = new ArrayList<>();
     private static final MyContent CONTENT = new MyContent("");
@@ -16,19 +19,29 @@ public class MyApplication extends Application implements Serializable {
     private ArrayList<String> collectionList;
     private ArrayList<MyContent> mDatas;
     private MyContent content;
-
+    private ArrayList<Button> buttonList;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-
-
-
+        setButtonList(BUTTONLIST);
         setCollectionList(COLLECTIONLIST);
         setmDatas(MDATAS);
         setContent(CONTENT);
+
+
+    }
+
+
+    public void setButtonList(ArrayList<Button> buttonList) {
+        this.buttonList = buttonList;
+    }
+
+    public ArrayList<Button> getButtonList() {
+
+        return buttonList;
     }
 
     public void setContent(MyContent content) {

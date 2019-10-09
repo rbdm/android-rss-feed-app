@@ -1,6 +1,8 @@
 package com.feedreader.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +12,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.support.v4.content.ContextCompat.startActivity;
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class FavouritesAdapter extends BaseAdapter {
 
     private Context content;
     private ArrayList<MyContent> datas;
+    private Bundle bundle;
 
     public FavouritesAdapter(Context context, ArrayList<MyContent> datas) {
         this.content = context;
@@ -52,7 +58,9 @@ public class FavouritesAdapter extends BaseAdapter {
         viewHolder.contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(content, "click " + ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), webView.class);
+                intent.putExtra("url", ((TextView) v).getText());
+                startActivity(content,intent,bundle);
             }
         });
         final MyContent myContent = datas.get(position);
