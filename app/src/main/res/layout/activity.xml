@@ -18,14 +18,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
+
 
         <ImageButton
             android:id="@+id/imageButtonHome"
@@ -39,8 +38,9 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
+        >
+
 
         <ImageButton
             android:id="@+id/imageButtonSearch"
@@ -54,8 +54,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonAdd"
@@ -70,8 +69,8 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
+
 
         <ImageButton
             android:id="@+id/imageButtonFavorite"
@@ -85,8 +84,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonSort"
@@ -95,13 +93,12 @@
             android:layout_row="0"
             android:layout_column="4"
             android:src="@drawable/ic_menu_24px"
-            android:tint="@color/tw__composer_white"/>
+            android:tint="@color/tw__composer_white" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
     </LinearLayout>
 

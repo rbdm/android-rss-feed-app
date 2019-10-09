@@ -8,14 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.feedreader.myapplication.data.MyContent;
 
 import java.util.ArrayList;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+/**
+ * This function set a style for Favourites shown by favourites_layout
+ */
+
 public class FavouritesAdapter extends BaseAdapter {
+
 
     private Context content;
     private ArrayList<MyContent> datas;
@@ -60,7 +66,7 @@ public class FavouritesAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), webView.class);
                 intent.putExtra("url", ((TextView) v).getText());
-                startActivity(content,intent,bundle);
+                startActivity(content, intent, bundle);
             }
         });
         final MyContent myContent = datas.get(position);

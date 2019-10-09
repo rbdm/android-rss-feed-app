@@ -1,26 +1,17 @@
 package com.feedreader.myapplication;
 
 
-import android.app.Application;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.feedreader.myapplication.data.MyApplication;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,13 +21,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity);
-        LinearLayout layout=findViewById(R.id.LinearLayout);
+        LinearLayout layout = findViewById(R.id.LinearLayout);
 
         MyApplication app = (MyApplication) getApplication();
-        if(app.getButtonList()!=null){
-            for (Button button : app.getButtonList()) {
-            layout.addView(button);
-        }}
+        if (app.getButtonList() != null) {
+            boolean flag = true;
+
+            for (Button b1 : app.getButtonList()) {
+
+                for (Button b2 : app.getButtonList()) {
+                    if (b1 == b2) {
+                        flag = false;
+                    }
+                }
+
+                if (flag) {
+                    layout.addView(b1);
+                }
+
+            }
+        }
     }
 
     public void addSitePage(View v) {
@@ -64,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
         startActivity(intent);
     }
-
-
 
 
 }

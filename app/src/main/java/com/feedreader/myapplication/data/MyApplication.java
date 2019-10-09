@@ -1,29 +1,29 @@
-package com.feedreader.myapplication;
+package com.feedreader.myapplication.data;
 
 import android.app.Application;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This Class control all global variables in the whole Android Application
+ */
 public class MyApplication extends Application implements Serializable {
 
+    //Provide initial values for all global variables
     private static final ArrayList<Button> BUTTONLIST = new ArrayList<>();
     private static final ArrayList<LinearLayout> LAYOUTLIST = new ArrayList<>();
     private static final ArrayList<String> COLLECTIONLIST = new ArrayList<>();
-    private static final ArrayList<MyContent> MDATAS = new ArrayList<>();
+    private static final ArrayList<MyContent> MYDATA = new ArrayList<>();
     private static final MyContent CONTENT = new MyContent("");
 
 
     private ArrayList<String> collectionList;
-    private ArrayList<MyContent> mDatas;
+    private ArrayList<MyContent> contentList;
     private MyContent content;
     private ArrayList<LinearLayout> layoutList;
-    private LinearLayout layout;
     private ArrayList<Button> buttonList;
 
 
@@ -31,10 +31,11 @@ public class MyApplication extends Application implements Serializable {
     public void onCreate() {
         super.onCreate();
 
+        //Set initial values
         setButtonList(BUTTONLIST);
         setLayoutList(LAYOUTLIST);
         setCollectionList(COLLECTIONLIST);
-        setmDatas(MDATAS);
+        setContentList(MYDATA);
         setContent(CONTENT);
 
     }
@@ -49,14 +50,6 @@ public class MyApplication extends Application implements Serializable {
         this.buttonList = buttonList;
     }
 
-    public void setLayout(LinearLayout layout) {
-        this.layout = layout;
-    }
-
-    public LinearLayout getLayout() {
-
-        return layout;
-    }
 
     public void setLayoutList(ArrayList<LinearLayout> layoutList) {
         this.layoutList = layoutList;
@@ -75,12 +68,12 @@ public class MyApplication extends Application implements Serializable {
         return content;
     }
 
-    public ArrayList<MyContent> getmDatas() {
-        return mDatas;
+    public ArrayList<MyContent> getContentList() {
+        return contentList;
     }
 
-    public void setmDatas(ArrayList<MyContent> mDatas) {
-        this.mDatas = mDatas;
+    public void setContentList(ArrayList<MyContent> contentList) {
+        this.contentList = contentList;
     }
 
     public ArrayList<String> getCollectionList() {

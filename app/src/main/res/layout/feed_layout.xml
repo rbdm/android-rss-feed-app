@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<!--    tools:context=".MainActivity">-->
+    <!--    tools:context=".MainActivity">-->
 
     <ScrollView
         android:id="@+id/ScrollView01"
@@ -29,40 +28,37 @@
     </ScrollView>
 
     <LinearLayout
-    android:id="@+id/linearLayout2"
-    android:layout_width="408dp"
-    android:layout_height="44dp"
-    android:layout_row="0"
-    android:layout_column="1"
-    android:orientation="horizontal"
-    android:weightSum="8"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent"
-    >
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight="1" >
-    </Space>
-
-    <ImageButton
-        android:id="@+id/imageButtonHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2"
+        android:layout_width="408dp"
+        android:layout_height="44dp"
         android:layout_row="0"
-        android:layout_column="0"
-        android:onClick="returnHome"
-        android:src="@drawable/ic_home_32px"
-        android:tint="@color/tw__composer_white" />
+        android:layout_column="1"
+        android:orientation="horizontal"
+        android:weightSum="8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight="1" >
-    </Space>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/imageButtonHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:onClick="returnHome"
+            android:src="@drawable/ic_home_32px"
+            android:tint="@color/tw__composer_white" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonSearch"
@@ -73,27 +69,25 @@
             android:src="@drawable/ic_search_32px"
             android:tint="@color/tw__composer_white" />
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight="1" >
-    </Space>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
-    <ImageButton
-        android:id="@+id/imageButtonAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="2"
-        android:onClick="addSitePage"
-        android:src="@drawable/ic_add_32px"
-        android:tint="@color/tw__composer_white" />
+        <ImageButton
+            android:id="@+id/imageButtonAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:onClick="addSitePage"
+            android:src="@drawable/ic_add_32px"
+            android:tint="@color/tw__composer_white" />
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight="1" >
-    </Space>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonFavorite"
@@ -104,11 +98,10 @@
             android:onClick="openFavourites"
             android:src="@android:drawable/star_big_off" />
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight="1" >
-    </Space>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonSort"
@@ -117,30 +110,28 @@
             android:layout_row="0"
             android:layout_column="4"
             android:src="@drawable/ic_menu_24px"
-            android:tint="@color/tw__composer_white"/>
+            android:tint="@color/tw__composer_white" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
-    <ImageButton
-        android:id="@+id/imageButtonRefresh"
-        android:tag="imageButtonRefreshInFeedLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="5"
-        android:src="@drawable/ic_refresh_32px"
-        android:tint="@color/tw__composer_white" />
+        <ImageButton
+            android:id="@+id/imageButtonRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="5"
+            android:src="@drawable/ic_refresh_32px"
+            android:tag="imageButtonRefreshInFeedLayout"
+            android:tint="@color/tw__composer_white" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
-</LinearLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -9,7 +9,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
@@ -18,7 +17,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-
+import com.feedreader.myapplication.data.MyApplication;
+import com.feedreader.myapplication.data.MyContent;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
@@ -162,9 +162,20 @@ public class webView extends AppCompatActivity {
 
 
                 MyApplication app = (MyApplication) getApplication();
+
                 if (url != null) {
-                    app.setContent(new MyContent(url));
-                    app.getmDatas().add(app.getContent());
+
+                    boolean flag = true;
+
+                    for (MyContent content : app.getContentList()) {
+                        if (content.getContent().equals(url)) {
+                            flag = false;
+                        }
+                    }
+                    if (flag) {
+                        app.setContent(new MyContent(url));
+                        app.getContentList().add(app.getContent());
+                    }
                 }
             }
         });

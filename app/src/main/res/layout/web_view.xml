@@ -28,14 +28,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/buttonHome"
@@ -50,8 +48,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonSearch"
@@ -64,8 +61,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonAdd"
@@ -80,8 +76,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonFavorite"
@@ -95,8 +90,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/buttonShare"
@@ -109,8 +103,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonLike"
@@ -123,10 +116,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
-
-
+            android:layout_weight="1" />
 
     </LinearLayout>
 

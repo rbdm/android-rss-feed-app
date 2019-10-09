@@ -13,16 +13,15 @@
 
     <ListView
         android:id="@+id/list"
-        android:contextClickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contextClickable="true"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context=".FavouritesActivity" >
-    </ListView>
+        tools:context=".FavouritesActivity"></ListView>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -30,15 +29,14 @@
         android:layout_height="44dp"
         android:layout_row="0"
         android:layout_column="1"
-        android:orientation="horizontal"
-        android:weightSum="6"
         android:layout_alignParentBottom="true"
-        >
+        android:orientation="horizontal"
+        android:weightSum="6">
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"></Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonHome"
@@ -53,7 +51,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"></Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonSearch"
@@ -67,7 +65,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"></Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonAdd"
@@ -82,7 +80,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"></Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonFavorite"
@@ -95,7 +93,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"></Space>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imageButtonSort"
@@ -109,7 +107,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"></Space>
+            android:layout_weight="1" />
 
     </LinearLayout>
 

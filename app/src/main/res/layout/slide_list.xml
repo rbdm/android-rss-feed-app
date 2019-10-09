@@ -7,8 +7,8 @@
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#342D2D"
+        android:layout_height="68dp"
+        android:background="#604040"
         android:gravity="center"
         android:text="content"
         android:textSize="14sp" />
@@ -16,10 +16,10 @@
     <TextView
         android:id="@+id/menu"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:background="#F04444"
+        android:layout_height="68dp"
+        android:background="#FF9191"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="6dp"
         android:text="delete"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 </com.feedreader.myapplication.SlideLayout>
