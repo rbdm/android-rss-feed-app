@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_row="0"
         android:layout_column="0"
+        android:onClick="returnHome"
         android:src="@drawable/ic_home_32px"
         android:tint="@color/tw__composer_white" />
 
@@ -63,13 +64,14 @@
         android:layout_weight="1" >
     </Space>
 
-    <ImageButton
-        android:id="@+id/imageButtonSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="1"
-        app:srcCompat="@android:drawable/ic_menu_search" />
+        <ImageButton
+            android:id="@+id/imageButtonSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:src="@drawable/ic_search_32px"
+            android:tint="@color/tw__composer_white" />
 
     <Space
         android:layout_width="0dp"
@@ -108,13 +110,14 @@
         android:layout_weight="1" >
     </Space>
 
-    <ImageButton
-        android:id="@+id/imageButtonSort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="4"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+        <ImageButton
+            android:id="@+id/imageButtonSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:src="@drawable/ic_menu_24px"
+            android:tint="@color/tw__composer_white"/>
 
         <Space
             android:layout_width="0dp"

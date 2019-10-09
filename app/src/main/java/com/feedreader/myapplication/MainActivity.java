@@ -25,7 +25,6 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
     RSSFeedparser parser = new RSSFeedparser();
-
     private RecyclerView mRecyclerView;
     private ArrayList<HashMap<String, String>> resultItems = new ArrayList<>();
 

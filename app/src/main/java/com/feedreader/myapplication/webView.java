@@ -177,4 +177,9 @@ public class webView extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
         startActivity(intent);
     }
+
+    public void returnHome(View v) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
 }
