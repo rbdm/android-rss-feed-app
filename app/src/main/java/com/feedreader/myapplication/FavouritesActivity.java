@@ -91,5 +91,15 @@ public class FavouritesActivity extends AppCompatActivity {
     }
 
 
+    public void returnHome(View v) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void addSitePage(View v) {
+        Intent intent = new Intent(getApplicationContext(), addSitesShow.class);
+        startActivity(intent);
+    }
+
 }
 
