@@ -14,14 +14,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.feedreader.myapplication.data.RSSElement;
-import com.feedreader.myapplication.tools.RSSFeedparser;
+import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import java.util.ArrayList;
 
 
-public class RSSfeedshowActivity extends AppCompatActivity {
+public class RSSFeedShowActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
-    RSSFeedparser parser = new RSSFeedparser();
+    RSSFeedParser parser = new RSSFeedParser();
     Button buttonHome;
     String url;
 

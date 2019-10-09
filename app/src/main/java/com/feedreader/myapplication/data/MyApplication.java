@@ -16,13 +16,13 @@ public class MyApplication extends Application implements Serializable {
     private static final ArrayList<Button> BUTTONLIST = new ArrayList<>();
     private static final ArrayList<LinearLayout> LAYOUTLIST = new ArrayList<>();
     private static final ArrayList<String> COLLECTIONLIST = new ArrayList<>();
-    private static final ArrayList<MyContent> MYDATA = new ArrayList<>();
-    private static final MyContent CONTENT = new MyContent("");
+    private static final ArrayList<Content> MYDATA = new ArrayList<>();
+    private static final Content CONTENT = new Content("");
 
 
     private ArrayList<String> collectionList;
-    private ArrayList<MyContent> contentList;
-    private MyContent content;
+    private ArrayList<Content> contentList;
+    private Content content;
     private ArrayList<LinearLayout> layoutList;
     private ArrayList<Button> buttonList;
 
@@ -60,19 +60,19 @@ public class MyApplication extends Application implements Serializable {
         return layoutList;
     }
 
-    public void setContent(MyContent content) {
+    public void setContent(Content content) {
         this.content = content;
     }
 
-    public MyContent getContent() {
+    public Content getContent() {
         return content;
     }
 
-    public ArrayList<MyContent> getContentList() {
+    public ArrayList<Content> getContentList() {
         return contentList;
     }
 
-    public void setContentList(ArrayList<MyContent> contentList) {
+    public void setContentList(ArrayList<Content> contentList) {
         this.contentList = contentList;
     }
 

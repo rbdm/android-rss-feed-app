@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.feedreader.myapplication.tools.FavouritesAdapter;
 import com.feedreader.myapplication.data.MyApplication;
-import com.feedreader.myapplication.tools.RSSFeedparser;
+import com.feedreader.myapplication.tools.FavouritesAdapter;
+import com.feedreader.myapplication.tools.RSSFeedParser;
 
 public class FavouritesActivity extends AppCompatActivity {
-    RSSFeedparser parser = new RSSFeedparser();
+    RSSFeedParser parser = new RSSFeedParser();
     private FavouritesAdapter adapter;
 
 
@@ -22,8 +23,26 @@ public class FavouritesActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.favourites_layout);
 
-        MyApplication app = (MyApplication) getApplication();
+        ImageButton imageButtonHome = findViewById(R.id.imageButtonHome);
+        imageButtonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeIntent = new Intent(FavouritesActivity.this, MainActivity.class);
+                FavouritesActivity.this.startActivity(homeIntent);
+            }
+        });
 
+        ImageButton imageButtonAdd = findViewById(R.id.imageButtonAdd);
+        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FavouritesActivity.this, AddSitesShowActivity.class);
+                FavouritesActivity.this.startActivity(intent);
+            }
+        });
+
+
+        MyApplication app = (MyApplication) getApplication();
 
         adapter = new FavouritesAdapter(this, app.getContentList());
         ListView listView = findViewById(R.id.list);
@@ -31,19 +50,6 @@ public class FavouritesActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
-    public void returnHome(View v) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void addSitePage(View v) {
-        Intent intent = new Intent(getApplicationContext(), AddSitesShowActivity.class);
-        startActivity(intent);
-    }
 
 }
 

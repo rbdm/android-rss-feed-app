@@ -18,7 +18,7 @@ import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.feedreader.myapplication.data.MyApplication;
-import com.feedreader.myapplication.data.MyContent;
+import com.feedreader.myapplication.data.Content;
 import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -41,7 +41,7 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 /*        Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        RSSfeedshowActivity.putLayout putlayout = new RSSfeedshowActivity.putLayout();
+        RSSFeedShowActivity.putLayout putlayout = new RSSFeedShowActivity.putLayout();
         putlayout.execute(url);*/
 
 
@@ -168,13 +168,13 @@ public class WebViewActivity extends AppCompatActivity {
 
                     boolean flag = true;
 
-                    for (MyContent content : app.getContentList()) {
+                    for (Content content : app.getContentList()) {
                         if (content.getContent().equals(url)) {
                             flag = false;
                         }
                     }
                     if (flag) {
-                        app.setContent(new MyContent(url));
+                        app.setContent(new Content(url));
                         app.getContentList().add(app.getContent());
                     }
                 }
@@ -182,16 +182,26 @@ public class WebViewActivity extends AppCompatActivity {
         });
 
 
+        ImageButton imageButtonAdd = findViewById(R.id.imageButtonAdd);
+        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WebViewActivity.this, AddSitesShowActivity.class);
+                WebViewActivity.this.startActivity(intent);
+            }
+        });
+
+
+        ImageButton imageButtonFavourites = findViewById(R.id.imageButtonFavorites);
+        imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WebViewActivity.this, FavouritesActivity.class);
+                WebViewActivity.this.startActivity(intent);
+            }
+        });
+
     }
 
 
-    public void openFavourites(View v) {
-        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
-        startActivity(intent);
-    }
-
-    public void returnHome(View v) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-    }
 }

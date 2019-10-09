@@ -11,11 +11,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
-import com.feedreader.myapplication.tools.RSSFeedparser;
+import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,26 @@ public class AddSitesShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.addsite_layout);
+
+        ImageButton imageButtonHome = findViewById(R.id.imageButtonHome);
+        imageButtonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddSitesShowActivity.this, MainActivity.class);
+                AddSitesShowActivity.this.startActivity(intent);
+            }
+        });
+
+        ImageButton imageButtonFavourites = findViewById(R.id.imageButtonFavorites);
+        imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddSitesShowActivity.this, FavouritesActivity.class);
+                AddSitesShowActivity.this.startActivity(intent);
+            }
+        });
+
+
     }
 
     public void addSite(View v) {
@@ -54,7 +75,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
     }
 
     public void Onclick(View v) {
-        Intent intent = new Intent(getApplicationContext(), RSSfeedshowActivity.class);
+        Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
         intent.putExtra("url", v.getTag().toString());
         startActivity(intent);
     }
@@ -64,7 +85,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             final String url = args[0];
-            RSSFeedparser parser = new RSSFeedparser();
+            RSSFeedParser parser = new RSSFeedParser();
             ArrayList<RSSElement> a = parser.getRSSfeedFromUrl(url);
             if (a != null)
                 runOnUiThread(new Runnable() {
@@ -80,7 +101,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), RSSfeedshowActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
                                 intent.putExtra("url", v.getTag().toString());
                                 startActivity(intent);
                             }
@@ -119,7 +140,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             final String url = args[0];
-            RSSFeedparser parser = new RSSFeedparser();
+            RSSFeedParser parser = new RSSFeedParser();
             a = parser.getRSSfeedFromUrl(url);
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -147,6 +168,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
                         MyApplication app = (MyApplication) getApplication();
                         new_button.setGravity(0);//Text to the left
+
                         app.getButtonList().add(new_button);
                     }
                 }
@@ -154,16 +176,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
             return null;
         }
 
-
-        public void openFavourites(View v) {
-            Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
-            startActivity(intent);
-        }
-
-        public void returnHome(View v) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-        }
 
     }
 }

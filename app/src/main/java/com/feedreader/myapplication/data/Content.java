@@ -1,9 +1,9 @@
 package com.feedreader.myapplication.data;
 
-public class MyContent {
+public class Content {
     private String content;
 
-    public MyContent(String content) {
+    public Content(String content) {
         this.content = content;
     }
 

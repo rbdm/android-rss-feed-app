@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.feedreader.myapplication.R;
 import com.feedreader.myapplication.WebViewActivity;
-import com.feedreader.myapplication.data.MyContent;
+import com.feedreader.myapplication.data.Content;
 
 import java.util.ArrayList;
 
@@ -26,10 +26,10 @@ public class FavouritesAdapter extends BaseAdapter {
 
 
     private Context content;
-    private ArrayList<MyContent> datas;
+    private ArrayList<Content> datas;
     private Bundle bundle;
 
-    public FavouritesAdapter(Context context, ArrayList<MyContent> datas) {
+    public FavouritesAdapter(Context context, ArrayList<Content> datas) {
         this.content = context;
         this.datas = datas;
     }
@@ -53,7 +53,7 @@ public class FavouritesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(content).inflate(R.layout.slide_list, null);
+            convertView = LayoutInflater.from(this.content).inflate(R.layout.slide_list, null);
             viewHolder = new ViewHolder();
             viewHolder.contentView = (TextView) convertView.findViewById(R.id.content);
             viewHolder.menuView = (TextView) convertView.findViewById(R.id.menu);
@@ -68,14 +68,14 @@ public class FavouritesAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                 intent.putExtra("url", ((TextView) v).getText());
-                startActivity(content, intent, bundle);
+                startActivity(FavouritesAdapter.this.content, intent, bundle);
             }
         });
-        final MyContent myContent = datas.get(position);
+        final Content content = datas.get(position);
         viewHolder.menuView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datas.remove(myContent);
+                datas.remove(content);
                 notifyDataSetChanged();
             }
         });

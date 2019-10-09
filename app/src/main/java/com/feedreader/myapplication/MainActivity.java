@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.feedreader.myapplication.data.MyApplication;
@@ -25,27 +26,34 @@ public class MainActivity extends AppCompatActivity {
 
         MyApplication app = (MyApplication) getApplication();
         if (app.getButtonList() != null) {
-            boolean flag = true;
 
-            for (Button b1 : app.getButtonList()) {
-
-                for (Button b2 : app.getButtonList()) {
-                    if (b1 == b2) {
-                        flag = false;
-                    }
-                }
-
-                if (flag) {
-                    layout.addView(b1);
-                }
-
+            for (Button button : app.getButtonList()) {
+                layout.addView(button);
             }
-        }
-    }
 
-    public void addSitePage(View v) {
-        Intent intent = new Intent(getApplicationContext(), AddSitesShowActivity.class);
-        startActivity(intent);
+        }
+
+
+        ImageButton imageButtonAdd = findViewById(R.id.imageButtonAdd);
+        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddSitesShowActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+
+        ImageButton imageButtonFavourites = findViewById(R.id.imageButtonFavorites);
+        imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -62,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void openFavourites(View v) {
-        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
-        startActivity(intent);
     }
 
 

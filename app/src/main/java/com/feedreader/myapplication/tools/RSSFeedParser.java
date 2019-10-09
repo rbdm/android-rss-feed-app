@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class RSSFeedparser {
+public class RSSFeedParser {
 
     public static ArrayList<RSSElement> getRSSfeedFromUrl(String url) {
         ArrayList<RSSElement> RSSelements = new ArrayList<>();

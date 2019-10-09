@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RSSfeedshowActivity"
+            android:name=".RSSFeedShowActivity"
             android:label="Feeds" />
         <activity
             android:name=".WebViewActivity"
