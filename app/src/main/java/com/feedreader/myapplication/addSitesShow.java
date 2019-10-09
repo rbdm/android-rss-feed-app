@@ -19,7 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class addSitesShow extends AppCompatActivity {
-
+    ArrayList<RSSElement> a = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +45,10 @@ public class addSitesShow extends AppCompatActivity {
     }
 
     public void OnCheck(View v) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("url", v.getTag().toString());
-        startActivity(intent);
+        if (v.getTag().toString() != null) {
+            putLayout putlayout = new putLayout();
+            putlayout.execute(v.getTag().toString());
+        }
     }
 
     public void Onclick(View v) {
@@ -112,9 +113,50 @@ public class addSitesShow extends AppCompatActivity {
 
     }
 
-    public void openFavourites(View v) {
-        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
-        startActivity(intent);
-    }
+    public class putLayout extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            final String url = args[0];
+            RSSFeedparser parser = new RSSFeedparser();
+             a = parser.getRSSfeedFromUrl(url);
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    for (int i = 0; i < a.size(); i++) {
+                        Button new_button = new Button(getApplicationContext());
+                        int number = i + 1;
+                        final String newsTitle = a.get(i).title;
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate + "\r\n" + a.get(i).category);
+                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
+                        new_button.setX(0);
+                        new_button.setY(0);
+                        new_button.setAllCaps(false);
+                        new_button.setTag(a.get(i).link);
+                        new_button.setBackgroundColor(Color.WHITE);
+                        new_button.setFadingEdgeLength(10);
+                        new_button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getApplicationContext(), webView.class);
+                                intent.putExtra("url", v.getTag().toString());
+                                intent.putExtra("title", newsTitle);
+                                startActivity(intent);
+                            }
+                        });
 
+                        MyApplication app = (MyApplication) getApplication();
+                        new_button.setGravity(0);//Text to the left
+                        app.getButtonList().add(new_button);
+                    }
+                }
+            });
+            return null;
+        }
+
+
+        public void openFavourites(View v) {
+            Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
+            startActivity(intent);
+        }
+    }
 }
+

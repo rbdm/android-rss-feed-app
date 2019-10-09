@@ -98,6 +98,7 @@ public class RSSfeedshow extends AppCompatActivity {
                         });
                         new_button.setGravity(0);//Text to the left
                         layout.addView(new_button);
+
                     }
                 }
             });

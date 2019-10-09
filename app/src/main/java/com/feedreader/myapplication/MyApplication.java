@@ -1,8 +1,10 @@
 package com.feedreader.myapplication;
 
 import android.app.Application;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 public class MyApplication extends Application implements Serializable {
 
     private static final ArrayList<Button> BUTTONLIST = new ArrayList<>();
+    private static final ArrayList<LinearLayout> LAYOUTLIST = new ArrayList<>();
     private static final ArrayList<String> COLLECTIONLIST = new ArrayList<>();
     private static final ArrayList<MyContent> MDATAS = new ArrayList<>();
     private static final MyContent CONTENT = new MyContent("");
@@ -19,6 +22,8 @@ public class MyApplication extends Application implements Serializable {
     private ArrayList<String> collectionList;
     private ArrayList<MyContent> mDatas;
     private MyContent content;
+    private ArrayList<LinearLayout> layoutList;
+    private LinearLayout layout;
     private ArrayList<Button> buttonList;
 
 
@@ -27,21 +32,39 @@ public class MyApplication extends Application implements Serializable {
         super.onCreate();
 
         setButtonList(BUTTONLIST);
+        setLayoutList(LAYOUTLIST);
         setCollectionList(COLLECTIONLIST);
         setmDatas(MDATAS);
         setContent(CONTENT);
 
-
     }
 
 
+    public ArrayList<Button> getButtonList() {
+        return buttonList;
+    }
+
     public void setButtonList(ArrayList<Button> buttonList) {
+
         this.buttonList = buttonList;
     }
 
-    public ArrayList<Button> getButtonList() {
+    public void setLayout(LinearLayout layout) {
+        this.layout = layout;
+    }
 
-        return buttonList;
+    public LinearLayout getLayout() {
+
+        return layout;
+    }
+
+    public void setLayoutList(ArrayList<LinearLayout> layoutList) {
+        this.layoutList = layoutList;
+    }
+
+    public ArrayList<LinearLayout> getLayoutList() {
+
+        return layoutList;
     }
 
     public void setContent(MyContent content) {

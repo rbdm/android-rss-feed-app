@@ -1,6 +1,7 @@
 package com.feedreader.myapplication;
 
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
     RSSFeedparser parser = new RSSFeedparser();
+
     private RecyclerView mRecyclerView;
     private ArrayList<HashMap<String, String>> resultItems = new ArrayList<>();
 
@@ -33,15 +35,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity);
-        Intent intent=getIntent();
-        String url=intent.getStringExtra("url");
-        System.out.println(url);
-        if (url != null){
-        putLayout putlayout = new putLayout();
-        putlayout.execute(url);
-        }
+        LinearLayout layout=findViewById(R.id.LinearLayout);
 
-
+        MyApplication app = new MyApplication();
+        if(app.getButtonList()!=null){
+            for (Button button : app.getButtonList()) {
+            layout.addView(button);
+        }}
     }
 
     public void addSitePage(View v) {
@@ -69,45 +69,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
         startActivity(intent);
     }
-    public class putLayout extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... args) {
-            String url = args[0];
-            a = parser.getRSSfeedFromUrl(url);
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    for (int i = 0; i < a.size(); i++) {
-                        LinearLayout layout = findViewById(R.id.LinearLayout);
-                        Button new_button = new Button(getApplicationContext());
-                        int number = i + 1;
-                        final String newsTitle = a.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate+"\r\n"+a.get(i).category);
-                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
-                        new_button.setX(0);
-                        new_button.setY(0);
-                        new_button.setAllCaps(false);
-                        new_button.setTag(a.get(i).link);
-                        new_button.setBackgroundColor(Color.WHITE);
-                        new_button.setFadingEdgeLength(10);
-                        new_button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), webView.class);
-                                intent.putExtra("url", v.getTag().toString());
-                                intent.putExtra("title", newsTitle);
-                                startActivity(intent);
-                            }
-                        });
-                        new_button.setGravity(0);//Text to the left
-                        layout.addView(new_button);
-                    }
-                }
-            });
-            return null;
-        }
 
 
-    }
+
 
 }
