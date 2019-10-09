@@ -29,8 +29,8 @@ import java.net.URL;
 public class webView extends AppCompatActivity {
 
     ImageButton buttonShare;
-    Button buttonHome;
-    Button buttonLike;
+    ImageButton buttonHome;
+    ImageButton buttonLike;
     Intent shareIntent, homeIntent;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
@@ -155,7 +155,7 @@ public class webView extends AppCompatActivity {
             }
         });
 
-        buttonLike = findViewById(R.id.buttonLike);
+        buttonLike = findViewById(R.id.imageButtonFavorite);
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,7 +175,7 @@ public class webView extends AppCompatActivity {
 
     public void AddToFavourites(View view) {
 
-        buttonLike = findViewById(R.id.buttonLike);
+        buttonLike = findViewById(R.id.imageButtonFavorite);
         Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
         FavouritesIntent.putExtra("webLink", url);
         startActivity(FavouritesIntent);
