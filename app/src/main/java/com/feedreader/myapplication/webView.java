@@ -155,7 +155,7 @@ public class webView extends AppCompatActivity {
             }
         });
 
-        buttonLike = findViewById(R.id.imageButtonFavorite);
+        buttonLike = findViewById(R.id.imageButtonLike);
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,9 +175,14 @@ public class webView extends AppCompatActivity {
 
     public void AddToFavourites(View view) {
 
-        buttonLike = findViewById(R.id.imageButtonFavorite);
+        buttonLike = findViewById(R.id.imageButtonLike);
         Intent FavouritesIntent = new Intent(webView.this, FavouritesActivity.class);
         FavouritesIntent.putExtra("webLink", url);
         startActivity(FavouritesIntent);
+    }
+
+    public void openFavourites(View v) {
+        Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
+        startActivity(intent);
     }
 }

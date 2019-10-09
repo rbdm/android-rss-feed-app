@@ -112,20 +112,20 @@
         </Space>
 
         <ImageButton
-            android:id="@+id/imageButtonRefresh"
-            android:tag="imageButtonRefreshInFeedLayout"
+            android:id="@+id/imageButtonLike"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_row="0"
             android:layout_column="5"
-            android:src="@drawable/ic_refresh_32px"
-            android:tint="@color/tw__composer_white" />
+            app:srcCompat="@drawable/heartemptywhite" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" >
         </Space>
+
+
 
     </LinearLayout>
 
