@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +49,9 @@ public class RSSfeedshow extends AppCompatActivity {
         putLayout putlayout = new putLayout();
         putlayout.execute(url);
 
-        ImageButton refreshBtn = findViewById(R.id.imageButtonRefresh);
+        String tag = "imageButtonRefreshInFeedLayout";
+        LinearLayout layout = findViewById(R.id.linearLayout2);
+        ImageButton refreshBtn = layout.findViewWithTag(tag);
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
