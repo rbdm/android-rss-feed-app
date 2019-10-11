@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,11 +24,13 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity);
         LinearLayout layout = findViewById(R.id.LinearLayout);
-
         MyApplication app = (MyApplication) getApplication();
         if (app.getButtonList() != null) {
 
+
             for (Button button : app.getButtonList()) {
+                if (button.getParent() != null)
+                    ((ViewGroup) button.getParent()).removeView(button);
                 layout.addView(button);
             }
 
