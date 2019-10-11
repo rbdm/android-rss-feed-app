@@ -129,7 +129,7 @@ public class WebViewActivity extends AppCompatActivity {
                                 .createIntent();
                             startActivity(intent);
                             */
-                        } else if (menuItem.getItemId() == R.id.shareToWeChat) {
+                        } else {
 
                         }
 
