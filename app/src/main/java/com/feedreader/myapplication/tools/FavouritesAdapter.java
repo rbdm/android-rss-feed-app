@@ -26,22 +26,22 @@ public class FavouritesAdapter extends BaseAdapter {
 
 
     private Context content;
-    private ArrayList<Content> datas;
+    private ArrayList<Content> data;
     private Bundle bundle;
 
-    public FavouritesAdapter(Context context, ArrayList<Content> datas) {
+    public FavouritesAdapter(Context context, ArrayList<Content> data) {
         this.content = context;
-        this.datas = datas;
+        this.data = data;
     }
 
     @Override
     public int getCount() {
-        return datas.size();
+        return data.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return datas.get(position);
+        return data.get(position);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class FavouritesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.contentView.setText(datas.get(position).getContent());
+        viewHolder.contentView.setText(data.get(position).getContent());
 
         viewHolder.contentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +71,11 @@ public class FavouritesAdapter extends BaseAdapter {
                 startActivity(FavouritesAdapter.this.content, intent, bundle);
             }
         });
-        final Content content = datas.get(position);
+        final Content content = data.get(position);
         viewHolder.menuView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datas.remove(content);
+                data.remove(content);
                 notifyDataSetChanged();
             }
         });
