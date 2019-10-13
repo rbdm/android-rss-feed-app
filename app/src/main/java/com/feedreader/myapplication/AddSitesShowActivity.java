@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -176,7 +177,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         new_button.setTag(a.get(i).link);
                         new_button.setBackgroundColor(Color.WHITE);
                         new_button.setFadingEdgeLength(10);
-                        new_button.setGravity(0);//Text to the left
+                        new_button.setGravity(Gravity.LEFT);//Text to the left
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

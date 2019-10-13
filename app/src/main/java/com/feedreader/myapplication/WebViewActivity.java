@@ -17,8 +17,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.Content;
+import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -61,8 +61,8 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.web_view);
         final Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        title=intent.getStringExtra("title");
-        date=intent.getStringExtra("date");
+        title = intent.getStringExtra("title");
+        date = intent.getStringExtra("date");
         WebView browser = findViewById(R.id.webView);
         browser.loadUrl(url);
         WebSettings webSettings = browser.getSettings();
@@ -173,12 +173,12 @@ public class WebViewActivity extends AppCompatActivity {
                     boolean flag = true;
 
                     for (Content content : app.getContentList()) {
-                        if (content.getContent().equals(url)) {
+                        if (content.getUrl().equals(url)) {
                             flag = false;
                         }
                     }
                     if (flag) {
-                        app.setContent(new Content(url));
+                        app.setContent(new Content(url, title, date));
                         app.getContentList().add(app.getContent());
                     }
                 }

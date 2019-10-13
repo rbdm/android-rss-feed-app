@@ -3,6 +3,7 @@ package com.feedreader.myapplication.tools;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class FavouritesAdapter extends BaseAdapter {
 
     private Context content;
     private ArrayList<Content> data;
-    private Bundle bundle;
+
 
     public FavouritesAdapter(Context context, ArrayList<Content> data) {
         this.content = context;
@@ -61,16 +62,27 @@ public class FavouritesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.contentView.setText(data.get(position).getContent());
 
+
+        viewHolder.contentView.setText(data.get(position).getTitle());//Use the collected news title as the content to display on each line
+        viewHolder.contentView.setTag(data.get(position).getUrl() + "\r\n" + data.get(position).getDate());// Set Url of news to be redirected
+        viewHolder.contentView.setGravity(Gravity.LEFT);//Text to the left
+        viewHolder.contentView.setGravity(Gravity.CENTER_VERTICAL); //Text to the Center Vertical
+
+
+        //Click to jump to the specified news
         viewHolder.contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
-                intent.putExtra("url", ((TextView) v).getText());
-                startActivity(FavouritesAdapter.this.content, intent, bundle);
+                intent.putExtra("url", v.getTag().toString());
+                System.out.println();
+                startActivity(FavouritesAdapter.this.content, intent, null);
             }
         });
+
+        //Delete
         final Content content = data.get(position);
         viewHolder.menuView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +94,6 @@ public class FavouritesAdapter extends BaseAdapter {
 
         SlideLayout slideLayout = (SlideLayout) convertView;
         slideLayout.setOnStateChangeListener(new MyOnStateChangeListener());
-
 
         return convertView;
     }

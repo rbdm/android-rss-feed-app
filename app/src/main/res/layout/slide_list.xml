@@ -7,8 +7,8 @@
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:background="#604040"
+        android:layout_height="152dp"
+        android:background="#504C4C"
         android:gravity="center"
         android:text="content"
         android:textSize="14sp" />
@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/menu"
         android:layout_width="wrap_content"
-        android:layout_height="68dp"
+        android:layout_height="152dp"
         android:background="#FF9191"
         android:gravity="center"
         android:padding="6dp"

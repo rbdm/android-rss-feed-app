@@ -19,7 +19,7 @@ public class MyApplication extends Application implements Serializable {
     private static final ArrayList<LinearLayout> LAYOUTLIST = new ArrayList<>();
     private static final ArrayList<String> COLLECTIONLIST = new ArrayList<>();
     private static final ArrayList<Content> MYDATA = new ArrayList<>();
-    private static final Content CONTENT = new Content("");
+    private static final Content CONTENT = new Content("", "", "");
     private static final ArrayList<CheckBox> CHECKBOXLIST = new ArrayList<>();
 
 
@@ -102,8 +102,6 @@ public class MyApplication extends Application implements Serializable {
         checkBox7.setY(150);
         checkBox7.setTextColor(Color.WHITE);
         checkBoxList.add(checkBox7);
-
-
 
 
         CheckBox checkBox8 = new CheckBox(this);
