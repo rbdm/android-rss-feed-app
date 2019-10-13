@@ -32,6 +32,7 @@ import com.feedreader.myapplication.tools.RSSFeedParser;
 import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -118,7 +119,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                             tempRSSList = RSSList;
                             for (RSSElement re: tempRSSList) {
                                 DateTime dateTime = getDateTime(re.pubdate);
-                                if (dateTime.isAfter(new DateTime().minusDays(1))) {
+                                if (dateTime.isAfter(new DateMidnight())) {
                                     filteredRSSList.add(re);
                                 }
                             }
