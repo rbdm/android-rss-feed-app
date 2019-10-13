@@ -1,18 +1,18 @@
 package com.feedreader.myapplication.data;
 
+/* * Author: Mingzhen Ao
+ * This class used to get title, link ,and pubdate of the rss feed
+ */
 public class RSSElement {
     public String title;
     public String link;
     public String pubdate;
-    public String image;
-    public String category;
     public RSSElement(){
 
     }
-    public RSSElement(String title, String link, String pubdate,String image,String category) {
+    public RSSElement(String title, String link, String pubdate) {
         this.title = title;
         this.link = link;
         this.pubdate = pubdate;
-        this.category=category;
     }
 }

@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +22,9 @@ import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import java.util.ArrayList;
 
+/* * Author: Mingzhen Ao
+ * This class aims to show the websites that contains the rss feeds
+ */
 public class AddSitesShowActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
 
@@ -31,6 +33,16 @@ public class AddSitesShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.addsite_layout);
+        checkBox();
+
+    }
+
+    /* * Author: Mingzhen Ao
+     * This class aims to add the clicklistener, if click the checkbox, then check checkbox status,if it's checked,
+     * add feeds to Myapplication,
+     * if it's not checked, delete the feeds belong to this xml url
+     */
+    public void checkBox() {
         LinearLayout layout = findViewById(R.id.linearLayout3);
         final MyApplication app = (MyApplication) getApplication();
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
@@ -54,29 +66,30 @@ public class AddSitesShowActivity extends AppCompatActivity {
                     }
                 }
             });
-            layout.addView(app.getCheckBoxList().get(i));
+                layout.addView(app.getCheckBoxList().get(i));
         }
-        ImageButton imageButtonHome = findViewById(R.id.imageButtonHome);
-        imageButtonHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddSitesShowActivity.this, MainActivity.class);
-                AddSitesShowActivity.this.startActivity(intent);
-            }
-        });
-
-        ImageButton imageButtonFavourites = findViewById(R.id.imageButtonFavorites);
-        imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddSitesShowActivity.this, FavouritesActivity.class);
-                AddSitesShowActivity.this.startActivity(intent);
-            }
-        });
-
-
     }
 
+    /* * Author: Mingzhen Ao
+     * When click on the home button, go to mainActivity
+     */
+
+    public void goBackToHome(View view) {
+        Intent intent = new Intent(AddSitesShowActivity.this, MainActivity.class);
+        AddSitesShowActivity.this.startActivity(intent);
+    }
+
+    /* * Author: Mingzhen Ao
+     * When click on the favourite button, go to FavouritesActivity
+     */
+    public void goToFavourite(View view) {
+        Intent intent = new Intent(AddSitesShowActivity.this, FavouritesActivity.class);
+        AddSitesShowActivity.this.startActivity(intent);
+    }
+
+    /* * Author: Mingzhen Ao
+     * This function aims to add site if the site is right xml url
+     */
     public void addSite(View v) {
         EditText url_text = findViewById(R.id.editText1);
         String url = "http://" + url_text.getText().toString();
@@ -84,6 +97,9 @@ public class AddSitesShowActivity extends AppCompatActivity {
         checkurl.execute(url);
     }
 
+    /* * Author: Mingzhen Ao
+     * This function aims to delete the exact site if the site is right xml url
+     */
     public void Delete(View v) {
         ConstraintLayout layout = findViewById(R.id.layout);
         EditText tag_text = findViewById(R.id.editText);
@@ -94,14 +110,19 @@ public class AddSitesShowActivity extends AppCompatActivity {
         }
     }
 
-
+    /* * Author: Mingzhen Ao
+     * When click the web button, will transfer to rssfeedshow activity
+     */
     public void Onclick(View v) {
         Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
         intent.putExtra("url", v.getTag().toString());
         startActivity(intent);
     }
 
-
+    /* * Author: Mingzhen Ao
+     * This function aims to check if there is a right xml url or not,
+     * if it's right ,added it, if not, show not valid.
+     */
     class Check extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -156,6 +177,9 @@ public class AddSitesShowActivity extends AppCompatActivity {
         }
     }
 
+    /* * Author: Mingzhen Ao
+     * This function aims to save corresponding rss feeds to Myapplication
+     */
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -193,8 +217,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 }
             });
             MyApplication app = (MyApplication) getApplication();
-
-
             app.getLayoutList().add(layout);
             return null;
         }

@@ -17,7 +17,9 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
+/* * Author: Mingzhen Ao
+ * This class used to parse the information from xml url from internet
+ */
 public class RSSFeedParser {
 
     public static ArrayList<RSSElement> getRSSfeedFromUrl(String url) {
@@ -34,7 +36,7 @@ public class RSSFeedParser {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new InputSource(new StringReader(xml)));
-            //get imformation
+            //get exact information from doc
             NodeList nodeList = doc.getElementsByTagName("channel");
             Element e = (Element) nodeList.item(0);
             NodeList items = e.getElementsByTagName("item");
@@ -47,9 +49,6 @@ public class RSSFeedParser {
                 rssElement.link = links.item(0).getFirstChild().getTextContent();
                 NodeList pubdates = e1.getElementsByTagName("pubDate");
                 rssElement.pubdate = pubdates.item(0).getFirstChild().getTextContent();
-                NodeList categorys = e1.getElementsByTagName("category");
-                if (categorys.getLength() != 0)
-                    rssElement.category = categorys.item(0).getFirstChild().getTextContent();
                 RSSelements.add(rssElement);
             }
 
