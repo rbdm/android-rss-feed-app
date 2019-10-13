@@ -58,23 +58,6 @@ public class RSSFeedShowActivity extends AppCompatActivity {
     ImageButton imageButtonSort, imageButtonSearch;
     String url;
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.refresh_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
-        Intent intent = new Intent(this, AddSitesShowActivity.class);
-        startActivity(intent);
-        return super.onOptionsItemSelected(item);
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
