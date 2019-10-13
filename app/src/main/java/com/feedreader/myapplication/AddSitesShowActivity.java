@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.feedreader.myapplication.data.MyApplication;
@@ -28,7 +30,31 @@ public class AddSitesShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.addsite_layout);
-
+        LinearLayout layout = findViewById(R.id.linearLayout3);
+        final MyApplication app = (MyApplication) getApplication();
+        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
+            if (app.getCheckBoxList().get(i).getParent() != null)
+                ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
+            app.getCheckBoxList().get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckBox checkBox = (CheckBox) view;
+                    if (checkBox.getTag().toString() != null) {
+                        if (checkBox.isChecked()) {
+                            putLayout putlayout = new putLayout();
+                            putlayout.execute(view.getTag().toString());
+                        } else {
+                            for (int j = 0; j < app.getLayoutList().size(); j++) {
+                                if (app.getLayoutList().get(j).getTag().equals(view.getTag().toString())) {
+                                    app.getLayoutList().remove(j);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            layout.addView(app.getCheckBoxList().get(i));
+        }
         ImageButton imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +93,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
         }
     }
 
-    public void OnCheck(View v) {
-        if (v.getTag().toString() != null) {
-            putLayout putlayout = new putLayout();
-            putlayout.execute(v.getTag().toString());
-        }
-    }
 
     public void Onclick(View v) {
         Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
@@ -133,7 +153,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
             }
             return null;
         }
-
     }
 
     public class putLayout extends AsyncTask<String, String, String> {
@@ -142,13 +161,14 @@ public class AddSitesShowActivity extends AppCompatActivity {
             final String url = args[0];
             RSSFeedParser parser = new RSSFeedParser();
             a = parser.getRSSfeedFromUrl(url);
+            final LinearLayout layout = new LinearLayout(getApplicationContext());
             runOnUiThread(new Runnable() {
                 public void run() {
                     for (int i = 0; i < a.size(); i++) {
                         Button new_button = new Button(getApplicationContext());
                         int number = i + 1;
                         final String newsTitle = a.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate + "\r\n" + a.get(i).category);
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate + "\r\n");
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
                         new_button.setX(0);
                         new_button.setY(0);
@@ -156,6 +176,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         new_button.setTag(a.get(i).link);
                         new_button.setBackgroundColor(Color.WHITE);
                         new_button.setFadingEdgeLength(10);
+                        new_button.setGravity(0);//Text to the left
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -165,17 +186,16 @@ public class AddSitesShowActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
-
-                        MyApplication app = (MyApplication) getApplication();
-                        new_button.setGravity(0);//Text to the left
-
-                        app.getButtonList().add(new_button);
+                        layout.setTag(url);
+                        layout.addView(new_button);
                     }
                 }
             });
+            MyApplication app = (MyApplication) getApplication();
+
+
+            app.getLayoutList().add(layout);
             return null;
         }
-
-
     }
 }

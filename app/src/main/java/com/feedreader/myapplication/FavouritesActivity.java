@@ -43,7 +43,6 @@ public class FavouritesActivity extends AppCompatActivity {
 
 
         MyApplication app = (MyApplication) getApplication();
-
         adapter = new FavouritesAdapter(this, app.getContentList());
         ListView listView = findViewById(R.id.list);
         listView.setAdapter(adapter);

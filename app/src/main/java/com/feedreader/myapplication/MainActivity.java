@@ -25,14 +25,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity);
         LinearLayout layout = findViewById(R.id.LinearLayout);
         MyApplication app = (MyApplication) getApplication();
-        if (app.getButtonList() != null) {
-
-
-            for (Button button : app.getButtonList()) {
-                if (button.getParent() != null)
-                    ((ViewGroup) button.getParent()).removeView(button);
-                layout.addView(button);
-            }
+        if (app.getLayoutList() != null) {
+            for (int i = 0; i < app.getLayoutList().size(); i++) {
+                int count = app.getLayoutList().get(i).getChildCount();
+                for (int j = 0; j < count; j++){
+                    Button child=(Button)app.getLayoutList().get(i).getChildAt(j);
+                    if (child != null&& child.getParent()!=null) {
+                        ((ViewGroup) child.getParent()).removeView(child);
+                        layout.addView(child);
+                    }
+            }}
 
         }
 
