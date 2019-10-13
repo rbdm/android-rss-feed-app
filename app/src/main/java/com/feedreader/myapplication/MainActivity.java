@@ -23,42 +23,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity);
+        addButtonToLayout();
+    }
+
+    /* * Author: Mingzhen Ao
+     * add button to the layout
+     */
+    public void addButtonToLayout() {
         LinearLayout layout = findViewById(R.id.LinearLayout);
         MyApplication app = (MyApplication) getApplication();
         if (app.getLayoutList() != null) {
             for (int i = 0; i < app.getLayoutList().size(); i++) {
                 int count = app.getLayoutList().get(i).getChildCount();
-                for (int j = 0; j < count; j++){
-                    Button child=(Button)app.getLayoutList().get(i).getChildAt(j);
-                    if (child != null&& child.getParent()!=null) {
+                for (int j = 0; j < count; j++) {
+                    Button child = (Button) app.getLayoutList().get(i).getChildAt(j);
+                    if (child != null && child.getParent() != null) {
                         ((ViewGroup) child.getParent()).removeView(child);
                         layout.addView(child);
                     }
-            }}
+                }
+            }
 
         }
+    }
 
+    /* * Author: Mingzhen Ao
+     * if click favourite button, go to favouritesactivity
+     */
+    public void goToFavorite(View view) {
+        Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
+        MainActivity.this.startActivity(intent);
+    }
 
-        ImageButton imageButtonAdd = findViewById(R.id.imageButtonAdd);
-        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddSitesShowActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
-        });
-
-
-        ImageButton imageButtonFavourites = findViewById(R.id.imageButtonFavorites);
-        imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
-        });
-
-
+    /* * Author: Mingzhen Ao
+     * if click add button, go to addSitesShowActivity
+     */
+    public void goToAddLayout(View view) {
+        Intent intent = new Intent(MainActivity.this, AddSitesShowActivity.class);
+        MainActivity.this.startActivity(intent);
     }
 
     @Override

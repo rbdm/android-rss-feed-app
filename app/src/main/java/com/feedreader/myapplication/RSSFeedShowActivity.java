@@ -53,7 +53,6 @@ import java.util.TimeZone;
 public class RSSFeedShowActivity extends AppCompatActivity {
     ArrayList<RSSElement> RSSList = new ArrayList<>();
     ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
-    ArrayList<String> categoryList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
     ImageButton imageButtonSort, imageButtonSearch;
     String url;
@@ -97,7 +96,6 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                         for (RSSElement re: RSSList) {
                             String newsTitle = re.title.toLowerCase().trim();
                             String newsCategory = "";
-                            if (re.category != null) newsCategory = re.category.toLowerCase().trim();
                             if (newsTitle.contains(searchTerm) || newsCategory.contains(searchTerm)) {
                                 filteredRSSList.add(re);
                             }
