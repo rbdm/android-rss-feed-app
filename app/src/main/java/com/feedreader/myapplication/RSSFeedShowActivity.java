@@ -33,6 +33,7 @@ import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.net.URL;
 import java.text.DateFormat;
@@ -40,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public class RSSFeedShowActivity extends AppCompatActivity {
@@ -209,6 +211,12 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         }
     }
 
+    public String formatDateTime(DateTime dt) {
+        dt.getZone();
+        String formattedDateString = dt.toString(DateTimeFormat.forPattern("EEE, dd MMM yy, kk:mm")) + " AEST";
+        return formattedDateString;
+    }
+
     public class putFilteredLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -216,11 +224,12 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
                     for (int i = 0; i < filteredRSSList.size(); i++) {
+                        String formattedDate = formatDateTime(getDateTime(RSSList.get(i).pubdate));
                         LinearLayout layout = findViewById(R.id.linearLayout);
                         Button new_button = new Button(getApplicationContext());
                         int number = i + 1;
                         final String newsTitle = filteredRSSList.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + filteredRSSList.get(i).pubdate+"\r\n"+filteredRSSList.get(i).category);
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n"+filteredRSSList.get(i).category);
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
                         new_button.setX(0);
                         new_button.setY(0);
@@ -256,11 +265,12 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
                     for (int i = 0; i < RSSList.size(); i++) {
+                        String formattedDate = formatDateTime(getDateTime(RSSList.get(i).pubdate));
                         LinearLayout layout = findViewById(R.id.linearLayout);
                         Button new_button = new Button(getApplicationContext());
                         int number = i + 1;
                         final String newsTitle = RSSList.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + RSSList.get(i).pubdate+"\r\n"+RSSList.get(i).category);
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n"+RSSList.get(i).category);
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
                         new_button.setX(0);
                         new_button.setY(0);
