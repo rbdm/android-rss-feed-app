@@ -1,14 +1,15 @@
 package com.feedreader.myapplication.data;
 
 /**
+ * Author: Zixin Ye
  * This class provide a template of the content of a piece of news
  */
-public class Content {
+public class News {
     private String url;
     private String title;
     private String date;
 
-    public Content(String url, String title, String date) {
+    public News(String url, String title, String date) {
         this.url = url;
         this.title = title;
         this.date = date;

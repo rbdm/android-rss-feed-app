@@ -10,7 +10,8 @@ import android.widget.Scroller;
 import com.feedreader.myapplication.R;
 
 /**
- * This class sets SlideLayout style for ListView
+ * Author: Zixin Ye
+ * This class sets a self-defined SlideLayout style for ListView
  */
 public class SlideLayout extends FrameLayout {
     private View contentView;
@@ -28,14 +29,14 @@ public class SlideLayout extends FrameLayout {
         scroller = new Scroller(context);
     }
 
-    /**
-     * The layout file is called when it is finished loading
-     */
+    /*
+    The layout file is called when it is finished loading
+    */
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        contentView = findViewById(R.id.content);
-        menuView = findViewById(R.id.menu);
+        contentView = findViewById(R.id.news);
+        menuView = findViewById(R.id.slide_list_delete);
     }
 
     @Override
@@ -70,15 +71,14 @@ public class SlideLayout extends FrameLayout {
                 downX = startX = event.getX();
                 downY = startY = event.getY();
                 break;
+
             case MotionEvent.ACTION_MOVE:
                 float endX = event.getX();
                 float endY = event.getY();
 
                 //Compute the offset
                 float distanceX = endX - startX;
-
                 int toScrollX = (int) (getScrollX() - distanceX);
-
                 //Remove illegal value
                 if (toScrollX < 0) {
                     toScrollX = 0;
@@ -97,24 +97,24 @@ public class SlideLayout extends FrameLayout {
                     //Event anti-interception. It causes the events of the parent ListView to be passed to its own SlideLayout
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
-
                 break;
-            case MotionEvent.ACTION_UP:
 
+            case MotionEvent.ACTION_UP:
                 if (getScrollX() > menuWidth / 2) {
                     openMenu();
                 } else {
                     closeMenu();
                 }
-
                 break;
         }
+
         return true;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
+
             case MotionEvent.ACTION_DOWN:
                 downX = startX = event.getX();
                 downY = startY = event.getY();
@@ -122,25 +122,25 @@ public class SlideLayout extends FrameLayout {
                     onStateChangeListener.onMove(this);
                 }
                 break;
-            case MotionEvent.ACTION_MOVE:
 
+            case MotionEvent.ACTION_MOVE:
                 float dx = Math.abs(event.getX() - downX);
                 float dy = Math.abs(event.getY() - downY);
                 if (dx > dy && dx > 6) {
                     //Intercept events
                     return true;
                 }
-
                 break;
+
             case MotionEvent.ACTION_UP:
                 break;
         }
         return super.onInterceptTouchEvent(event);
     }
 
-    /**
-     * Method for opening Menu
-     */
+    /*
+    Method for opening Menu
+    */
     public void openMenu() {
         int dx = menuWidth - getScrollX();
         scroller.startScroll(getScrollX(), getScrollY(), dx, getScrollY());
@@ -150,11 +150,11 @@ public class SlideLayout extends FrameLayout {
         }
     }
 
-    /**
-     * Method for closing Menu
-     */
+    /*
+    Method for closing Menu
+    */
     public void closeMenu() {
-        //0 represents the target distance that menu moves to  0表示menu移动到的目标距离
+        //0 represents the target distance that menu moves to
         int dx = 0 - getScrollX();
         scroller.startScroll(getScrollX(), getScrollY(), dx, getScrollY());
         invalidate();
@@ -174,9 +174,7 @@ public class SlideLayout extends FrameLayout {
 
     public interface OnStateChangeListener {
         void onOpen(SlideLayout slideLayout);
-
         void onMove(SlideLayout slideLayout);
-
         void onClose(SlideLayout slideLayout);
     }
 

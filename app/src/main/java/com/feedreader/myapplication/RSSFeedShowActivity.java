@@ -4,19 +4,12 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,28 +19,19 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.TimePicker;
 
-import com.facebook.CallbackManager;
-import com.facebook.share.model.ShareHashtag;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
+
 import com.feedreader.myapplication.data.RSSElement;
 import com.feedreader.myapplication.tools.RSSFeedParser;
-import com.feedreader.myapplication.tools.TwitterResultReceiver;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 public class RSSFeedShowActivity extends AppCompatActivity {
@@ -121,21 +105,21 @@ public class RSSFeedShowActivity extends AppCompatActivity {
 
                         if (menuItem.getItemId() == R.id.filterLastHour) {
                             for (RSSElement re: RSSList) {
-                                DateTime dateTime = getDateTime(re.pubdate);
+                                DateTime dateTime = getDateTime(re.pubDate);
                                 if (dateTime.isAfter(new DateTime().minusHours(1))) {
                                     filteredRSSList.add(re);
                                 }
                             }
                         } else if (menuItem.getItemId() == R.id.filterToday) {
                             for (RSSElement re: RSSList) {
-                                DateTime dateTime = getDateTime(re.pubdate);
+                                DateTime dateTime = getDateTime(re.pubDate);
                                 if (dateTime.isAfter(new DateMidnight())) {
                                     filteredRSSList.add(re);
                                 }
                             }
                         } else if (menuItem.getItemId() == R.id.filterThisWeek) {
                             for (RSSElement re: RSSList) {
-                                DateTime dateTime = getDateTime(re.pubdate);
+                                DateTime dateTime = getDateTime(re.pubDate);
                                 if (dateTime.isAfter(new DateTime().minusDays(7))) {
                                     filteredRSSList.add(re);
                                 }
@@ -147,7 +131,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                                 public void onDateSet(DatePicker view, int year, int month, int day) {
                                     DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
                                     for (RSSElement re: RSSList) {
-                                        DateTime dateTime = getDateTime(re.pubdate);
+                                        DateTime dateTime = getDateTime(re.pubDate);
                                         if (dateTime.isAfter(selectedDate) && dateTime.isBefore(selectedDate.plusDays(1))) {
                                             filteredRSSList.add(re);
                                         }
@@ -224,7 +208,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
 
     public void setLinearLayout(ArrayList<RSSElement> list) {
         for (int i = 0; i < list.size(); i++) {
-            final String formattedDate = formatDateTime(getDateTime(list.get(i).pubdate));
+            final String formattedDate = formatDateTime(getDateTime(list.get(i).pubDate));
             LinearLayout layout = findViewById(R.id.linearLayout);
             Button new_button = new Button(getApplicationContext());
             int number = i + 1;

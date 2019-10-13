@@ -22,7 +22,8 @@ import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import java.util.ArrayList;
 
-/* * Author: Mingzhen Ao
+/* *
+ * Author: Mingzhen Ao
  * This class aims to show the websites that contains the rss feeds
  */
 public class AddSitesShowActivity extends AppCompatActivity {
@@ -37,7 +38,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
     }
 
-    /* * Author: Mingzhen Ao
+    /* *
+     * Author: Mingzhen Ao
      * This class aims to add the clicklistener, if click the checkbox, then check checkbox status,if it's checked,
      * add feeds to Myapplication,
      * if it's not checked, delete the feeds belong to this xml url
@@ -70,7 +72,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
         }
     }
 
-    /* * Author: Mingzhen Ao
+    /* *
+     * Author: Mingzhen Ao
      * When click on the home button, go to mainActivity
      */
 
@@ -79,7 +82,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
         AddSitesShowActivity.this.startActivity(intent);
     }
 
-    /* * Author: Mingzhen Ao
+    /* *
+     * Author: Mingzhen Ao
      * When click on the favourite button, go to FavouritesActivity
      */
     public void goToFavourite(View view) {
@@ -177,7 +181,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
         }
     }
 
-    /* * Author: Mingzhen Ao
+    /* *
+     * Author: Mingzhen Ao
      * This function aims to save corresponding rss feeds to Myapplication
      */
     public class putLayout extends AsyncTask<String, String, String> {
@@ -193,7 +198,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         Button new_button = new Button(getApplicationContext());
                         int number = i + 1;
                         final String newsTitle = a.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubdate + "\r\n");
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubDate + "\r\n");
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
                         new_button.setX(0);
                         new_button.setY(0);
@@ -201,7 +206,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         new_button.setTag(a.get(i).link);
                         new_button.setBackgroundColor(Color.WHITE);
                         new_button.setFadingEdgeLength(10);
-                        new_button.setGravity(Gravity.LEFT);//Text to the left
+                        new_button.setGravity(Gravity.LEFT);//Text to the left（horizontally）
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

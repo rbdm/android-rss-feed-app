@@ -12,10 +12,14 @@ import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.tools.FavouritesAdapter;
 import com.feedreader.myapplication.tools.RSSFeedParser;
 
+
+/**
+ * Author: Zixin Ye
+ * This class is the Activity for Favourites
+ */
 public class FavouritesActivity extends AppCompatActivity {
     RSSFeedParser parser = new RSSFeedParser();
     private FavouritesAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class FavouritesActivity extends AppCompatActivity {
 
 
         MyApplication app = (MyApplication) getApplication();
-        adapter = new FavouritesAdapter(this, app.getContentList());
+        adapter = new FavouritesAdapter(this, app.getNewsList());
         ListView listView = findViewById(R.id.list);
         listView.setAdapter(adapter);
 

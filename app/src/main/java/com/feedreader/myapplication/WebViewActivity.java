@@ -17,7 +17,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.feedreader.myapplication.data.Content;
+import com.feedreader.myapplication.data.News;
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.core.Twitter;
@@ -160,26 +160,30 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * Author: Zixin Ye
+         * Save data to Favourites
+         */
         buttonLike = findViewById(R.id.imageButtonLike);
         buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
                 MyApplication app = (MyApplication) getApplication();
 
+                //Avoid saving Duplicate values
                 if (url != null) {
-
                     boolean flag = true;
 
-                    for (Content content : app.getContentList()) {
-                        if (content.getUrl().equals(url)) {
+                    for (News news : app.getNewsList()) {
+                        if (news.getUrl().equals(url)) {
                             flag = false;
                         }
                     }
                     if (flag) {
-                        app.setContent(new Content(url, title, date));
-                        app.getContentList().add(app.getContent());
+                        app.setNews(new News(url, title, date));
+                        app.getNewsList().add(app.getNews());
                     }
                 }
             }

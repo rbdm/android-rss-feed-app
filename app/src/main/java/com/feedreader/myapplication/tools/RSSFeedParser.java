@@ -17,14 +17,16 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-/* * Author: Mingzhen Ao
+
+/* *
+ * Author: Mingzhen Ao
  * This class used to parse the information from xml url from internet
  */
 public class RSSFeedParser {
 
     public static ArrayList<RSSElement> getRSSfeedFromUrl(String url) {
         ArrayList<RSSElement> RSSelements = new ArrayList<>();
-        String xml = null;
+        String xml = "";
         try {
             //Read String from website
             DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -48,7 +50,7 @@ public class RSSFeedParser {
                 NodeList links = e1.getElementsByTagName("link");
                 rssElement.link = links.item(0).getFirstChild().getTextContent();
                 NodeList pubdates = e1.getElementsByTagName("pubDate");
-                rssElement.pubdate = pubdates.item(0).getFirstChild().getTextContent();
+                rssElement.pubDate = pubdates.item(0).getFirstChild().getTextContent();
                 RSSelements.add(rssElement);
             }
 

@@ -2,7 +2,6 @@ package com.feedreader.myapplication.tools;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.feedreader.myapplication.R;
 import com.feedreader.myapplication.WebViewActivity;
-import com.feedreader.myapplication.data.Content;
+import com.feedreader.myapplication.data.News;
 
 import java.util.ArrayList;
 
@@ -20,17 +19,19 @@ import static android.support.v4.content.ContextCompat.startActivity;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
- * This class sets a style for Favourites shown by favourites_layout
+ * Author: Zixin Ye
+ * This class sets a style for Favourites shown by favourites_layout.It is the bridge between the data and the UI.
+ * It connects the background data to the front UI and is a carrier to display the data.
  */
 
 public class FavouritesAdapter extends BaseAdapter {
 
 
     private Context content;
-    private ArrayList<Content> data;
+    private ArrayList<News> data;
 
 
-    public FavouritesAdapter(Context context, ArrayList<Content> data) {
+    public FavouritesAdapter(Context context, ArrayList<News> data) {
         this.content = context;
         this.data = data;
     }
@@ -56,17 +57,17 @@ public class FavouritesAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(this.content).inflate(R.layout.slide_list, null);
             viewHolder = new ViewHolder();
-            viewHolder.contentView = (TextView) convertView.findViewById(R.id.content);
-            viewHolder.menuView = (TextView) convertView.findViewById(R.id.menu);
+            viewHolder.contentView = (TextView) convertView.findViewById(R.id.news);
+            viewHolder.menuView = (TextView) convertView.findViewById(R.id.slide_list_delete);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
 
-        viewHolder.contentView.setText(data.get(position).getTitle());//Use the collected news title as the content to display on each line
-        viewHolder.contentView.setTag(data.get(position).getUrl() + "\r\n" + data.get(position).getDate());// Set Url of news to be redirected
-        viewHolder.contentView.setGravity(Gravity.LEFT);//Text to the left
+        viewHolder.contentView.setText(data.get(position).getTitle() + "\r\n" + data.get(position).getDate());//Use the collected news title and date as the news to display on each line
+        viewHolder.contentView.setTag(data.get(position).getUrl());// Set Url of news to be redirected
+        viewHolder.contentView.setGravity(Gravity.LEFT);//Text to the left（horizontally）
         viewHolder.contentView.setGravity(Gravity.CENTER_VERTICAL); //Text to the Center Vertical
 
 
@@ -74,7 +75,6 @@ public class FavouritesAdapter extends BaseAdapter {
         viewHolder.contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                 intent.putExtra("url", v.getTag().toString());
                 System.out.println();
@@ -83,11 +83,11 @@ public class FavouritesAdapter extends BaseAdapter {
         });
 
         //Delete
-        final Content content = data.get(position);
+        final News news = data.get(position);
         viewHolder.menuView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.remove(content);
+                data.remove(news);
                 notifyDataSetChanged();
             }
         });

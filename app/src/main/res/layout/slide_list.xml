@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Author: Zixin Ye
+This listview is the skeleton for Favorites
+ -->
 <com.feedreader.myapplication.tools.SlideLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/news"
         android:layout_width="match_parent"
-        android:layout_height="152dp"
+        android:layout_height="56dp"
         android:background="#504C4C"
         android:gravity="center"
-        android:text="content"
+        android:text="news"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/menu"
+        android:id="@+id/slide_list_delete"
         android:layout_width="wrap_content"
-        android:layout_height="152dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="1dp"
         android:background="#FF9191"
         android:gravity="center"
         android:padding="6dp"
