@@ -32,7 +32,7 @@ public class WebViewActivity extends AppCompatActivity {
     ImageButton buttonShare;
     ImageButton buttonHome;
     ImageButton buttonLike;
-    Intent shareIntent, homeIntent;
+    Intent homeIntent;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     String url;
