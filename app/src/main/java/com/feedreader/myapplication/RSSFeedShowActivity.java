@@ -1,23 +1,28 @@
 package com.feedreader.myapplication;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -52,7 +57,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
     ArrayList<String> categoryList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
     Button buttonHome;
-    ImageButton imageButtonSort;
+    ImageButton imageButtonSort, imageButtonSearch;
     String url;
 
 
@@ -94,6 +99,35 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             }
         });
 
+        imageButtonSearch = findViewById(R.id.imageButtonSearch);
+        imageButtonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditText et = new EditText(RSSFeedShowActivity.this);
+                filteredRSSList.clear();
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(RSSFeedShowActivity.this);
+                builder.setTitle("Input Search Term");
+                builder.setView(et);
+                builder.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String searchTerm = et.getText().toString().toLowerCase();
+                        for (RSSElement re: RSSList) {
+                            String newsTitle = re.title.toLowerCase();
+                            String newsCategory = "";
+                            if (re.category != null) newsCategory = re.category.toLowerCase();
+                            if (newsTitle.contains(searchTerm) || newsCategory.contains(searchTerm)) {
+                                filteredRSSList.add(re);
+                            }
+                        }
+                        refreshFilteredLayout();
+                    }
+                });
+                builder.show();
+            }
+        });
+
         imageButtonSort = findViewById(R.id.imageButtonSort);
         imageButtonSort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,27 +139,23 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         filteredRSSList.clear();
-                        categoryList.clear();
 
                         if (menuItem.getItemId() == R.id.filterLastHour) {
-                            tempRSSList = RSSList;
-                            for (RSSElement re: tempRSSList) {
+                            for (RSSElement re: RSSList) {
                                 DateTime dateTime = getDateTime(re.pubdate);
                                 if (dateTime.isAfter(new DateTime().minusHours(1))) {
                                     filteredRSSList.add(re);
                                 }
                             }
                         } else if (menuItem.getItemId() == R.id.filterToday) {
-                            tempRSSList = RSSList;
-                            for (RSSElement re: tempRSSList) {
+                            for (RSSElement re: RSSList) {
                                 DateTime dateTime = getDateTime(re.pubdate);
                                 if (dateTime.isAfter(new DateMidnight())) {
                                     filteredRSSList.add(re);
                                 }
                             }
                         } else if (menuItem.getItemId() == R.id.filterThisWeek) {
-                            tempRSSList = RSSList;
-                            for (RSSElement re: tempRSSList) {
+                            for (RSSElement re: RSSList) {
                                 DateTime dateTime = getDateTime(re.pubdate);
                                 if (dateTime.isAfter(new DateTime().minusDays(7))) {
                                     filteredRSSList.add(re);
@@ -145,20 +175,11 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                                             filteredRSSList.add(re);
                                         }
                                     }
-
-                                    LinearLayout layout = findViewById(R.id.linearLayout);
-                                    layout.removeAllViews();
-                                    putFilteredLayout pfl = new putFilteredLayout();
-                                    pfl.execute(url);
+                                    refreshFilteredLayout();
                                 }
                             };
                         }
-
-                        LinearLayout layout = findViewById(R.id.linearLayout);
-                        layout.removeAllViews();
-                        putFilteredLayout pfl = new putFilteredLayout();
-                        pfl.execute(url);
-
+                        refreshFilteredLayout();
                         return true;
                     }
                 });
@@ -166,6 +187,13 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                 sortMenu.show();
             }
         });
+    }
+
+    public void refreshFilteredLayout() {
+        LinearLayout layout = findViewById(R.id.linearLayout);
+        layout.removeAllViews();
+        putFilteredLayout pfl = new putFilteredLayout();
+        pfl.execute();
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -182,7 +210,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Must define inside button, because this class is static
+            // Must define inside UI Activity, because this class is static
         }
     }
 
@@ -218,39 +246,43 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         return formattedDateString;
     }
 
+
+
+    public void setLinearLayout(ArrayList<RSSElement> list) {
+        for (int i = 0; i < list.size(); i++) {
+            String formattedDate = formatDateTime(getDateTime(list.get(i).pubdate));
+            LinearLayout layout = findViewById(R.id.linearLayout);
+            Button new_button = new Button(getApplicationContext());
+            int number = i + 1;
+            final String newsTitle = list.get(i).title;
+            new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n"+list.get(i).category);
+            new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
+            new_button.setX(0);
+            new_button.setY(0);
+            new_button.setAllCaps(false);
+            new_button.setTag(list.get(i).link);
+            new_button.setBackgroundColor(Color.WHITE);
+            new_button.setFadingEdgeLength(10);
+            new_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
+                    intent.putExtra("url", v.getTag().toString());
+                    intent.putExtra("title", newsTitle);
+                    startActivity(intent);
+                }
+            });
+            new_button.setGravity(0);//Text to the left
+            layout.addView(new_button);
+        }
+    }
+
     public class putFilteredLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
-
             runOnUiThread(new Runnable() {
                 public void run() {
-                    for (int i = 0; i < filteredRSSList.size(); i++) {
-                        String formattedDate = formatDateTime(getDateTime(RSSList.get(i).pubdate));
-                        LinearLayout layout = findViewById(R.id.linearLayout);
-                        Button new_button = new Button(getApplicationContext());
-                        int number = i + 1;
-                        final String newsTitle = filteredRSSList.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n"+filteredRSSList.get(i).category);
-                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
-                        new_button.setX(0);
-                        new_button.setY(0);
-                        new_button.setAllCaps(false);
-                        new_button.setTag(filteredRSSList.get(i).link);
-                        new_button.setBackgroundColor(Color.WHITE);
-                        new_button.setFadingEdgeLength(10);
-                        new_button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
-                                intent.putExtra("url", v.getTag().toString());
-                                intent.putExtra("title", newsTitle);
-                                startActivity(intent);
-                            }
-                        });
-                        new_button.setGravity(0);//Text to the left
-                        layout.addView(new_button);
-
-                    }
+                    setLinearLayout(filteredRSSList);
                 }
             });
             return null;
@@ -265,39 +297,11 @@ public class RSSFeedShowActivity extends AppCompatActivity {
 
             runOnUiThread(new Runnable() {
                 public void run() {
-                    for (int i = 0; i < RSSList.size(); i++) {
-                        String formattedDate = formatDateTime(getDateTime(RSSList.get(i).pubdate));
-                        LinearLayout layout = findViewById(R.id.linearLayout);
-                        Button new_button = new Button(getApplicationContext());
-                        int number = i + 1;
-                        final String newsTitle = RSSList.get(i).title;
-                        new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n"+RSSList.get(i).category);
-                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
-                        new_button.setX(0);
-                        new_button.setY(0);
-                        new_button.setAllCaps(false);
-                        new_button.setTag(RSSList.get(i).link);
-                        new_button.setBackgroundColor(Color.WHITE);
-                        new_button.setFadingEdgeLength(10);
-                        new_button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
-                                intent.putExtra("url", v.getTag().toString());
-                                intent.putExtra("title", newsTitle);
-                                startActivity(intent);
-                            }
-                        });
-                        new_button.setGravity(0);//Text to the left
-                        layout.addView(new_button);
-
-                    }
+                    setLinearLayout(RSSList);
                 }
             });
             return null;
         }
-
-
     }
 
     public void openFavourites(View v) {
