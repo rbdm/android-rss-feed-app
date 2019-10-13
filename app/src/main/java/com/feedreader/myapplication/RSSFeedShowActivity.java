@@ -226,7 +226,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
 
     public void setLinearLayout(ArrayList<RSSElement> list) {
         for (int i = 0; i < list.size(); i++) {
-            String formattedDate = formatDateTime(getDateTime(list.get(i).pubdate));
+            final String formattedDate = formatDateTime(getDateTime(list.get(i).pubdate));
             LinearLayout layout = findViewById(R.id.linearLayout);
             Button new_button = new Button(getApplicationContext());
             int number = i + 1;
@@ -245,6 +245,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                     intent.putExtra("url", v.getTag().toString());
                     intent.putExtra("title", newsTitle);
+                    intent.putExtra("date",formattedDate);
                     startActivity(intent);
                 }
             });

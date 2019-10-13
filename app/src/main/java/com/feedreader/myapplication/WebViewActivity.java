@@ -36,6 +36,8 @@ public class WebViewActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     String url;
+    String title;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.web_view);
         final Intent intent = getIntent();
         url = intent.getStringExtra("url");
+        title=intent.getStringExtra("title");
+        date=intent.getStringExtra("date");
         WebView browser = findViewById(R.id.webView);
         browser.loadUrl(url);
         WebSettings webSettings = browser.getSettings();
