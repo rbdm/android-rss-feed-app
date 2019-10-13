@@ -52,11 +52,9 @@ import java.util.TimeZone;
 
 public class RSSFeedShowActivity extends AppCompatActivity {
     ArrayList<RSSElement> RSSList = new ArrayList<>();
-    ArrayList<RSSElement> tempRSSList = new ArrayList<>();
     ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
     ArrayList<String> categoryList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
-    Button buttonHome;
     ImageButton imageButtonSort, imageButtonSearch;
     String url;
 
@@ -112,11 +110,11 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                 builder.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String searchTerm = et.getText().toString().toLowerCase();
+                        String searchTerm = et.getText().toString().toLowerCase().trim();
                         for (RSSElement re: RSSList) {
-                            String newsTitle = re.title.toLowerCase();
+                            String newsTitle = re.title.toLowerCase().trim();
                             String newsCategory = "";
-                            if (re.category != null) newsCategory = re.category.toLowerCase();
+                            if (re.category != null) newsCategory = re.category.toLowerCase().trim();
                             if (newsTitle.contains(searchTerm) || newsCategory.contains(searchTerm)) {
                                 filteredRSSList.add(re);
                             }
@@ -166,10 +164,8 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                             newFragment.show(getFragmentManager(), "datePicker");
                             ((DatePickerFragment) newFragment).dateSetListener = new DatePickerDialog.OnDateSetListener() {
                                 public void onDateSet(DatePicker view, int year, int month, int day) {
-                                    tempRSSList = RSSList;
                                     DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
-
-                                    for (RSSElement re: tempRSSList) {
+                                    for (RSSElement re: RSSList) {
                                         DateTime dateTime = getDateTime(re.pubdate);
                                         if (dateTime.isAfter(selectedDate) && dateTime.isBefore(selectedDate.plusDays(1))) {
                                             filteredRSSList.add(re);
@@ -224,18 +220,15 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         for (int i=1; i<dateTime.length; i++) {
             dateTimeUpdate += " " + dateTime[i];
         }
-
-        DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss z");
-
+        DateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss z");
         DateTime result = new DateTime();
         try {
-            Date date = df.parse(dateTimeUpdate);
+            Date date = sdf.parse(dateTimeUpdate);
             DateTime resultSucceed = new DateTime(date);
             return resultSucceed;
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println(dateTimeUpdate);
             return null;
         }
     }
