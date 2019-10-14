@@ -1,11 +1,16 @@
 package com.feedreader.myapplication;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +20,27 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
 import com.feedreader.myapplication.tools.RSSFeedParser;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /* *
  * Author: Mingzhen Ao
@@ -28,6 +48,8 @@ import java.util.ArrayList;
  */
 public class AddSitesShowActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
+    String filePath;
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +57,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.addsite_layout);
         checkBox();
-
     }
 
     /* *
@@ -47,6 +68,11 @@ public class AddSitesShowActivity extends AppCompatActivity {
     public void checkBox() {
         LinearLayout layout = findViewById(R.id.linearLayout3);
         final MyApplication app = (MyApplication) getApplication();
+
+        filePath = Environment.getExternalStorageDirectory().getPath(); // AddSitesShowActivity.this.getApplicationContext().getFilesDir().getPath().toString();
+        // Save it to the specified file.
+        file = new File(filePath + "/isCheckedList.xml");
+
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
             if (app.getCheckBoxList().get(i).getParent() != null)
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
@@ -56,8 +82,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
                     CheckBox checkBox = (CheckBox) view;
                     if (checkBox.getTag().toString() != null) {
                         if (checkBox.isChecked()) {
-                            putLayout putlayout = new putLayout();
-                            putlayout.execute(view.getTag().toString());
+                            //putLayout putlayout = new putLayout();
+                            //putlayout.execute(view.getTag().toString());
                         } else {
                             for (int j = 0; j < app.getLayoutList().size(); j++) {
                                 if (app.getLayoutList().get(j).getTag().equals(view.getTag().toString())) {
@@ -66,11 +92,68 @@ public class AddSitesShowActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    saveCheckBoxList(file);
+                    System.out.println(filePath + "/isCheckedList.xml");
                 }
             });
                 layout.addView(app.getCheckBoxList().get(i));
         }
     }
+
+    public void saveCheckBoxList(File file) {
+        ArrayList<Boolean> isCheckedList = new ArrayList<>();
+        final MyApplication app = (MyApplication) getApplication();
+
+        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
+            CheckBox checkBox = app.getCheckBoxList().get(i);
+            if (checkBox.getParent() != null) {
+                if (checkBox.isChecked()) {
+                    isCheckedList.add(true);
+                } else {
+                    isCheckedList.add(false);
+                }
+            } else {
+                System.out.println("fuckyeah baby");
+                throw new IllegalArgumentException();
+            }
+        }
+
+        try {
+            Document dom;
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            dom=db.newDocument();
+
+            Element isCheckedListElement = dom.createElement("isCheckedList");
+
+            for (int i=0;i<isCheckedList.size();i++) {
+                Element isCheckedElement = dom.createElement("isChecked");
+
+                Element value = dom.createElement("value");
+                value.appendChild(dom.createTextNode(isCheckedList.get(i).toString()));
+                isCheckedElement.appendChild(value);
+
+                isCheckedListElement.appendChild(isCheckedElement);
+            }
+            for(Boolean b: isCheckedList) {
+                System.out.println(isCheckedList.toString());
+            }
+
+            System.out.println(isCheckedListElement.toString());
+
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            DOMSource ds = new DOMSource(isCheckedListElement);
+            StreamResult sr = new StreamResult(file);
+
+            t.transform(ds, sr);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     /* *
      * Author: Mingzhen Ao
@@ -127,6 +210,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
      * This function aims to check if there is a right xml url or not,
      * if it's right ,added it, if not, show not valid.
      */
+
     class Check extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -185,6 +269,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
      * Author: Mingzhen Ao
      * This function aims to save corresponding rss feeds to Myapplication
      */
+
+    /*
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -226,4 +312,5 @@ public class AddSitesShowActivity extends AppCompatActivity {
             return null;
         }
     }
+    */
 }
