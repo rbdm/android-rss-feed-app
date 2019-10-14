@@ -14,6 +14,7 @@ import com.feedreader.myapplication.R;
  * This class sets a self-defined SlideLayout style for ListView
  */
 public class SlideLayout extends FrameLayout {
+
     private View contentView;
     private View menuView;
 
@@ -21,6 +22,10 @@ public class SlideLayout extends FrameLayout {
     private int contentWidth;
     private int menuWidth;
 
+    private float startX;
+    private float startY;
+    private float downX;
+    private float downY;
 
     private Scroller scroller;
 
@@ -56,12 +61,6 @@ public class SlideLayout extends FrameLayout {
     }
 
 
-    private float startX;
-    private float startY;
-
-    private float downX;
-    private float downY;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -79,6 +78,7 @@ public class SlideLayout extends FrameLayout {
                 //Compute the offset
                 float distanceX = endX - startX;
                 int toScrollX = (int) (getScrollX() - distanceX);
+
                 //Remove illegal value
                 if (toScrollX < 0) {
                     toScrollX = 0;
@@ -86,7 +86,6 @@ public class SlideLayout extends FrameLayout {
                 if (toScrollX > menuWidth) {
                     toScrollX = menuWidth;
                 }
-                System.out.println("toScroll-->" + toScrollX + "-->" + getScrollX());
                 scrollTo(toScrollX, getScrollY());
 
                 startX = event.getX();
@@ -94,7 +93,6 @@ public class SlideLayout extends FrameLayout {
                 float dx = Math.abs(event.getX() - downX);
                 float dy = Math.abs(event.getY() - downY);
                 if (dx > dy && dx > 6) {
-                    //Event anti-interception. It causes the events of the parent ListView to be passed to its own SlideLayout
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
                 break;
@@ -174,7 +172,9 @@ public class SlideLayout extends FrameLayout {
 
     public interface OnStateChangeListener {
         void onOpen(SlideLayout slideLayout);
+
         void onMove(SlideLayout slideLayout);
+
         void onClose(SlideLayout slideLayout);
     }
 

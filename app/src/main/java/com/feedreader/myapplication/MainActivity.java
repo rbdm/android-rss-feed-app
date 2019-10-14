@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.feedreader.myapplication.data.MyApplication;
@@ -47,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* * Author: Mingzhen Ao
+    /* *
+     * Author: Mingzhen Ao
      * if click favourite button, go to favouritesactivity
      */
     public void goToFavorite(View view) {
@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.startActivity(intent);
     }
 
-    /* * Author: Mingzhen Ao
+    /* *
+     * Author: Mingzhen Ao
      * if click add button, go to addSitesShowActivity
      */
     public void goToAddLayout(View view) {
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.refresh_menu, menu);
         return true;
     }

@@ -28,22 +28,22 @@ public class FavouritesAdapter extends BaseAdapter {
 
 
     private Context content;
-    private ArrayList<News> data;
+    private ArrayList<News> NewsList;
 
 
     public FavouritesAdapter(Context context, ArrayList<News> data) {
         this.content = context;
-        this.data = data;
+        this.NewsList = data;
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        return NewsList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return NewsList.get(position);
     }
 
     @Override
@@ -65,8 +65,8 @@ public class FavouritesAdapter extends BaseAdapter {
         }
 
 
-        viewHolder.contentView.setText(data.get(position).getTitle() + "\r\n" + data.get(position).getDate());//Use the collected news title and date as the news to display on each line
-        viewHolder.contentView.setTag(data.get(position).getUrl());// Set Url of news to be redirected
+        viewHolder.contentView.setText(NewsList.get(position).getTitle() + "\r\n" + NewsList.get(position).getDate());//Use the collected news title and date as the news to display on each line
+        viewHolder.contentView.setTag(NewsList.get(position).getUrl());// Set Url of news to be redirected
         viewHolder.contentView.setGravity(Gravity.LEFT);//Text to the left（horizontally）
         viewHolder.contentView.setGravity(Gravity.CENTER_VERTICAL); //Text to the Center Vertical
 
@@ -77,17 +77,16 @@ public class FavouritesAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                 intent.putExtra("url", v.getTag().toString());
-                System.out.println();
                 startActivity(FavouritesAdapter.this.content, intent, null);
             }
         });
 
         //Delete
-        final News news = data.get(position);
+        final News news = NewsList.get(position);
         viewHolder.menuView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.remove(news);
+                NewsList.remove(news);
                 notifyDataSetChanged();
             }
         });
