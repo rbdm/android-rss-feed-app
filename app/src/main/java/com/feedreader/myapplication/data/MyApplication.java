@@ -16,7 +16,7 @@ public class MyApplication extends Application implements Serializable {
 
     //Provide initial values for all global variables
     private static final ArrayList<LinearLayout> LAYOUTLIST = new ArrayList<>();
-    private static final ArrayList<News> MYDATA = new ArrayList<>();
+    private static final ArrayList<News> NEWSLIST = new ArrayList<>();
     private static final News NEWS = new News("", "", "");
     private static final ArrayList<CheckBox> CHECKBOXLIST = new ArrayList<>();
 
