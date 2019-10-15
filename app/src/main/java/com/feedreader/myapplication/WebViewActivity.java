@@ -213,7 +213,7 @@ public class WebViewActivity extends AppCompatActivity {
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WebViewActivity.this, AddSitesShowActivity.class);
+                Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
                 WebViewActivity.this.startActivity(intent);
             }
         });

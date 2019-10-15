@@ -83,7 +83,6 @@ public class MyApplication extends Application implements Serializable {
         CheckBox checkBox = new CheckBox(this);
         checkBox.setText(text);
         checkBox.setTextColor(Color.WHITE);
-        checkBox.setY(positionY);
         checkBox.setTag(tag);
         checkBoxList.add(checkBox);
     }

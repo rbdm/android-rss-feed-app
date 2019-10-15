@@ -1,27 +1,25 @@
 package com.feedreader.myapplication;
 
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
+
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
+
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
@@ -29,78 +27,265 @@ import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+/* *
+ * Author: Mingzhen Ao
+ * This class aims to show the websites that contains the rss feeds
+ */
 public class MainActivity extends AppCompatActivity {
-    //String filePath;
-    //File file;
-    private int permissionCode;
-    private int[] permissionReceived;
-
     ArrayList<RSSElement> a = new ArrayList<>();
-
-    String filePath = Environment.getExternalStorageDirectory().getPath();
-    File checkBoxFile = new File(filePath + "/isCheckedList.xml");
-    File newsListFile = new File(filePath + "/newsList.xml");
+    String filePath;
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-        ActivityCompat.requestPermissions(this, new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        }, permissionCode);
-        onRequestPermissionsResult(permissionCode, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReceived);
-
-        loadCheckBoxList(checkBoxFile);
-        loadNewsList(newsListFile);
-
         setContentView(R.layout.activity);
-        addButtonToLayout();
+        checkBox();
+    }
+
+    /* *
+     * Author: Mingzhen Ao
+     * This class aims to add the clicklistener, if click the checkbox, then check checkbox status,if it's checked,
+     * add feeds to Myapplication,
+     * if it's not checked, delete the feeds belong to this xml url
+     */
+    public void checkBox() {
+        LinearLayout layout = findViewById(R.id.linearLayout3);
+        final MyApplication app = (MyApplication) getApplication();
+        filePath = Environment.getExternalStorageDirectory().getPath(); // AddSitesShowActivity.this.getApplicationContext().getFilesDir().getPath().toString();
+        // Save it to the specified file.
+        file = new File(filePath + "/isCheckedList.xml");
+
+        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
+            if (app.getCheckBoxList().get(i).getParent() != null)
+                ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
+            Button corresponding_button = createButton(app.getCheckBoxList().get(i));
+            corresponding_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
+                    intent.putExtra("url", view.getTag().toString());
+                    startActivity(intent);
+                }
+            });
+            app.getCheckBoxList().get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckBox checkBox = (CheckBox) view;
+                    if (checkBox.getTag().toString() != null) {
+                        if (checkBox.isChecked()) {
+                            //putLayout putlayout = new putLayout();
+                            //putlayout.execute(view.getTag().toString());
+                        } else {
+                            for (int j = 0; j < app.getLayoutList().size(); j++) {
+                                if (app.getLayoutList().get(j).getTag().equals(view.getTag().toString())) {
+                                    app.getLayoutList().remove(j);
+                                }
+                            }
+                        }
+                    }
+                    saveCheckBoxList(file);
+                    System.out.println(filePath + "/isCheckedList.xml");
+                }
+            });
+
+            layout.addView(corresponding_button);
+            layout.addView(app.getCheckBoxList().get(i));
+        }
+    }
+
+    public void saveCheckBoxList(File file) {
+        ArrayList<Boolean> isCheckedList = new ArrayList<>();
+        final MyApplication app = (MyApplication) getApplication();
+
+        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
+            CheckBox checkBox = app.getCheckBoxList().get(i);
+            if (checkBox.getParent() != null) {
+                if (checkBox.isChecked()) {
+                    isCheckedList.add(true);
+                } else {
+                    isCheckedList.add(false);
+                }
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
+
+        try {
+            Document dom;
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            dom = db.newDocument();
+
+            Element isCheckedListElement = dom.createElement("isCheckedList");
+
+            for (int i = 0; i < isCheckedList.size(); i++) {
+                Element isCheckedElement = dom.createElement("isChecked");
+
+                Element value = dom.createElement("value");
+                value.appendChild(dom.createTextNode(isCheckedList.get(i).toString()));
+                isCheckedElement.appendChild(value);
+
+                isCheckedListElement.appendChild(isCheckedElement);
+            }
+            for (Boolean b : isCheckedList) {
+                System.out.println(isCheckedList.toString());
+            }
+
+            System.out.println(isCheckedListElement.toString());
+
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            DOMSource ds = new DOMSource(isCheckedListElement);
+            StreamResult sr = new StreamResult(file);
+
+            t.transform(ds, sr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void gotochoosedfeed(View view)
+    {
+        Intent intent = new Intent(this, choosedfeedActivity.class);
+        startActivity(intent);
+
+    }    /* *
+     * Author: Mingzhen Ao
+     * When click on the home button, go to mainActivity
+     */
+
+    public void goBackToHome(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    /* *
+     * Author: Mingzhen Ao
+     * When click on the favourite button, go to FavouritesActivity
+     */
+    public void goToFavourite(View view) {
+        Intent intent = new Intent(this, FavouritesActivity.class);
+        this.startActivity(intent);
     }
 
     /* * Author: Mingzhen Ao
-     * add button to the layout
+     * This function aims to add site if the site is right xml url
      */
-    public void addButtonToLayout() {
-        LinearLayout layout = findViewById(R.id.LinearLayout);
+    public void addSite(View v) {
+        EditText url_text = findViewById(R.id.editText1);
+        String url = "http://" + url_text.getText().toString();
+        Check checkurl = new Check();
+        checkurl.execute(url);
+    }
+
+    /* * Author: Mingzhen Ao
+     * This function aims to delete the exact site if the site is right xml url
+     */
+    public void Delete(View v) {
+        EditText tag_text = findViewById(R.id.editText);
+        String tag = "http://" + tag_text.getText().toString();
         MyApplication app = (MyApplication) getApplication();
-
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
-            System.out.println(app.getCheckBoxList().get(i).isChecked());
-
-            CheckBox checkBox = app.getCheckBoxList().get(i);
-            if (checkBox.getTag().toString() != null) {
-                if (checkBox.isChecked()) {
-                    MainActivity.putLayout putlayout = new MainActivity.putLayout();
-                    putlayout.execute(checkBox.getTag().toString());
-                }
+            if (app.getCheckBoxList().get(i).getTag().equals(tag)) {
+                app.getCheckBoxList().remove(i);
+                break;
             }
         }
+        LinearLayout layout = findViewById(R.id.linearLayout3);
+        layout.removeAllViews();
+        checkBox();
+    }
 
-        if (app.getLayoutList() != null) {
-            for (int i = 0; i < app.getLayoutList().size(); i++) {
-                int count = app.getLayoutList().get(i).getChildCount();
-                for (int j = 0; j < count; j++) {
-                    Button child = (Button) app.getLayoutList().get(i).getChildAt(j);
-                    if (child != null && child.getParent() != null) {
-                        ((ViewGroup) child.getParent()).removeView(child);
-                        layout.addView(child);
+    /* * Author: Mingzhen Ao
+     * When click the web button, will transfer to rssfeedshow activity
+     */
+
+
+    /* * Author: Mingzhen Ao
+     * This function aims to check if there is a right xml url or not,
+     * if it's right ,added it, if not, show not valid.
+     */
+
+    class Check extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            final String url = args[0];
+            RSSFeedParser parser = new RSSFeedParser();
+            final ArrayList<RSSElement> a = parser.getRSSfeedFromUrl(url);
+            if (a != null)
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        MyApplication app = (MyApplication) getApplication();
+                        CheckBox checkBox = new CheckBox(getApplicationContext());
+                        checkBox.setText(url);
+                        checkBox.setTextColor(Color.WHITE);
+                        checkBox.setTag(url);
+                        checkBox.setChecked(false);
+                        app.getCheckBoxList().add(checkBox);
+                        LinearLayout layout = findViewById(R.id.linearLayout3);
+                        layout.removeAllViews();
+                        checkBox();
                     }
-                }
-            }
+                });
+            else {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        ConstraintLayout layout = findViewById(R.id.layout);
+                        TextView reminder = new Button(getApplicationContext());
+                        reminder.setText("This url is invalid" + "\r\n" +
+                                "Please press to close the window");
+                        reminder.setX(100);
+                        reminder.setY(800);
+                        reminder.setBackgroundColor(Color.WHITE);
+                        reminder.setTextColor(Color.RED);
+                        reminder.setOnClickListener(new View.OnClickListener() {
 
+                            @Override
+                            public void onClick(View v) {
+                                v.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                        layout.addView(reminder);
+                    }
+                });
+            }
+            return null;
         }
     }
 
+    public Button createButton(CheckBox checkBox) {
+        CheckBox this_box = checkBox;
+        Button button = new Button(this);
+        button.setText(this_box.getText());
+        button.setTextColor(Color.WHITE);
+        button.setY(this_box.getY());
+        button.setTag(this_box.getTag());
+        return button;
+    }
+
+
+    /* *
+     * Author: Mingzhen Ao
+     * This function aims to save corresponding rss feeds to Myapplication
+     */
+
+    /*
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -110,15 +295,11 @@ public class MainActivity extends AppCompatActivity {
             final LinearLayout layout = new LinearLayout(getApplicationContext());
             runOnUiThread(new Runnable() {
                 public void run() {
-                    int size = 10;
-                    if (a.size() < 10) {
-                        size = a.size();
-                    }
-                    for (int i = 0; i < size; i++) {
+                    for (int i = 0; i < a.size(); i++) {
                         Button new_button = new Button(getApplicationContext());
-                        //int number = i + 1;
+                        int number = i + 1;
                         final String newsTitle = a.get(i).title;
-                        new_button.setText(newsTitle + "\r\n" + a.get(i).pubDate + "\r\n");
+                        new_button.setText(number + ". " + newsTitle + "\r\n" + a.get(i).pubDate + "\r\n");
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
                         new_button.setX(0);
                         new_button.setY(0);
@@ -146,140 +327,5 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
-
-    /* * Author: Mingzhen Ao
-     * if click favourite button, go to favouritesactivity
-     */
-    public void goToFavorite(View view) {
-        Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
-        MainActivity.this.startActivity(intent);
-    }
-
-    /* * Author: Mingzhen Ao
-     * if click add button, go to addSitesShowActivity
-     */
-    public void goToAddLayout(View view) {
-        Intent intent = new Intent(MainActivity.this, AddSitesShowActivity.class);
-        MainActivity.this.startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.refresh_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void loadCheckBoxList(File file) {
-        ArrayList<Boolean> isCheckedList = new ArrayList<>();
-
-        Document dom;
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
-        try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            dom = db.parse(file);
-            NodeList isCheckedNL = dom.getElementsByTagName("isChecked");
-            System.out.println(isCheckedNL.getLength());
-
-            for (int i = 0; i < isCheckedNL.getLength(); i++) {
-                Element isCheckedElem = (Element) isCheckedNL.item(i);
-
-                String isChecked = isCheckedElem.getElementsByTagName("value").item(0).getTextContent();
-                System.out.println(isChecked);
-
-                isCheckedList.add(Boolean.parseBoolean(isChecked));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        final MyApplication app = (MyApplication) getApplication();
-        if (isCheckedList.size() > 0) {
-            if (app.getCheckBoxList() != null) {
-                for (int i = 0; i < app.getCheckBoxList().size(); i++) {
-                    if (isCheckedList.get(i)) {
-                        app.getCheckBoxList().get(i).setChecked(true);
-                    } else {
-                        app.getCheckBoxList().get(i).setChecked(false);
-                    }
-                }
-            }
-        }
-        app.setCheckBoxList(app.getCheckBoxList());
-    }
-
-    public String getNewsSource(String s) {
-        String out = "";
-        switch (s) {
-            case "http://feeds.bbci.co.uk/news/world/rss.xml":
-                out = "BBC world news";
-                break;
-            case "http://www.abc.net.au/news/feed/51120/rss.xml":
-                out = "ABC world news";
-                break;
-            case "https://www.cnbc.com/id/100003114/device/rss/rss.html":
-                out = "CNBC topStories news";
-                break;
-            case "https://www.cbsnews.com/latest/rss/main/":
-                out = "CBS topStories news";
-                break;
-            case "http://feeds.nbcnews.com/nbcnews/public/politics":
-                out = "NBC politics news";
-                break;
-            case "http://feeds.bbci.co.uk/news/business/rss.xml":
-                out = "BBC business news";
-                break;
-            case "http://feeds.bbci.co.uk/news/technology/rss.xml":
-                out = "BBC technologynews";
-                break;
-            case "http://feeds1.nytimes.com/nyt/rss/Sports":
-                out = "New York Times Sports news";
-                break;
-            case "https://www.techworld.com/news/rss":
-                out = "Techworld news";
-                break;
-        }
-        return out;
-    }
-
-
-    public void loadNewsList(File file) {
-        final MyApplication app = (MyApplication) getApplication();
-        ArrayList<RSSElement> newsList = new ArrayList<>();
-
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document dom = db.parse(file);
-
-            NodeList newsNL = dom.getElementsByTagName("news");
-            //System.out.println(newsNode.getLength());
-
-            for (int i=0;i<newsNL.getLength();i++) {
-                Node newsNode = newsNL.item(i);
-
-                String title = newsNode.getAttributes().getNamedItem("title").getTextContent();
-                String link = newsNode.getAttributes().getNamedItem("link").getTextContent();
-                String pubdate = newsNode.getAttributes().getNamedItem("pubdate").getTextContent();
-
-                newsList.add(new RSSElement(title, link, pubdate));
-            }
-            app.setRSSElementList(newsList);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    */
 }
