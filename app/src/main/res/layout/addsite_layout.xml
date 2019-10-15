@@ -8,6 +8,8 @@
     tools:layout_editor_absoluteY="81dp">
 
 
+    <!--    author: Yusen Wei-->
+    <!--    buttons and textfield to add a site and delete a site-->
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -56,7 +58,9 @@
         app:layout_constraintStart_toEndOf="@+id/button"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <!--    author: Yusen Wei-->
+    <!--    the view to put the scrollable sites and all the site are inserted in the inside -->
+    <!--    linear layout by the checkbox function  -->
     <ScrollView
         android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
@@ -83,6 +87,8 @@
             app:layout_constraintVertical_bias="0.741"></LinearLayout>
     </ScrollView>
 
+    <!--    author: Yusen Wei-->
+    <!--    these linear layout group generate the menu bar-->
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="408dp"

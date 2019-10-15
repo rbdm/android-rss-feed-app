@@ -27,6 +27,8 @@
             app:layout_constraintTop_toTopOf="parent"></LinearLayout>
     </ScrollView>
 
+    <!--    author: Yusen Wei-->
+    <!--    these linear layout group generate the menu bar-->
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="408dp"
