@@ -96,7 +96,7 @@ public class WebViewActivity extends AppCompatActivity {
         buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 PopupMenu popupMenu = new PopupMenu(WebViewActivity.this, buttonShare);
                 popupMenu.getMenuInflater().inflate(R.menu.share_menu, popupMenu.getMenu());
 
