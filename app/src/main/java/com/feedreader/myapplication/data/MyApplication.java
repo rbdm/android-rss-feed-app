@@ -2,6 +2,7 @@ package com.feedreader.myapplication.data;
 
 import android.app.Application;
 import android.graphics.Color;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 

@@ -1,6 +1,7 @@
 package com.feedreader.myapplication;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
@@ -28,10 +30,9 @@ import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
     public void checkBox() {
         LinearLayout layout = findViewById(R.id.linearLayout3);
         final MyApplication app = (MyApplication) getApplication();
-
         filePath = Environment.getExternalStorageDirectory().getPath(); // AddSitesShowActivity.this.getApplicationContext().getFilesDir().getPath().toString();
         // Save it to the specified file.
         file = new File(filePath + "/isCheckedList.xml");
@@ -76,6 +76,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
             if (app.getCheckBoxList().get(i).getParent() != null)
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
+                 Button corresponding_button=createButton(app.getCheckBoxList().get(i));
             app.getCheckBoxList().get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -96,7 +97,11 @@ public class AddSitesShowActivity extends AppCompatActivity {
                     System.out.println(filePath + "/isCheckedList.xml");
                 }
             });
-                layout.addView(app.getCheckBoxList().get(i));
+            LinearLayout this_layout=new LinearLayout(this);
+            this_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+            this_layout.addView(corresponding_button);
+            this_layout.addView(app.getCheckBoxList().get(i));
+            layout.addView(this_layout);
         }
     }
 
@@ -113,7 +118,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
                     isCheckedList.add(false);
                 }
             } else {
-                System.out.println("fuckyeah baby");
                 throw new IllegalArgumentException();
             }
         }
@@ -122,11 +126,11 @@ public class AddSitesShowActivity extends AppCompatActivity {
             Document dom;
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            dom=db.newDocument();
+            dom = db.newDocument();
 
             Element isCheckedListElement = dom.createElement("isCheckedList");
 
-            for (int i=0;i<isCheckedList.size();i++) {
+            for (int i = 0; i < isCheckedList.size(); i++) {
                 Element isCheckedElement = dom.createElement("isChecked");
 
                 Element value = dom.createElement("value");
@@ -135,7 +139,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
                 isCheckedListElement.appendChild(isCheckedElement);
             }
-            for(Boolean b: isCheckedList) {
+            for (Boolean b : isCheckedList) {
                 System.out.println(isCheckedList.toString());
             }
 
@@ -147,8 +151,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
             t.transform(ds, sr);
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -180,6 +183,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
     public void addSite(View v) {
         EditText url_text = findViewById(R.id.editText1);
         String url = "http://" + url_text.getText().toString();
+
         Check checkurl = new Check();
         checkurl.execute(url);
     }
@@ -221,12 +225,18 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         ConstraintLayout layout = findViewById(R.id.layout);
+                        LinearLayout layout3 = findViewById(R.id.linearLayout3);
                         Button new_button = new Button(getApplicationContext());
                         new_button.setText(url);
                         new_button.setTag(url);
-                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1500, 200));
+                        new_button.setLayoutParams(new ViewGroup.LayoutParams(800, 200));
                         new_button.setX(0);
-                        new_button.setY(1100);
+                        new_button.setY(1900);
+                        CheckBox checkBox = new CheckBox(getApplicationContext());
+                        checkBox.setText(url);
+                        checkBox.setTextColor(Color.WHITE);
+                        checkBox.setTag(url);
+                        checkBox.setY(250);
                         new_button.setAllCaps(false);
                         new_button.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -237,6 +247,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                             }
                         });
                         layout.addView(new_button);
+                        layout3.addView(checkBox);
                     }
                 });
             else {
@@ -264,6 +275,17 @@ public class AddSitesShowActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    public Button createButton(CheckBox checkBox) {
+        CheckBox this_box = checkBox;
+        Button button = new Button(this);
+        button.setText(this_box.getText());
+        button.setTextColor(Color.WHITE);
+        button.setY(this_box.getY());
+        button.setTag(this_box.getTag());
+        return button;
+    }
+
 
     /* *
      * Author: Mingzhen Ao
