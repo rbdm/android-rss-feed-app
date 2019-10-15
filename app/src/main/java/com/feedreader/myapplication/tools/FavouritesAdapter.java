@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.feedreader.myapplication.R;
 import com.feedreader.myapplication.WebViewActivity;
-import com.feedreader.myapplication.data.News;
+import com.feedreader.myapplication.data.RSSElement;
 
 import java.util.ArrayList;
 
@@ -28,28 +28,32 @@ public class FavouritesAdapter extends BaseAdapter {
 
 
     private Context content;
-    private ArrayList<News> NewsList;
+    private ArrayList<RSSElement> RSSElementList;
 
 
-    public FavouritesAdapter(Context context, ArrayList<News> data) {
+    public FavouritesAdapter(Context context, ArrayList<RSSElement> rssElementList) {
         this.content = context;
-        this.NewsList = data;
+        this.RSSElementList = rssElementList;
     }
+
 
     @Override
     public int getCount() {
-        return NewsList.size();
+        return RSSElementList.size();
     }
+
 
     @Override
     public Object getItem(int position) {
-        return NewsList.get(position);
+        return RSSElementList.get(position);
     }
+
 
     @Override
     public long getItemId(int position) {
         return position;
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,8 +69,8 @@ public class FavouritesAdapter extends BaseAdapter {
         }
 
 
-        viewHolder.contentView.setText(NewsList.get(position).getTitle() + "\r\n" + NewsList.get(position).getDate());//Use the collected news title and date as the news to display on each line
-        viewHolder.contentView.setTag(NewsList.get(position).getUrl());// Set Url of news to be redirected
+        viewHolder.contentView.setText(RSSElementList.get(position).getTitle() + "\r\n" + RSSElementList.get(position).getPubDate());//Use the collected news title and date as the news to display on each line
+        viewHolder.contentView.setTag(RSSElementList.get(position).getLink());// Set Url of news to be redirected
         viewHolder.contentView.setGravity(Gravity.LEFT);//Text to the left（horizontally）
         viewHolder.contentView.setGravity(Gravity.CENTER_VERTICAL); //Text to the Center Vertical
 
@@ -81,15 +85,17 @@ public class FavouritesAdapter extends BaseAdapter {
             }
         });
 
+
         //Delete
-        final News news = NewsList.get(position);
+        final RSSElement rssElement = RSSElementList.get(position);
         viewHolder.menuView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewsList.remove(news);
+                RSSElementList.remove(rssElement);
                 notifyDataSetChanged();
             }
         });
+
 
         SlideLayout slideLayout = (SlideLayout) convertView;
         slideLayout.setOnStateChangeListener(new MyOnStateChangeListener());

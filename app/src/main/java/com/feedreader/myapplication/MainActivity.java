@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        ActivityCompat.requestPermissions(this, new String[] {
+        ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         }, permissionCode);
-        onRequestPermissionsResult(permissionCode,new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReceived);
+        onRequestPermissionsResult(permissionCode, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReceived);
 
         loadCheckBoxList(checkBoxFile);
         loadNewsList(newsListFile);
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             NodeList isCheckedNL = dom.getElementsByTagName("isChecked");
             System.out.println(isCheckedNL.getLength());
 
-            for (int i=0;i<isCheckedNL.getLength();i++) {
+            for (int i = 0; i < isCheckedNL.getLength(); i++) {
                 Element isCheckedElem = (Element) isCheckedNL.item(i);
 
                 String isChecked = isCheckedElem.getElementsByTagName("value").item(0).getTextContent();
@@ -201,8 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
                 isCheckedList.add(Boolean.parseBoolean(isChecked));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -223,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String getNewsSource(String s) {
         String out = "";
-        switch(s) {
+        switch (s) {
             case "http://feeds.bbci.co.uk/news/world/rss.xml":
                 out = "BBC world news";
                 break;

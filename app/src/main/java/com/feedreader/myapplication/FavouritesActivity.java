@@ -18,7 +18,6 @@ import com.feedreader.myapplication.tools.RSSFeedParser;
  * This class is the Activity for Favourites
  */
 public class FavouritesActivity extends AppCompatActivity {
-    RSSFeedParser parser = new RSSFeedParser();
     private FavouritesAdapter adapter;
 
     @Override
@@ -47,7 +46,7 @@ public class FavouritesActivity extends AppCompatActivity {
 
 
         MyApplication app = (MyApplication) getApplication();
-        adapter = new FavouritesAdapter(this, app.getNewsList());
+        adapter = new FavouritesAdapter(this, app.getRSSElementList());
         ListView listView = findViewById(R.id.list);
         listView.setAdapter(adapter);
 
