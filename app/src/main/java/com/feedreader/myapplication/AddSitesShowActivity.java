@@ -105,11 +105,9 @@ public class AddSitesShowActivity extends AppCompatActivity {
                     System.out.println(filePath + "/isCheckedList.xml");
                 }
             });
-            LinearLayout this_layout = new LinearLayout(this);
-            this_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            this_layout.addView(corresponding_button);
-            this_layout.addView(app.getCheckBoxList().get(i));
-            layout.addView(this_layout);
+
+            layout.addView(corresponding_button);
+            layout.addView(app.getCheckBoxList().get(i));
         }
     }
 
@@ -199,13 +197,17 @@ public class AddSitesShowActivity extends AppCompatActivity {
      * This function aims to delete the exact site if the site is right xml url
      */
     public void Delete(View v) {
-        ConstraintLayout layout = findViewById(R.id.layout);
         EditText tag_text = findViewById(R.id.editText);
         String tag = "http://" + tag_text.getText().toString();
-        if (layout.findViewWithTag(tag) != null) {
-            View c = layout.findViewWithTag(tag);
-            layout.removeView(c);
+        MyApplication app = (MyApplication) getApplication();
+        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
+            if (app.getCheckBoxList().get(i).getTag().equals(tag))
+            {app.getCheckBoxList().remove(i);
+            break;}
         }
+        LinearLayout layout = findViewById(R.id.linearLayout3);
+        layout.removeAllViews();
+        checkBox();
     }
 
     /* * Author: Mingzhen Ao
@@ -234,6 +236,9 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         checkBox.setTag(url);
                         checkBox.setChecked(false);
                         app.getCheckBoxList().add(checkBox);
+                        LinearLayout layout = findViewById(R.id.linearLayout3);
+                        layout.removeAllViews();
+                        checkBox();
                     }
                 });
             else {
