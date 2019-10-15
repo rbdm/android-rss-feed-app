@@ -3,12 +3,14 @@ package com.feedreader.myapplication;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
@@ -25,7 +27,19 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -38,6 +52,8 @@ public class WebViewActivity extends AppCompatActivity {
     String url;
     String title;
     String date;
+    String filePath = Environment.getExternalStorageDirectory().getPath();
+    File newsListFile = new File(filePath + "/newsList.xml");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +202,8 @@ public class WebViewActivity extends AppCompatActivity {
                         app.getNewsList().add(app.getNews());
                     }
                 }
+
+                saveNewsList(newsListFile);
             }
         });
 
@@ -209,6 +227,56 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void saveNewsList(File file) {
+        /*
+        ArrayList<News> newsList = new ArrayList<>();
+        final MyApplication app = (MyApplication) getApplication();
+
+        for (int i = 0; i < app.getNewsList().size(); i++) {
+            News news = app.getNewsList().get(i);
+            if (news != null) {
+                newsList.add(news);
+            }
+            else {
+                System.out.println("fuckyeah baby");
+                throw new IllegalArgumentException();
+            }
+        }
+        */
+        MyApplication app = (MyApplication) getApplication();
+        ArrayList<News> newsList = app.getNewsList();
+
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document dom = db.newDocument();
+
+            Element newsListElement = dom.createElement("newsList");
+
+            for (int i=0;i<newsList.size();i++) {
+                News news = newsList.get(i);
+
+                Element newsElem = dom.createElement("news");
+
+                newsElem.setAttribute("url", news.getUrl());
+                newsElem.setAttribute("title", news.getTitle());
+                newsElem.setAttribute("date", news.getDate());
+
+                newsListElement.appendChild(newsElem);
+            }
+
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            DOMSource ds = new DOMSource(newsListElement);
+            StreamResult sr = new StreamResult(file);
+
+            t.transform(ds, sr);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
