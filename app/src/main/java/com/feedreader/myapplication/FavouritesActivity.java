@@ -39,7 +39,7 @@ public class FavouritesActivity extends AppCompatActivity {
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FavouritesActivity.this, MainActivity.class);
+                Intent intent = new Intent(FavouritesActivity.this, AddSitesShowActivity.class);
                 FavouritesActivity.this.startActivity(intent);
             }
         });

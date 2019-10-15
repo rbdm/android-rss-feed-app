@@ -269,7 +269,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
     }
 
     public void addSitePage(View v) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AddSitesShowActivity.class);
         startActivity(intent);
     }
 

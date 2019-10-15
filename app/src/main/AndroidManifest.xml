@@ -32,9 +32,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".choosedfeedActivity"
-            />
-        <activity
             android:name=".RSSFeedShowActivity"
             android:label="Feeds" />
         <activity
