@@ -17,8 +17,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.feedreader.myapplication.data.News;
 import com.feedreader.myapplication.data.MyApplication;
+import com.feedreader.myapplication.data.RSSElement;
 import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -176,14 +176,15 @@ public class WebViewActivity extends AppCompatActivity {
                 if (url != null) {
                     boolean flag = true;
 
-                    for (News news : app.getNewsList()) {
-                        if (news.getUrl().equals(url)) {
+                    for (RSSElement rss : app.getRSSElementList()) {
+                        if (rss.getLink().equals(url)) {
                             flag = false;
                         }
                     }
                     if (flag) {
-                        app.setNews(new News(url, title, date));
-                        app.getNewsList().add(app.getNews());
+                        app.setRssElement(new RSSElement(title, url, date));
+                        app.getRSSElementList().add(app.getRssElement());
+
                     }
                 }
             }
