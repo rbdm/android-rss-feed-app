@@ -17,13 +17,13 @@ public class MyApplication extends Application implements Serializable {
 
     //Provide initial values for all global variables
     private static final ArrayList<LinearLayout> LAYOUTLIST = new ArrayList<>();
-    private static final ArrayList<News> NEWSLIST = new ArrayList<>();
-    private static final News NEWS = new News("", "", "");
+    private static final ArrayList<RSSElement> RSS_ELEMENTS_lIST = new ArrayList<>();
+    private static final RSSElement RSS_ELEMENT = new RSSElement("", "", "");
     private static final ArrayList<CheckBox> CHECKBOXLIST = new ArrayList<>();
 
 
-    private ArrayList<News> newsList;
-    private News news;
+    private ArrayList<RSSElement> RSSElementList;
+    private RSSElement rssElement;
     private ArrayList<LinearLayout> layoutList;
     private ArrayList<CheckBox> checkBoxList;
 
@@ -34,20 +34,32 @@ public class MyApplication extends Application implements Serializable {
 
         //Set initial values
         setLayoutList(LAYOUTLIST);
-        setNewsList(NEWSLIST);
-        setNews(NEWS);
         setCheckBoxList(CHECKBOXLIST);
+        setRssElement(RSS_ELEMENT);
+        setRSSElementList(RSS_ELEMENTS_lIST);
 
         //Add check box
         addCheckbox();
     }
 
-    public ArrayList<News> getNewsList() {
-        return newsList;
+    public void setRSSElementList(ArrayList<RSSElement> RSSElementList) {
+        this.RSSElementList = RSSElementList;
     }
 
-    public News getNews() {
-        return news;
+    public void setRssElement(RSSElement rssElement) {
+        this.rssElement = rssElement;
+    }
+
+    public void setLayoutList(ArrayList<LinearLayout> layoutList) {
+        this.layoutList = layoutList;
+    }
+
+    public ArrayList<RSSElement> getRSSElementList() {
+        return RSSElementList;
+    }
+
+    public RSSElement getRssElement() {
+        return rssElement;
     }
 
     public ArrayList<LinearLayout> getLayoutList() {
@@ -56,18 +68,6 @@ public class MyApplication extends Application implements Serializable {
 
     public ArrayList<CheckBox> getCheckBoxList() {
         return checkBoxList;
-    }
-
-    public void setNewsList(ArrayList<News> newsList) {
-        this.newsList = newsList;
-    }
-
-    public void setNews(News news) {
-        this.news = news;
-    }
-
-    public void setLayoutList(ArrayList<LinearLayout> layoutList) {
-        this.layoutList = layoutList;
     }
 
     public void setCheckBoxList(ArrayList<CheckBox> checkBoxList) {

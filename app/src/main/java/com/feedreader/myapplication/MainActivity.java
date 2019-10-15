@@ -29,6 +29,7 @@ import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
@@ -45,21 +46,22 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<RSSElement> a = new ArrayList<>();
 
-    String filePath = Environment.getExternalStorageDirectory().getPath(); // AddSitesShowActivity.this.getApplicationContext().getFilesDir().getPath().toString();
-    // Save it to the specified file.
-    File file = new File(filePath + "/isCheckedList.xml");
+    String filePath = Environment.getExternalStorageDirectory().getPath();
+    File checkBoxFile = new File(filePath + "/isCheckedList.xml");
+    File newsListFile = new File(filePath + "/newsList.xml");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        ActivityCompat.requestPermissions(this, new String[] {
+        ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         }, permissionCode);
-        onRequestPermissionsResult(permissionCode,new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReceived);
+        onRequestPermissionsResult(permissionCode, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReceived);
 
-        loadCheckBoxList(file);
+        loadCheckBoxList(checkBoxFile);
+        loadNewsList(newsListFile);
 
         setContentView(R.layout.activity);
         addButtonToLayout();
@@ -108,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
             final LinearLayout layout = new LinearLayout(getApplicationContext());
             runOnUiThread(new Runnable() {
                 public void run() {
-                    int size = 50;
-                    if (a.size() < 50) {
+                    int size = 10;
+                    if (a.size() < 10) {
                         size = a.size();
                     }
                     for (int i = 0; i < size; i++) {
@@ -190,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             NodeList isCheckedNL = dom.getElementsByTagName("isChecked");
             System.out.println(isCheckedNL.getLength());
 
-            for (int i=0;i<isCheckedNL.getLength();i++) {
+            for (int i = 0; i < isCheckedNL.getLength(); i++) {
                 Element isCheckedElem = (Element) isCheckedNL.item(i);
 
                 String isChecked = isCheckedElem.getElementsByTagName("value").item(0).getTextContent();
@@ -198,8 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
                 isCheckedList.add(Boolean.parseBoolean(isChecked));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String getNewsSource(String s) {
         String out = "";
-        switch(s) {
+        switch (s) {
             case "http://feeds.bbci.co.uk/news/world/rss.xml":
                 out = "BBC world news";
                 break;
@@ -250,6 +251,35 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return out;
+    }
+
+
+    public void loadNewsList(File file) {
+        final MyApplication app = (MyApplication) getApplication();
+        ArrayList<RSSElement> newsList = new ArrayList<>();
+
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document dom = db.parse(file);
+
+            NodeList newsNL = dom.getElementsByTagName("news");
+            //System.out.println(newsNode.getLength());
+
+            for (int i=0;i<newsNL.getLength();i++) {
+                Node newsNode = newsNL.item(i);
+
+                String title = newsNode.getAttributes().getNamedItem("title").getTextContent();
+                String link = newsNode.getAttributes().getNamedItem("link").getTextContent();
+                String pubdate = newsNode.getAttributes().getNamedItem("pubdate").getTextContent();
+
+                newsList.add(new RSSElement(title, link, pubdate));
+            }
+            app.setRSSElementList(newsList);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
