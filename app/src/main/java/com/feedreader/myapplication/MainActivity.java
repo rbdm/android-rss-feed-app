@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private int permissionCode;
     private int[] permissionReceived;
 
-    ArrayList<RSSElement> a = new ArrayList<>();
+    ArrayList<RSSElement> RSSList = new ArrayList<>();
+    ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
+    RSSFeedParser parser = new RSSFeedParser();
 
     String filePath = Environment.getExternalStorageDirectory().getPath();
     File checkBoxFile = new File(filePath + "/isCheckedList.xml");
@@ -60,39 +62,42 @@ public class MainActivity extends AppCompatActivity {
         }, permissionCode);
         onRequestPermissionsResult(permissionCode, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReceived);
 
+        setContentView(R.layout.activity);
+
         loadCheckBoxList(checkBoxFile);
         loadNewsList(newsListFile);
 
-        setContentView(R.layout.activity);
-        test();
-        addButtonToLayout();
+        display();
     }
 
-    void test() {
+
+
+    void display() {
+        ArrayList<String> urlList = new ArrayList<>();
+
         MyApplication app = (MyApplication) getApplication();
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
             CheckBox checkBox = (CheckBox) app.getCheckBoxList().get(i);
             if (checkBox.getTag().toString() != null) {
                 if (checkBox.isChecked()) {
-                    putLayout putlayout = new putLayout();
-                    putlayout.execute(app.getCheckBoxList().get(i).getTag().toString());
-                } else {
-                    for (int j = 0; j < app.getLayoutList().size(); j++) {
-                        if (app.getLayoutList().get(j).getTag().equals(app.getCheckBoxList().get(i).getTag().toString())) {
-                            app.getLayoutList().remove(j);
-                        }
-                    }
+                    urlList.add(checkBox.getTag().toString());
                 }
             }
         }
+        for (String s : urlList) {
+            putLayout putlayout = new putLayout();
+            putlayout.execute(s);
+        }
     }
+
+
 
     /**
      Author: Mingzhen Ao
      * add button to the layout
      */
     public void addButtonToLayout() {
-        LinearLayout layout = findViewById(R.id.LinearLayout);
+        LinearLayout layout = findViewById(R.id.linearLayout);
         MyApplication app = (MyApplication) getApplication();
 
         if (app.getLayoutList() != null) {
@@ -110,55 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*Author: Mingzhen Ao
-     * put the all the feeds in button and add button to layout,
-     * then add layout to myapplication layout list
-     *
-     * */
-    public class putLayout extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... args) {
-            final String url = args[0];
-            RSSFeedParser parser = new RSSFeedParser();
-            a = parser.getRSSfeedFromUrl(url);
-            final LinearLayout layout = new LinearLayout(getApplicationContext());
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    int size = 10;
-                    if (a.size() < 10) {
-                        size = a.size();
-                    }
-                    for (int i = 0; i < size; i++) {
-                        Button new_button = new Button(getApplicationContext());
-                        final String newsTitle = a.get(i).title;
-                        new_button.setText(newsTitle + "\r\n" + a.get(i).pubDate + "\r\n");
-                        new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
-                        new_button.setX(0);
-                        new_button.setY(0);
-                        new_button.setAllCaps(false);
-                        new_button.setTag(a.get(i).link);
-                        new_button.setBackgroundColor(Color.WHITE);
-                        new_button.setFadingEdgeLength(10);
-                        new_button.setGravity(Gravity.LEFT);//Text to the left（horizontally）
-                        new_button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
-                                intent.putExtra("url", v.getTag().toString());
-                                intent.putExtra("title", newsTitle);
-                                startActivity(intent);
-                            }
-                        });
-                        layout.setTag(url);
-                        layout.addView(new_button);
-                    }
-                }
-            });
-            MyApplication app = (MyApplication) getApplication();
-            app.getLayoutList().add(layout);
-            return null;
-        }
-    }
+
 
 
     /**
@@ -210,13 +167,13 @@ public class MainActivity extends AppCompatActivity {
             DocumentBuilder db = dbf.newDocumentBuilder();
             dom = db.parse(file);
             NodeList isCheckedNL = dom.getElementsByTagName("isChecked");
-            System.out.println(isCheckedNL.getLength());
+            //System.out.println(isCheckedNL.getLength());
 
             for (int i = 0; i < isCheckedNL.getLength(); i++) {
                 Element isCheckedElem = (Element) isCheckedNL.item(i);
 
                 String isChecked = isCheckedElem.getElementsByTagName("value").item(0).getTextContent();
-                System.out.println(isChecked);
+                //System.out.println(isChecked);
 
                 isCheckedList.add(Boolean.parseBoolean(isChecked));
             }
@@ -263,6 +220,64 @@ public class MainActivity extends AppCompatActivity {
             app.setRSSElementList(newsList);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setLinearLayout(ArrayList<RSSElement> list) {
+        for (int i = 0; i < list.size(); i++) {
+            //final String formattedDate = formatDateTime(getDateTime(list.get(i).pubDate));
+            final String formattedDate = list.get(i).pubDate;
+            LinearLayout layout = findViewById(R.id.linearLayout);
+            Button new_button = new Button(getApplicationContext());
+            int number = i + 1;
+            final String newsTitle = list.get(i).title;
+            new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n");
+            new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
+            new_button.setX(0);
+            new_button.setY(0);
+            new_button.setAllCaps(false);
+            new_button.setTag(list.get(i).link);
+            new_button.setBackgroundColor(Color.WHITE);
+            new_button.setFadingEdgeLength(10);
+            new_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
+                    intent.putExtra("url", v.getTag().toString());
+                    intent.putExtra("title", newsTitle);
+                    intent.putExtra("date",formattedDate);
+                    startActivity(intent);
+                }
+            });
+            new_button.setGravity(0);//Text to the left
+            layout.addView(new_button);
+        }
+    }
+
+    public class putFilteredLayout extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    setLinearLayout(filteredRSSList);
+                }
+            });
+            return null;
+        }
+    }
+
+    public class putLayout extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            String url = args[0];
+            RSSList = parser.getRSSfeedFromUrl(url);
+
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    setLinearLayout(RSSList);
+                }
+            });
+            return null;
         }
     }
 

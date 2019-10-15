@@ -87,7 +87,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
             app.getCheckBoxList().get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    /*
                     CheckBox checkBox = (CheckBox) view;
                     if (checkBox.getTag().toString() != null) {
                         if (checkBox.isChecked()) {
@@ -101,7 +101,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                             }
                         }
                     }
-
+                    */
                     saveCheckBoxList(file);
                     System.out.println(filePath + "/isCheckedList.xml");
                 }
