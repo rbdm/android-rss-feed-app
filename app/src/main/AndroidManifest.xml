@@ -37,6 +37,9 @@
         <activity
             android:name=".WebViewActivity"
             android:label="News" />
+        <activity
+            android:name=".AddSitesShowActivity"
+            android:label="Add Sites" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
