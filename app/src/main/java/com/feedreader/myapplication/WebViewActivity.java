@@ -247,7 +247,7 @@ public class WebViewActivity extends AppCompatActivity {
         }
         */
         MyApplication app = (MyApplication) getApplication();
-        ArrayList<News> newsList = app.getNewsList();
+        ArrayList<RSSElement> newsList = app.getRSSElementList();
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -257,13 +257,13 @@ public class WebViewActivity extends AppCompatActivity {
             Element newsListElement = dom.createElement("newsList");
 
             for (int i=0;i<newsList.size();i++) {
-                News news = newsList.get(i);
+                RSSElement news = newsList.get(i);
 
                 Element newsElem = dom.createElement("news");
 
-                newsElem.setAttribute("url", news.getUrl());
                 newsElem.setAttribute("title", news.getTitle());
-                newsElem.setAttribute("date", news.getDate());
+                newsElem.setAttribute("link", news.getLink());
+                newsElem.setAttribute("pubdate", news.getPubDate());
 
                 newsListElement.appendChild(newsElem);
             }
