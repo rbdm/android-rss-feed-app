@@ -2,6 +2,7 @@ package com.feedreader.myapplication.tools;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,21 @@ import android.widget.TextView;
 
 import com.feedreader.myapplication.R;
 import com.feedreader.myapplication.WebViewActivity;
+import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.io.File;
 import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -93,6 +106,8 @@ public class FavouritesAdapter extends BaseAdapter {
             public void onClick(View v) {
                 RSSElementList.remove(rssElement);
                 notifyDataSetChanged();
+
+                saveNewsList(RSSElementList, new File (Environment.getExternalStorageDirectory().getPath() + "/newsList.xml"));
             }
         });
 
@@ -132,6 +147,41 @@ public class FavouritesAdapter extends BaseAdapter {
     class ViewHolder {
         public TextView contentView;
         public TextView menuView;
+    }
+
+
+    public void saveNewsList(ArrayList<RSSElement> RSSElementList, File file) {
+        ArrayList<RSSElement> newsList = RSSElementList;
+
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document dom = db.newDocument();
+
+            Element newsListElement = dom.createElement("newsList");
+
+            for (int i=0;i<newsList.size();i++) {
+                RSSElement news = newsList.get(i);
+
+                Element newsElem = dom.createElement("news");
+
+                newsElem.setAttribute("title", news.getTitle());
+                newsElem.setAttribute("link", news.getLink());
+                newsElem.setAttribute("pubdate", news.getPubDate());
+
+                newsListElement.appendChild(newsElem);
+            }
+
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            DOMSource ds = new DOMSource(newsListElement);
+            StreamResult sr = new StreamResult(file);
+
+            t.transform(ds, sr);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
