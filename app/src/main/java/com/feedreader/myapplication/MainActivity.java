@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     void test() {
         MyApplication app = (MyApplication) getApplication();
-        for (int i=0; i<app.getCheckBoxList().size();i++) {
+        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
             CheckBox checkBox = (CheckBox) app.getCheckBoxList().get(i);
             if (checkBox.getTag().toString() != null) {
                 if (checkBox.isChecked()) {
@@ -87,26 +87,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* * Author: Mingzhen Ao
+    /**
+     Author: Mingzhen Ao
      * add button to the layout
      */
     public void addButtonToLayout() {
         LinearLayout layout = findViewById(R.id.LinearLayout);
         MyApplication app = (MyApplication) getApplication();
-
-        /*
-        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
-            System.out.println(app.getCheckBoxList().get(i).isChecked());
-
-            CheckBox checkBox = app.getCheckBoxList().get(i);
-            if (checkBox.getTag().toString() != null) {
-                if (checkBox.isChecked()) {
-                    MainActivity.putLayout putlayout = new MainActivity.putLayout();
-                    putlayout.execute(checkBox.getTag().toString());
-                }
-            }
-        }
-        */
 
         if (app.getLayoutList() != null) {
             for (int i = 0; i < app.getLayoutList().size(); i++) {
@@ -123,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*Author: Mingzhen Ao
+     * put the all the feeds in button and add button to layout,
+     * then add layout to myapplication layout list
+     *
+     * */
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -138,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     for (int i = 0; i < size; i++) {
                         Button new_button = new Button(getApplicationContext());
-                        //int number = i + 1;
                         final String newsTitle = a.get(i).title;
                         new_button.setText(newsTitle + "\r\n" + a.get(i).pubDate + "\r\n");
                         new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
@@ -170,16 +161,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /* * Author: Mingzhen Ao
+    /**
+     * Author: Mingzhen Ao
      * if click favourite button, go to favouritesactivity
+     *
+     * @param view
      */
     public void goToFavorite(View view) {
         Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
         MainActivity.this.startActivity(intent);
     }
 
-    /* * Author: Mingzhen Ao
+
+    /**
+     * Author: Mingzhen Ao
      * if click add button, go to addSitesShowActivity
+     *
+     * @param view
      */
     public void goToAddLayout(View view) {
         Intent intent = new Intent(MainActivity.this, AddSitesShowActivity.class);
@@ -241,40 +239,6 @@ public class MainActivity extends AppCompatActivity {
         app.setCheckBoxList(app.getCheckBoxList());
     }
 
-    public String getNewsSource(String s) {
-        String out = "";
-        switch (s) {
-            case "http://feeds.bbci.co.uk/news/world/rss.xml":
-                out = "BBC world news";
-                break;
-            case "http://www.abc.net.au/news/feed/51120/rss.xml":
-                out = "ABC world news";
-                break;
-            case "https://www.cnbc.com/id/100003114/device/rss/rss.html":
-                out = "CNBC topStories news";
-                break;
-            case "https://www.cbsnews.com/latest/rss/main/":
-                out = "CBS topStories news";
-                break;
-            case "http://feeds.nbcnews.com/nbcnews/public/politics":
-                out = "NBC politics news";
-                break;
-            case "http://feeds.bbci.co.uk/news/business/rss.xml":
-                out = "BBC business news";
-                break;
-            case "http://feeds.bbci.co.uk/news/technology/rss.xml":
-                out = "BBC technologynews";
-                break;
-            case "http://feeds1.nytimes.com/nyt/rss/Sports":
-                out = "New York Times Sports news";
-                break;
-            case "https://www.techworld.com/news/rss":
-                out = "Techworld news";
-                break;
-        }
-        return out;
-    }
-
 
     public void loadNewsList(File file) {
         final MyApplication app = (MyApplication) getApplication();
@@ -286,9 +250,8 @@ public class MainActivity extends AppCompatActivity {
             Document dom = db.parse(file);
 
             NodeList newsNL = dom.getElementsByTagName("news");
-            //System.out.println(newsNode.getLength());
 
-            for (int i=0;i<newsNL.getLength();i++) {
+            for (int i = 0; i < newsNL.getLength(); i++) {
                 Node newsNode = newsNL.item(i);
 
                 String title = newsNode.getAttributes().getNamedItem("title").getTextContent();
@@ -298,8 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 newsList.add(new RSSElement(title, link, pubdate));
             }
             app.setRSSElementList(newsList);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

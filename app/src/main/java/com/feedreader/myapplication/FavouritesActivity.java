@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.tools.FavouritesAdapter;
-import com.feedreader.myapplication.tools.RSSFeedParser;
+
 
 
 /**

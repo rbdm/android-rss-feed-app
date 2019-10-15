@@ -1,15 +1,12 @@
 package com.feedreader.myapplication;
 
-import android.Manifest;
-import android.app.Application;
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import android.view.Gravity;
@@ -20,13 +17,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
+import com.feedreader.myapplication.tools.FunctionContainer;
 import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import org.w3c.dom.Document;
@@ -35,7 +31,6 @@ import org.w3c.dom.Element;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -52,6 +47,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
     ArrayList<RSSElement> a = new ArrayList<>();
     String filePath;
     File file;
+    FunctionContainer functionContainer=new FunctionContainer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +57,9 @@ public class AddSitesShowActivity extends AppCompatActivity {
         checkBox();
     }
 
-    /* *
+
+
+    /**
      * Author: Mingzhen Ao
      * This class aims to add the clicklistener, if click the checkbox, then check checkbox status,if it's checked,
      * add feeds to Myapplication,
@@ -77,7 +75,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
             if (app.getCheckBoxList().get(i).getParent() != null)
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
-            Button corresponding_button = createButton(app.getCheckBoxList().get(i));
+            Button corresponding_button = functionContainer.createButton(app.getCheckBoxList().get(i));
             corresponding_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -170,9 +168,13 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
 
 
-    /* *
+
+
+    /**
      * Author: Mingzhen Ao
      * When click on the home button, go to mainActivity
+     *
+     * @param view
      */
 
     public void goBackToHome(View view) {
@@ -180,17 +182,22 @@ public class AddSitesShowActivity extends AppCompatActivity {
         AddSitesShowActivity.this.startActivity(intent);
     }
 
-    /* *
-     * Author: Mingzhen Ao
+
+
+    /** Author: Mingzhen Ao
      * When click on the favourite button, go to FavouritesActivity
+     * @param view
      */
     public void goToFavourite(View view) {
         Intent intent = new Intent(AddSitesShowActivity.this, FavouritesActivity.class);
         AddSitesShowActivity.this.startActivity(intent);
     }
 
-    /* * Author: Mingzhen Ao
-     * This function aims to add site if the site is right xml url
+
+
+    /** Author: Mingzhen Ao
+     * This function aims to add site if the site is right xml url when click add button
+     * @param v
      */
     public void addSite(View v) {
         EditText url_text = findViewById(R.id.editText1);
@@ -199,8 +206,11 @@ public class AddSitesShowActivity extends AppCompatActivity {
         checkurl.execute(url);
     }
 
-    /* * Author: Mingzhen Ao
-     * This function aims to delete the exact site if the site is right xml url
+
+    /**
+     * Author: Mingzhen Ao
+     * This function aims to delete the exact site if the site is right xml url* when click delete button
+     * @param v
      */
     public void Delete(View v) {
         EditText tag_text = findViewById(R.id.editText);
@@ -216,9 +226,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
         checkBox();
     }
 
-    /* * Author: Mingzhen Ao
-     * When click the web button, will transfer to rssfeedshow activity
-     */
 
 
     /* * Author: Mingzhen Ao
@@ -273,23 +280,11 @@ public class AddSitesShowActivity extends AppCompatActivity {
         }
     }
 
-    public Button createButton(CheckBox checkBox) {
-        CheckBox this_box = checkBox;
-        Button button = new Button(this);
-        button.setText(this_box.getText());
-        button.setTextColor(Color.WHITE);
-        button.setY(this_box.getY());
-        button.setTag(this_box.getTag());
-        return button;
-    }
-
 
     /* *
      * Author: Mingzhen Ao
      * This function aims to save corresponding rss feeds to Myapplication
      */
-
-
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
