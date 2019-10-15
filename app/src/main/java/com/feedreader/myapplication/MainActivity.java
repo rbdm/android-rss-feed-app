@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.feedreader.myapplication.data.MyApplication;
-import com.feedreader.myapplication.data.News;
 import com.feedreader.myapplication.data.RSSElement;
 import com.feedreader.myapplication.tools.RSSFeedParser;
 
@@ -257,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadNewsList(File file) {
         final MyApplication app = (MyApplication) getApplication();
-        ArrayList<News> newsList = new ArrayList<>();
+        ArrayList<RSSElement> newsList = new ArrayList<>();
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -270,13 +269,13 @@ public class MainActivity extends AppCompatActivity {
             for (int i=0;i<newsNL.getLength();i++) {
                 Node newsNode = newsNL.item(i);
 
-                String url = newsNode.getAttributes().getNamedItem("url").getTextContent();
                 String title = newsNode.getAttributes().getNamedItem("title").getTextContent();
-                String date = newsNode.getAttributes().getNamedItem("date").getTextContent();
+                String link = newsNode.getAttributes().getNamedItem("link").getTextContent();
+                String pubdate = newsNode.getAttributes().getNamedItem("pubdate").getTextContent();
 
-                newsList.add(new News(url, title, date));
+                newsList.add(new RSSElement(title, link, pubdate));
             }
-            app.setNewsList(newsList);
+            app.setRSSElementList(newsList);
         }
         catch (Exception e) {
             e.printStackTrace();
