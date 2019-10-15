@@ -76,7 +76,15 @@ public class AddSitesShowActivity extends AppCompatActivity {
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
             if (app.getCheckBoxList().get(i).getParent() != null)
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
-                 Button corresponding_button=createButton(app.getCheckBoxList().get(i));
+            Button corresponding_button = createButton(app.getCheckBoxList().get(i));
+            corresponding_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
+                    intent.putExtra("url", view.getTag().toString());
+                    startActivity(intent);
+                }
+            });
             app.getCheckBoxList().get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,8 +105,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
                     System.out.println(filePath + "/isCheckedList.xml");
                 }
             });
-            LinearLayout this_layout=new LinearLayout(this);
-            this_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+            LinearLayout this_layout = new LinearLayout(this);
+            this_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             this_layout.addView(corresponding_button);
             this_layout.addView(app.getCheckBoxList().get(i));
             layout.addView(this_layout);
@@ -183,7 +191,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
     public void addSite(View v) {
         EditText url_text = findViewById(R.id.editText1);
         String url = "http://" + url_text.getText().toString();
-
         Check checkurl = new Check();
         checkurl.execute(url);
     }
@@ -204,11 +211,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
     /* * Author: Mingzhen Ao
      * When click the web button, will transfer to rssfeedshow activity
      */
-    public void Onclick(View v) {
-        Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
-        intent.putExtra("url", v.getTag().toString());
-        startActivity(intent);
-    }
+
 
     /* * Author: Mingzhen Ao
      * This function aims to check if there is a right xml url or not,
@@ -220,34 +223,17 @@ public class AddSitesShowActivity extends AppCompatActivity {
         protected String doInBackground(String... args) {
             final String url = args[0];
             RSSFeedParser parser = new RSSFeedParser();
-            ArrayList<RSSElement> a = parser.getRSSfeedFromUrl(url);
+            final ArrayList<RSSElement> a = parser.getRSSfeedFromUrl(url);
             if (a != null)
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        ConstraintLayout layout = findViewById(R.id.layout);
-                        LinearLayout layout3 = findViewById(R.id.linearLayout3);
-                        Button new_button = new Button(getApplicationContext());
-                        new_button.setText(url);
-                        new_button.setTag(url);
-                        new_button.setLayoutParams(new ViewGroup.LayoutParams(800, 200));
-                        new_button.setX(0);
-                        new_button.setY(1900);
+                        MyApplication app = (MyApplication) getApplication();
                         CheckBox checkBox = new CheckBox(getApplicationContext());
                         checkBox.setText(url);
                         checkBox.setTextColor(Color.WHITE);
                         checkBox.setTag(url);
-                        checkBox.setY(250);
-                        new_button.setAllCaps(false);
-                        new_button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), RSSFeedShowActivity.class);
-                                intent.putExtra("url", v.getTag().toString());
-                                startActivity(intent);
-                            }
-                        });
-                        layout.addView(new_button);
-                        layout3.addView(checkBox);
+                        checkBox.setChecked(false);
+                        app.getCheckBoxList().add(checkBox);
                     }
                 });
             else {
