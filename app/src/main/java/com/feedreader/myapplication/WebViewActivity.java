@@ -10,7 +10,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
@@ -21,7 +20,6 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
-import com.feedreader.myapplication.tools.TwitterResultReceiver;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
@@ -57,12 +55,6 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-/*        Intent intent = getIntent();
-        url = intent.getStringExtra("url");
-        RSSFeedShowActivity.putLayout putlayout = new RSSFeedShowActivity.putLayout();
-        putlayout.execute(url);*/
-
-
         super.onCreate(savedInstanceState);
 
         // initialize facebook SDK
@@ -105,7 +97,6 @@ public class WebViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // set popup menu to get options from res/menu/share_menu
                 PopupMenu popupMenu = new PopupMenu(WebViewActivity.this, buttonShare);
                 popupMenu.getMenuInflater().inflate(R.menu.share_menu, popupMenu.getMenu());
 
@@ -116,8 +107,6 @@ public class WebViewActivity extends AppCompatActivity {
                             ShareHashtag facebookHashtag = new ShareHashtag.Builder().setHashtag("#RSSFeedGp19s2").build();
 
                             ShareLinkContent facebookContent = new ShareLinkContent.Builder()
-                                    .setContentDescription("testCD")
-                                    .setContentTitle("testCT")
                                     .setShareHashtag(facebookHashtag)
                                     .setQuote(getIntent().getStringExtra("title"))
                                     .setContentUrl(Uri.parse(getIntent().getStringExtra("url")))
@@ -126,7 +115,6 @@ public class WebViewActivity extends AppCompatActivity {
                                 shareDialog.show(facebookContent);
                             }
                         } else if (menuItem.getItemId() == R.id.shareToTwitter) {
-                            TwitterResultReceiver a = new TwitterResultReceiver();
 
                             try {
                                 URL url = new URL(getIntent().getStringExtra("url"));
@@ -136,21 +124,9 @@ public class WebViewActivity extends AppCompatActivity {
                                         .url(url);
                                 builder.show();
 
-                                a.onReceive(WebViewActivity.this, homeIntent);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
-                            /*
-                            final TwitterSession twitterSession = TwitterCore.getInstance().getSessionManager().getActiveSession();
-                            final Intent intent = new ComposerActivity.Builder(WebViewActivity.this)
-                                .session(twitterSession)
-                                .text("a")
-                                .createIntent();
-                            startActivity(intent);
-                            */
-                        } else {
-
                         }
 
                         return true;
@@ -158,12 +134,6 @@ public class WebViewActivity extends AppCompatActivity {
                 });
 
                 popupMenu.show();
-
-                /*shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getIntent().getStringExtra("title"));
-                shareIntent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra("url"));
-                startActivity(Intent.createChooser(shareIntent, "Share"));*/
             }
         });
 
@@ -203,7 +173,6 @@ public class WebViewActivity extends AppCompatActivity {
 
                     }
                 }
-
                 saveNewsList(newsListFile);
             }
         });
@@ -231,21 +200,6 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     public void saveNewsList(File file) {
-        /*
-        ArrayList<News> newsList = new ArrayList<>();
-        final MyApplication app = (MyApplication) getApplication();
-
-        for (int i = 0; i < app.getNewsList().size(); i++) {
-            News news = app.getNewsList().get(i);
-            if (news != null) {
-                newsList.add(news);
-            }
-            else {
-                System.out.println("fuckyeah baby");
-                throw new IllegalArgumentException();
-            }
-        }
-        */
         MyApplication app = (MyApplication) getApplication();
         ArrayList<RSSElement> newsList = app.getRSSElementList();
 

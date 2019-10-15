@@ -45,16 +45,6 @@
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider2394653474141111"
             android:exported="true" />
-
-        <receiver
-            android:name=".tools.TwitterResultReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.twitter.sdk.android.tweetcomposer.UPLOAD_SUCCESS" />
-                <action android:name="com.twitter.sdk.android.tweetcomposer.UPLOAD_FAILURE" />
-                <action android:name="com.twitter.sdk.android.tweetcomposer.TWEET_COMPOSE_CANCEL" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>
