@@ -94,7 +94,7 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="408dp"
-        android:layout_height="44dp"
+        android:layout_height="60dp"
         android:layout_row="0"
         android:layout_column="1"
         android:orientation="horizontal"
@@ -111,9 +111,9 @@
 
         <ImageButton
             android:id="@+id/imageButtonHome"
-            android:background="@drawable/rounded_button"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:theme="@style/RoundButton1"
+            android:layout_width="57dp"
+            android:layout_height="60dp"
             android:layout_row="0"
             android:layout_column="0"
             android:onClick="goBackToHome"
@@ -127,9 +127,9 @@
 
         <ImageButton
             android:id="@+id/imageButtonFavorites"
-            android:background="@drawable/rounded_button"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:theme="@style/RoundButton1"
+            android:layout_width="57dp"
+            android:layout_height="60dp"
             android:layout_row="0"
             android:layout_column="3"
             android:onClick="goToFavourite"
@@ -142,9 +142,9 @@
 
         <ImageButton
             android:id="@+id/imageButtonAdd"
-            android:background="@drawable/rounded_button"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:theme="@style/RoundButton1"
+            android:layout_width="57dp"
+            android:layout_height="60dp"
             android:layout_row="0"
             android:layout_column="2"
             android:src="@drawable/ic_rss_feed"
@@ -157,9 +157,9 @@
 
         <ImageButton
             android:id="@+id/imageButtonAddSource"
-            android:background="@drawable/rounded_button3"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:theme="@style/RoundButton3"
+            android:layout_width="57dp"
+            android:layout_height="60dp"
             android:layout_row="0"
             android:layout_column="2"
             android:src="@drawable/ic_add_32px"
@@ -172,9 +172,9 @@
 
         <ImageButton
             android:id="@+id/imageButtonRemove"
-            android:background="@drawable/rounded_button3"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:theme="@style/RoundButton3"
+            android:layout_width="57dp"
+            android:layout_height="60dp"
             android:layout_row="0"
             android:layout_column="2"
             android:src="@drawable/ic_remove"

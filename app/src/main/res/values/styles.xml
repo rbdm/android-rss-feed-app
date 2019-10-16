@@ -22,6 +22,25 @@
         <item name="android:itemBackground">@android:color/holo_red_light</item>
     </style>
 
+    <style name="RoundButton1">
+        <item name="android:shape">oval</item>
+        <item name="android:backgroundTint">@color/colorButton</item>
+    </style>
+
+    <style name="RoundButton2">
+        <item name="android:shape">oval</item>
+        <item name="android:backgroundTint">@color/colorButton2</item>
+    </style>
+
+    <style name="RoundButton3">
+        <item name="android:shape">oval</item>
+        <item name="android:backgroundTint">@color/colorButton3</item>
+    </style>
+
+    <style name="RoundButton4">
+        <item name="android:shape">oval</item>
+        <item name="android:backgroundTint">@color/colorButton4</item>
+    </style>
     
 
 </resources>

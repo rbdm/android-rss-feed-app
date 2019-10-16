@@ -7,7 +7,12 @@ import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,6 +47,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -327,6 +336,15 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout layout = findViewById(R.id.linearLayout);
             AppCompatButton new_button = new AppCompatButton(getApplicationContext());
 
+            //add icon to the left of each news button, but the icon is round
+            /*
+            Drawable sourceIcon = getDrawable(R.mipmap.test);
+            int height = sourceIcon.getIntrinsicHeight();
+            int width = sourceIcon.getIntrinsicWidth();
+            sourceIcon.setBounds(0,0,width,height);
+            new_button.setCompoundDrawables(sourceIcon,null,null,null);
+            */
+
             int number = i + 1;
             final String newsTitle = list.get(i).title;
             final String source = list.get(i).getNewsSource(list.get(i).link);
@@ -334,6 +352,8 @@ public class MainActivity extends AppCompatActivity {
             new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
             new_button.setX(0);
             new_button.setY(0);
+
+            new_button.setCompoundDrawablePadding(50);
             new_button.setAllCaps(false);
             new_button.setTag(list.get(i).link);
             new_button.setFadingEdgeLength(10);

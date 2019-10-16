@@ -7,8 +7,9 @@
     <color name="colorBackground">#FFFDD0</color>
 
 
-    <color name="colorButton">#FFFFFF</color>
-    <color name="colorButtonFocused">#DDDDDD</color>
-    <color name="colorButtonPressed">#FFFDD0</color>
+    <color name="colorButton">#888888</color>
+    <color name="colorButton2">#FFB900</color>
+    <color name="colorButton3">#018574</color>
+    <color name="colorButton4">#EF6950</color>
 
 </resources>
