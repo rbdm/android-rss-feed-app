@@ -3,15 +3,13 @@ package com.feedreader.myapplication;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +17,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
+import com.feedreader.myapplication.tools.DateTimeAdapter;
 import com.feedreader.myapplication.tools.RSSFeedParser;
 
 import org.w3c.dom.Document;
@@ -51,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     String filePath = Environment.getExternalStorageDirectory().getPath();
     File checkBoxFile = new File(filePath + "/isCheckedList.xml");
     File newsListFile = new File(filePath + "/newsList.xml");
+
+    DateTimeAdapter dta = new DateTimeAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,24 +162,22 @@ public class MainActivity extends AppCompatActivity {
         Document dom;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
+        //load the state of checkbox from file and update it to isCheckedList
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             dom = db.parse(file);
             NodeList isCheckedNL = dom.getElementsByTagName("isChecked");
-            //System.out.println(isCheckedNL.getLength());
 
             for (int i = 0; i < isCheckedNL.getLength(); i++) {
                 Element isCheckedElem = (Element) isCheckedNL.item(i);
-
                 String isChecked = isCheckedElem.getElementsByTagName("value").item(0).getTextContent();
-                //System.out.println(isChecked);
-
                 isCheckedList.add(Boolean.parseBoolean(isChecked));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        //passes the new state from isCheckedList to current application
         final MyApplication app = (MyApplication) getApplication();
         if (isCheckedList.size() > 0) {
             if (app.getCheckBoxList() != null) {
@@ -225,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void setLinearLayout(ArrayList<RSSElement> list) {
         for (int i = 0; i < list.size(); i++) {
-            //final String formattedDate = formatDateTime(getDateTime(list.get(i).pubDate));
-            final String formattedDate = list.get(i).pubDate;
+            final String formattedDate = dta.formatDateTime(dta.getDateTime(list.get(i).pubDate));
+
             LinearLayout layout = findViewById(R.id.linearLayout);
             Button new_button = new Button(getApplicationContext());
             int number = i + 1;
@@ -237,8 +234,13 @@ public class MainActivity extends AppCompatActivity {
             new_button.setY(0);
             new_button.setAllCaps(false);
             new_button.setTag(list.get(i).link);
-            new_button.setBackgroundColor(Color.WHITE);
             new_button.setFadingEdgeLength(10);
+            new_button.setPadding(50,50,50,50);
+            GradientDrawable background = new GradientDrawable();
+            background.setColor(Color.WHITE);
+            background.setStroke(40, 999);
+            background.setCornerRadius(15);
+            new_button.setBackground(background);
             new_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -280,5 +282,12 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    public ArrayList<RSSElement> sortRSSList(ArrayList<RSSElement> RSSList) {
+
+        return null;
+    }
+
+
 
 }
