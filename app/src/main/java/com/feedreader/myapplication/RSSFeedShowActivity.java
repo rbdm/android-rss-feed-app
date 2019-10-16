@@ -22,7 +22,9 @@ import android.widget.PopupMenu;
 
 
 import com.feedreader.myapplication.data.RSSElement;
+import com.feedreader.myapplication.tools.DateTimeAdapter;
 import com.feedreader.myapplication.tools.RSSFeedParser;
+import com.feedreader.myapplication.tools.SortAndFilterAdapter;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
@@ -40,6 +42,8 @@ public class RSSFeedShowActivity extends AppCompatActivity {
     RSSFeedParser parser = new RSSFeedParser();
     ImageButton imageButtonSort, imageButtonSearch;
     String url;
+    DateTimeAdapter dta = new DateTimeAdapter();
+    SortAndFilterAdapter safa = new SortAndFilterAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +81,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String searchTerm = et.getText().toString().toLowerCase().trim();
-                        for (RSSElement re: RSSList) {
-                            String newsTitle = re.title.toLowerCase().trim();
-                            String newsCategory = "";
-                            if (newsTitle.contains(searchTerm) || newsCategory.contains(searchTerm)) {
-                                filteredRSSList.add(re);
-                            }
-                        }
+                        filteredRSSList = safa.filterByTerm(RSSList, searchTerm);
                         refreshFilteredLayout();
                     }
                 });
@@ -97,45 +95,23 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             public void onClick(View view) {
                 PopupMenu sortMenu = new PopupMenu(RSSFeedShowActivity.this, imageButtonSort);
                 sortMenu.getMenuInflater().inflate(R.menu.sort_menu, sortMenu.getMenu());
-
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         filteredRSSList.clear();
-
                         if (menuItem.getItemId() == R.id.filterLastHour) {
-                            for (RSSElement re: RSSList) {
-                                DateTime dateTime = getDateTime(re.pubDate);
-                                if (dateTime.isAfter(new DateTime().minusHours(1))) {
-                                    filteredRSSList.add(re);
-                                }
-                            }
+                            filteredRSSList = safa.filterLastHour(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterToday) {
-                            for (RSSElement re: RSSList) {
-                                DateTime dateTime = getDateTime(re.pubDate);
-                                if (dateTime.isAfter(new DateMidnight())) {
-                                    filteredRSSList.add(re);
-                                }
-                            }
+                            filteredRSSList = safa.filterToday(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterThisWeek) {
-                            for (RSSElement re: RSSList) {
-                                DateTime dateTime = getDateTime(re.pubDate);
-                                if (dateTime.isAfter(new DateTime().minusDays(7))) {
-                                    filteredRSSList.add(re);
-                                }
-                            }
+                            filteredRSSList = safa.filterThisWeek(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterDate) {
                             DialogFragment newFragment = new DatePickerFragment();
                             newFragment.show(getFragmentManager(), "datePicker");
                             ((DatePickerFragment) newFragment).dateSetListener = new DatePickerDialog.OnDateSetListener() {
                                 public void onDateSet(DatePicker view, int year, int month, int day) {
                                     DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
-                                    for (RSSElement re: RSSList) {
-                                        DateTime dateTime = getDateTime(re.pubDate);
-                                        if (dateTime.isAfter(selectedDate) && dateTime.isBefore(selectedDate.plusDays(1))) {
-                                            filteredRSSList.add(re);
-                                        }
-                                    }
+                                    safa.filterByDate(RSSList, selectedDate);
                                     refreshFilteredLayout();
                                 }
                             };
@@ -175,40 +151,11 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         }
     }
 
-    public DateTime getDateTime(String s) {
-        String[] dateTime = s.split(" ");
-
-        if (dateTime[4].length() == 5) {
-            dateTime[4] = dateTime[4] + ":00";
-        }
-        String dateTimeUpdate = dateTime[0];
-        for (int i=1; i<dateTime.length; i++) {
-            dateTimeUpdate += " " + dateTime[i];
-        }
-        DateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss z");
-        DateTime result = new DateTime();
-        try {
-            Date date = sdf.parse(dateTimeUpdate);
-            DateTime resultSucceed = new DateTime(date);
-            return resultSucceed;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String formatDateTime(DateTime dt) {
-        dt.getZone();
-        String formattedDateString = dt.toString(DateTimeFormat.forPattern("EEE, dd MMM yy, kk:mm")) + " AEST";
-        return formattedDateString;
-    }
-
 
 
     public void setLinearLayout(ArrayList<RSSElement> list) {
         for (int i = 0; i < list.size(); i++) {
-            final String formattedDate = formatDateTime(getDateTime(list.get(i).pubDate));
+            final String formattedDate = dta.formatDateTime(dta.getDateTime(list.get(i).pubDate));
             LinearLayout layout = findViewById(R.id.linearLayout);
             Button new_button = new Button(getApplicationContext());
             int number = i + 1;
