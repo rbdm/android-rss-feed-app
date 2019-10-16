@@ -7,13 +7,14 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,29 +22,28 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 
+import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
 import com.feedreader.myapplication.tools.DateTimeAdapter;
 import com.feedreader.myapplication.tools.RSSFeedParser;
 import com.feedreader.myapplication.tools.SortAndFilterAdapter;
 
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class RSSFeedShowActivity extends AppCompatActivity {
+
     ArrayList<RSSElement> RSSList = new ArrayList<>();
+    ArrayList<RSSElement> tempRSSList = new ArrayList<>();
     ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
     ImageButton imageButtonSort, imageButtonSearch;
     String url;
+
     DateTimeAdapter dta = new DateTimeAdapter();
-    SortAndFilterAdapter safa = new SortAndFilterAdapter();
+    SortAndFilterAdapter sfa = new SortAndFilterAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,9 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         setContentView(R.layout.feed_layout);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
+        MyApplication app = (MyApplication) getApplication();
+        app.setUrl(url);
+
         putLayout putlayout = new putLayout();
         putlayout.execute(url);
 
@@ -81,7 +84,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String searchTerm = et.getText().toString().toLowerCase().trim();
-                        filteredRSSList = safa.filterByTerm(RSSList, searchTerm);
+                        filteredRSSList = sfa.filterByTerm(RSSList, searchTerm);
                         refreshFilteredLayout();
                     }
                 });
@@ -93,34 +96,52 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         imageButtonSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MyApplication app = (MyApplication) getApplication();
                 PopupMenu sortMenu = new PopupMenu(RSSFeedShowActivity.this, imageButtonSort);
                 sortMenu.getMenuInflater().inflate(R.menu.sort_menu, sortMenu.getMenu());
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        MyApplication app = (MyApplication) getApplication();
+                        RSSList = app.getRSSElementList();
                         filteredRSSList.clear();
                         if (menuItem.getItemId() == R.id.filterLastHour) {
-                            filteredRSSList = safa.filterLastHour(RSSList);
+                            filteredRSSList = sfa.filterLastHour(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterToday) {
-                            filteredRSSList = safa.filterToday(RSSList);
+                            filteredRSSList = sfa.filterToday(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterThisWeek) {
-                            filteredRSSList = safa.filterThisWeek(RSSList);
+                            filteredRSSList = sfa.filterThisWeek(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterDate) {
                             DialogFragment newFragment = new DatePickerFragment();
                             newFragment.show(getFragmentManager(), "datePicker");
                             ((DatePickerFragment) newFragment).dateSetListener = new DatePickerDialog.OnDateSetListener() {
                                 public void onDateSet(DatePicker view, int year, int month, int day) {
                                     DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
-                                    safa.filterByDate(RSSList, selectedDate);
+                                    filteredRSSList = sfa.filterByDate(RSSList, selectedDate);
                                     refreshFilteredLayout();
                                 }
                             };
+                        } else if (menuItem.getItemId() == R.id.sortNewestFirst) {
+                            filteredRSSList = sfa.sortNewestFirst(RSSList);
+                            RefreshRSSFeed refresh = new RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
+                        } else if (menuItem.getItemId() == R.id.sortOldestFirst) {
+                            filteredRSSList = sfa.sortOldestFirst(RSSList);
+                            RefreshRSSFeed refresh = new RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
+                        } else if (menuItem.getItemId() == R.id.sortBySource) {
+                            filteredRSSList = sfa.sortBySource(RSSList);
+                            RefreshRSSFeed refresh = new RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
+                        } else if (menuItem.getItemId() == R.id.sortByTitle) {
+                            filteredRSSList = sfa.sortByTitle(RSSList);
+                            RefreshRSSFeed refresh = new RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
                         }
                         refreshFilteredLayout();
                         return true;
                     }
                 });
-
                 sortMenu.show();
             }
         });
@@ -151,13 +172,11 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         }
     }
 
-
-
     public void setLinearLayout(ArrayList<RSSElement> list) {
         for (int i = 0; i < list.size(); i++) {
             final String formattedDate = dta.formatDateTime(dta.getDateTime(list.get(i).pubDate));
             LinearLayout layout = findViewById(R.id.linearLayout);
-            Button new_button = new Button(getApplicationContext());
+            AppCompatButton new_button = new AppCompatButton(getApplicationContext());
             int number = i + 1;
             final String newsTitle = list.get(i).title;
             new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n");
@@ -168,6 +187,11 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             new_button.setTag(list.get(i).link);
             new_button.setBackgroundColor(Color.WHITE);
             new_button.setFadingEdgeLength(10);
+            new_button.setPadding(50,50,50,50);
+            GradientDrawable background = new GradientDrawable();
+            background.setColor(Color.WHITE);
+            background.setStroke(15, Color.LTGRAY);
+            new_button.setBackground(background);
             new_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,12 +224,25 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         protected String doInBackground(String... args) {
             String url = args[0];
             RSSList = parser.getRSSfeedFromUrl(url);
+            MyApplication app = (MyApplication) getApplication();
+            app.setRSSElementList(RSSList);
 
             runOnUiThread(new Runnable() {
                 public void run() {
                     setLinearLayout(RSSList);
                 }
             });
+            return null;
+        }
+    }
+
+    public class RefreshRSSFeed extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            String url = args[0];
+            RSSList = parser.getRSSfeedFromUrl(url);
+            MyApplication app = (MyApplication) getApplication();
+            app.setRSSElementList(RSSList);
             return null;
         }
     }

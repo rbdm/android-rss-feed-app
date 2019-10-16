@@ -26,6 +26,7 @@ public class MyApplication extends Application implements Serializable {
     private RSSElement rssElement;
     private ArrayList<LinearLayout> layoutList;
     private ArrayList<CheckBox> checkBoxList;
+    private String url;
 
 
     @Override
@@ -74,6 +75,14 @@ public class MyApplication extends Application implements Serializable {
         this.checkBoxList = checkBoxList;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
 
     /* *
      * Author: Mingzhen Ao
@@ -92,16 +101,16 @@ public class MyApplication extends Application implements Serializable {
      * Add original xml url
      */
     public void addCheckbox() {
-        addOneCheckBox("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml");
-        addOneCheckBox("ABC world news", "http://www.abc.net.au/news/feed/51120/rss.xml");
-        addOneCheckBox("CNBC topStories news", "https://www.cnbc.com/id/100003114/device/rss/rss.html");
-        addOneCheckBox("CBS topStories news", "https://www.cbsnews.com/latest/rss/main/");
-        addOneCheckBox("NBC politics news", "http://feeds.nbcnews.com/nbcnews/public/politics");
-        addOneCheckBox("BBC business news", "http://feeds.bbci.co.uk/news/business/rss.xml");
-        addOneCheckBox("BBC technologynews", "http://feeds.bbci.co.uk/news/business/rss.xml");
-        addOneCheckBox("New York Times Sports news", "http://feeds1.nytimes.com/nyt/rss/Sports");
-        addOneCheckBox("Techworld news", "https://www.techworld.com/news/rss");
-        addOneCheckBox("BBC business news", "http://feeds.bbci.co.uk/news/business/rss.xml");
+        addOneCheckBox("BBC World News", "http://feeds.bbci.co.uk/news/world/rss.xml");
+        addOneCheckBox("ABC World News", "http://www.abc.net.au/news/feed/51120/rss.xml");
+        addOneCheckBox("CNBC TopStories News", "https://www.cnbc.com/id/100003114/device/rss/rss.html");
+        addOneCheckBox("CBS TopStories News", "https://www.cbsnews.com/latest/rss/main/");
+        addOneCheckBox("NBC Politics News", "http://feeds.nbcnews.com/nbcnews/public/politics");
+        addOneCheckBox("BBC Business News", "http://feeds.bbci.co.uk/news/business/rss.xml");
+        addOneCheckBox("BBC Technologynews", "http://feeds.bbci.co.uk/news/technology/rss.xml");
+        addOneCheckBox("New York Times Sports", "http://feeds1.nytimes.com/nyt/rss/Sports");
+        addOneCheckBox("Techworld News", "https://www.techworld.com/news/rss");
+        addOneCheckBox("BBC Science News", "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml");
 
     }
 }

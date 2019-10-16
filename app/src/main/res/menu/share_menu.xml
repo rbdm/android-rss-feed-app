@@ -9,8 +9,4 @@
         android:id="@+id/shareToTwitter"
         android:title="Twitter"></item>
 
-    <!--<item
-        android:id="@+id/shareToWeChat"
-        android:title="WeChat"></item>-->
-
 </menu>

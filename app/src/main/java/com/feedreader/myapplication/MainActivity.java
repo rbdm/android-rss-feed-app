@@ -2,6 +2,10 @@ package com.feedreader.myapplication;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -10,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +22,19 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
 import com.feedreader.myapplication.tools.DateTimeAdapter;
 import com.feedreader.myapplication.tools.RSSFeedParser;
+import com.feedreader.myapplication.tools.SortAndFilterAdapter;
 
+import org.joda.time.DateTime;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -42,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private int[] permissionReceived;
 
     ArrayList<RSSElement> RSSList = new ArrayList<>();
+    ArrayList<RSSElement> partialRSSList = new ArrayList<>();
     ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
 
@@ -50,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     File newsListFile = new File(filePath + "/newsList.xml");
 
     DateTimeAdapter dta = new DateTimeAdapter();
+    SortAndFilterAdapter sfa = new SortAndFilterAdapter();
+    ImageButton imageButtonSort, imageButtonSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +81,84 @@ public class MainActivity extends AppCompatActivity {
         loadNewsList(newsListFile);
 
         display();
+
+        imageButtonSearch = findViewById(R.id.imageButtonSearch);
+        imageButtonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditText et = new EditText(MainActivity.this);
+                filteredRSSList.clear();
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Input Search Term");
+                builder.setView(et);
+                builder.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String searchTerm = et.getText().toString().toLowerCase().trim();
+                        filteredRSSList = sfa.filterByTerm(RSSList, searchTerm);
+                        refreshFilteredLayout();
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        imageButtonSort = findViewById(R.id.imageButtonSort);
+        imageButtonSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyApplication app = (MyApplication) getApplication();
+                PopupMenu sortMenu = new PopupMenu(MainActivity.this, imageButtonSort);
+                sortMenu.getMenuInflater().inflate(R.menu.sort_menu, sortMenu.getMenu());
+                System.out.println(RSSList.get(0).getLink());
+                sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        MyApplication app = (MyApplication) getApplication();
+                        RSSList = app.getRSSElementList();
+                        System.out.println(RSSList.get(0).getLink());
+                        filteredRSSList.clear();
+                        if (menuItem.getItemId() == R.id.filterLastHour) {
+                            filteredRSSList = sfa.filterLastHour(RSSList);
+                        } else if (menuItem.getItemId() == R.id.filterToday) {
+                            filteredRSSList = sfa.filterToday(RSSList);
+                        } else if (menuItem.getItemId() == R.id.filterThisWeek) {
+                            filteredRSSList = sfa.filterThisWeek(RSSList);
+                        } else if (menuItem.getItemId() == R.id.filterDate) {
+                            DialogFragment newFragment = new RSSFeedShowActivity.DatePickerFragment();
+                            newFragment.show(getFragmentManager(), "datePicker");
+                            ((RSSFeedShowActivity.DatePickerFragment) newFragment).dateSetListener = new DatePickerDialog.OnDateSetListener() {
+                                public void onDateSet(DatePicker view, int year, int month, int day) {
+                                    DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
+                                    filteredRSSList = sfa.filterByDate(RSSList, selectedDate);
+                                    refreshFilteredLayout();
+                                }
+                            };
+                        } else if (menuItem.getItemId() == R.id.sortNewestFirst) {
+                            filteredRSSList = sfa.sortNewestFirst(RSSList);
+                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
+                        } else if (menuItem.getItemId() == R.id.sortOldestFirst) {
+                            filteredRSSList = sfa.sortOldestFirst(RSSList);
+                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
+                        } else if (menuItem.getItemId() == R.id.sortBySource) {
+                            filteredRSSList = sfa.sortBySource(RSSList);
+                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
+                        } else if (menuItem.getItemId() == R.id.sortByTitle) {
+                            filteredRSSList = sfa.sortByTitle(RSSList);
+                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                            refresh.execute(app.getUrl());
+                        }
+                        refreshFilteredLayout();
+                        return true;
+                    }
+                });
+                sortMenu.show();
+            }
+        });
     }
 
 
@@ -87,6 +179,13 @@ public class MainActivity extends AppCompatActivity {
             putLayout putlayout = new putLayout();
             putlayout.execute(s);
         }
+    }
+
+    public void refreshFilteredLayout() {
+        LinearLayout layout = findViewById(R.id.linearLayout);
+        layout.removeAllViews();
+        MainActivity.putFilteredLayout pfl = new MainActivity.putFilteredLayout();
+        pfl.execute();
     }
 
 
@@ -225,7 +324,8 @@ public class MainActivity extends AppCompatActivity {
             final String formattedDate = dta.formatDateTime(dta.getDateTime(list.get(i).pubDate));
 
             LinearLayout layout = findViewById(R.id.linearLayout);
-            Button new_button = new Button(getApplicationContext());
+            AppCompatButton new_button = new AppCompatButton(getApplicationContext());
+
             int number = i + 1;
             final String newsTitle = list.get(i).title;
             new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n");
@@ -238,8 +338,7 @@ public class MainActivity extends AppCompatActivity {
             new_button.setPadding(50,50,50,50);
             GradientDrawable background = new GradientDrawable();
             background.setColor(Color.WHITE);
-            background.setStroke(40, 999);
-            background.setCornerRadius(15);
+            background.setStroke(15, Color.LTGRAY);
             new_button.setBackground(background);
             new_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -273,6 +372,8 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... args) {
             String url = args[0];
             RSSList = parser.getRSSfeedFromUrl(url);
+            MyApplication app = (MyApplication) getApplication();
+            app.setRSSElementList(RSSList);
 
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -283,11 +384,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<RSSElement> sortRSSList(ArrayList<RSSElement> RSSList) {
-
-        return null;
+    public class RefreshRSSFeed extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... args) {
+            String url = args[0];
+            RSSList = parser.getRSSfeedFromUrl(url);
+            MyApplication app = (MyApplication) getApplication();
+            app.setRSSElementList(RSSList);
+            return null;
+        }
     }
-
-
-
 }
