@@ -51,29 +51,36 @@
 
 
         <ImageButton
+            android:background="@drawable/rounded_button"
             android:id="@+id/imageButtonHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:elevation="20dp"
             android:layout_row="0"
             android:layout_column="0"
+            android:shape="oval"
+            android:color="@color/tw__composer_blue"
+            android:bottomRightRadius="10dp"
+            android:bottomLeftRadius="10dp"
+            android:topRightRadius="10dp"
+            android:topLeftRadius="10dp"
             android:src="@drawable/ic_home_32px"
-            android:tint="@color/tw__composer_white" />
+            android:tint="@color/tw__composer_white"/>
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
-        >
-
 
         <ImageButton
-            android:id="@+id/imageButtonSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/imageButtonFavorites"
+            android:background="@drawable/rounded_button"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_row="0"
-            android:layout_column="1"
-            android:src="@drawable/ic_search_32px"
-            android:tint="@color/tw__composer_white" />
+            android:layout_column="3"
+            android:onClick="goToFavorite"
+            android:src="@drawable/ic_star_white_24dp" />
 
         <Space
             android:layout_width="0dp"
@@ -82,8 +89,9 @@
 
         <ImageButton
             android:id="@+id/imageButtonAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_row="0"
             android:layout_column="2"
             android:onClick="goToAddLayout"
@@ -95,15 +103,16 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-
         <ImageButton
-            android:id="@+id/imageButtonFavorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+            android:id="@+id/imageButtonSearch"
+            android:background="@drawable/rounded_button2"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_row="0"
-            android:layout_column="3"
-            android:onClick="goToFavorite"
-            android:src="@android:drawable/star_big_off" />
+            android:layout_column="1"
+            android:src="@drawable/ic_search_32px"
+            android:tint="@color/tw__composer_white" />
 
         <Space
             android:layout_width="0dp"
@@ -112,11 +121,12 @@
 
         <ImageButton
             android:id="@+id/imageButtonSort"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button2"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_row="0"
             android:layout_column="4"
-            android:src="@drawable/ic_menu_24px"
+            android:src="@drawable/ic_sort"
             android:tint="@color/tw__composer_white" />
 
         <Space

@@ -95,7 +95,7 @@ public class SortAndFilterAdapter {
         Collections.sort(RSSList, new Comparator<RSSElement>() {
             @Override
             public int compare(RSSElement re1, RSSElement re2) {
-                if (re1.source.compareTo(re2.source)>0) {
+                if (re1.getNewsSource(re1.link).compareTo(re2.getNewsSource(re2.link))>0) {
                     return 1;
                 } else {
                     return -1;

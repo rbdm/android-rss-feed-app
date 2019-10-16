@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,15 +63,6 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         String tag = "imageButtonRefreshInFeedLayout";
         LinearLayout layout = findViewById(R.id.linearLayout2);
         ImageButton refreshBtn = layout.findViewWithTag(tag);
-        refreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LinearLayout layout = findViewById(R.id.linearLayout);
-                layout.removeAllViews();
-                putLayout putlayout = new putLayout();
-                putlayout.execute(url);
-            }
-        });
 
         imageButtonSearch = findViewById(R.id.imageButtonSearch);
         imageButtonSearch.setOnClickListener(new View.OnClickListener() {
@@ -263,5 +255,22 @@ public class RSSFeedShowActivity extends AppCompatActivity {
     public void returnHome(View v) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.refresh_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        LinearLayout layout = findViewById(R.id.linearLayout);
+        layout.removeAllViews();
+        putLayout putlayout = new putLayout();
+        putlayout.execute(url);
+
+        return super.onOptionsItemSelected(item);
     }
 }
