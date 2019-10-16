@@ -1,6 +1,8 @@
 package com.feedreader.myapplication;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -16,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,6 +51,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
     String filePath;
     File file;
     FunctionContainer functionContainer=new FunctionContainer();
+    ImageButton addButton, removeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,58 @@ public class AddSitesShowActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.addsite_layout);
         checkBox();
+
+
+        addButton = findViewById(R.id.imageButtonAddSource);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditText et = new EditText(AddSitesShowActivity.this);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(AddSitesShowActivity.this);
+                builder.setTitle("Input URL of New Source\r\n(In XML Format)");
+                builder.setView(et);
+                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = "http://" + et.getText().toString().toLowerCase().trim();
+                        Check checkurl = new Check();
+                        checkurl.execute(url);
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        removeButton = findViewById(R.id.imageButtonRemove);
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditText et = new EditText(AddSitesShowActivity.this);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(AddSitesShowActivity.this);
+                builder.setTitle("Input URL to Remove\r\n(in XML format)");
+                builder.setView(et);
+                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = "http://" + et.getText().toString().toLowerCase().trim();
+                        MyApplication app = (MyApplication) getApplication();
+                        for (int i = 0; i < app.getCheckBoxList().size(); i++) {
+                            if (app.getCheckBoxList().get(i).getTag().equals(url))
+                            {app.getCheckBoxList().remove(i);
+                                break;}
+                        }
+                        LinearLayout layout = findViewById(R.id.linearLayout3);
+                        layout.removeAllViews();
+                        checkBox();
+                    }
+                });
+                builder.show();
+            }
+        });
+
+
     }
 
 
@@ -77,6 +133,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
             Button corresponding_button = functionContainer.createButton(app.getCheckBoxList().get(i));
             corresponding_button.setWidth(725);
+            corresponding_button.setGravity(Gravity.CENTER_HORIZONTAL);
             corresponding_button.setBackgroundColor(Color.GRAY);
             corresponding_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -201,12 +258,14 @@ public class AddSitesShowActivity extends AppCompatActivity {
      * This function aims to add site if the site is right xml url when click add button
      * @param v
      */
+    /*
     public void addSite(View v) {
         EditText url_text = findViewById(R.id.editText1);
         String url = "http://" + url_text.getText().toString();
         Check checkurl = new Check();
         checkurl.execute(url);
     }
+    */
 
 
     /**
@@ -214,6 +273,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
      * This function aims to delete the exact site if the site is right xml url* when click delete button
      * @param v
      */
+    /*
     public void Delete(View v) {
         EditText tag_text = findViewById(R.id.editText);
         String tag = "http://" + tag_text.getText().toString();
@@ -227,6 +287,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
         layout.removeAllViews();
         checkBox();
     }
+    */
 
 
 

@@ -42,7 +42,7 @@ public class RSSElement {
         this.title = title;
         this.link = link;
         this.pubDate = pubDate;
-
+        this.source = getNewsSource(link);
     }
 
 

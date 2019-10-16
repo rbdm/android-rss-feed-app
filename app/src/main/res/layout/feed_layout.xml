@@ -86,7 +86,7 @@
             android:layout_row="0"
             android:layout_column="2"
             android:onClick="addSitePage"
-            android:src="@drawable/ic_add_32px"
+            android:src="@drawable/ic_rss_feed"
             android:tint="@color/tw__composer_white" />
 
         <Space

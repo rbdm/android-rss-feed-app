@@ -10,6 +10,7 @@
 
     <!--    author: Yusen Wei-->
     <!--    buttons and textfield to add a site and delete a site-->
+    <!--
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -56,7 +57,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
     <!--    author: Yusen Wei-->
     <!--    the view to put the scrollable sites and all the site are inserted in the inside -->
@@ -64,7 +65,8 @@
     <ScrollView
         android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
-        android:layout_height="478dp"
+        android:layout_height="match_parent"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -145,7 +147,7 @@
             android:layout_height="44dp"
             android:layout_row="0"
             android:layout_column="2"
-            android:src="@drawable/ic_add_32px"
+            android:src="@drawable/ic_rss_feed"
             android:tint="@color/tw__composer_white" />
 
         <Space
@@ -154,11 +156,10 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButtonAdd2"
-            android:background="@drawable/rounded_button"
+            android:id="@+id/imageButtonAddSource"
+            android:background="@drawable/rounded_button3"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:visibility="invisible"
             android:layout_row="0"
             android:layout_column="2"
             android:src="@drawable/ic_add_32px"
@@ -170,14 +171,13 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButtonAdd3"
-            android:background="@drawable/rounded_button"
+            android:id="@+id/imageButtonRemove"
+            android:background="@drawable/rounded_button3"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:visibility="invisible"
             android:layout_row="0"
             android:layout_column="2"
-            android:src="@drawable/ic_add_32px"
+            android:src="@drawable/ic_remove"
             android:tint="@color/tw__composer_white" />
 
         <Space

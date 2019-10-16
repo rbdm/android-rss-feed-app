@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape android:shape="oval">
+        <shape android:shape="rectangle">
             <elevation android:elevation="80dp" />
-            <show android:text="Show Elevation" />
-            <solid android:color="#018574"/>
+            <solid android:color="#444"/>
             <size android:width="150dp" android:height="150dp"/>
         </shape>
     </item>

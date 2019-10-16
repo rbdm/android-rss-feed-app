@@ -5,7 +5,7 @@
         <shape android:shape="oval">
             <elevation android:elevation="80dp" />
             <show android:text="Show Elevation" />
-            <solid android:color="#018574"/>
+            <solid android:color="#FFB900"/>
             <size android:width="150dp" android:height="150dp"/>
         </shape>
     </item>
