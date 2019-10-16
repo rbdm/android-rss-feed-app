@@ -6,6 +6,8 @@ import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SortAndFilterAdapter {
     DateTimeAdapter dta = new DateTimeAdapter();
@@ -13,6 +15,7 @@ public class SortAndFilterAdapter {
     public ArrayList<RSSElement> filterToday(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
+            System.out.println(re.getLink());
             DateTime dateTime = dta.getDateTime(re.pubDate);
             if (dateTime.isAfter(new DateMidnight())) {
                 filteredRSSList.add(re);
@@ -65,5 +68,56 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
+
+    public ArrayList<RSSElement> sortNewestFirst(ArrayList<RSSElement> RSSList) {
+        Collections.sort(RSSList, new Comparator<RSSElement>() {
+            @Override
+            public int compare(RSSElement re1, RSSElement re2) {
+                if (dta.getDateTime(re1.pubDate).isBefore(dta.getDateTime(re2.pubDate))) return 1;
+                else return -1;
+            }
+        });
+        return RSSList;
+    }
+
+    public ArrayList<RSSElement> sortOldestFirst(ArrayList<RSSElement> RSSList) {
+        Collections.sort(RSSList, new Comparator<RSSElement>() {
+            @Override
+            public int compare(RSSElement re1, RSSElement re2) {
+                if (dta.getDateTime(re1.pubDate).isBefore(dta.getDateTime(re2.pubDate))) return -1;
+                else return 1;
+            }
+        });
+        return RSSList;
+    }
+
+    public ArrayList<RSSElement> sortBySource(ArrayList<RSSElement> RSSList) {
+        Collections.sort(RSSList, new Comparator<RSSElement>() {
+            @Override
+            public int compare(RSSElement re1, RSSElement re2) {
+                if (re1.source.compareTo(re2.source)>0) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        return RSSList;
+    }
+
+    public ArrayList<RSSElement> sortByTitle(ArrayList<RSSElement> RSSList) {
+        Collections.sort(RSSList, new Comparator<RSSElement>() {
+            @Override
+            public int compare(RSSElement re1, RSSElement re2) {
+                if (re1.title.compareTo(re2.title)>0) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        return RSSList;
+    }
+
 
 }
