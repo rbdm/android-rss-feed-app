@@ -76,6 +76,8 @@ public class AddSitesShowActivity extends AppCompatActivity {
             if (app.getCheckBoxList().get(i).getParent() != null)
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
             Button corresponding_button = functionContainer.createButton(app.getCheckBoxList().get(i));
+            corresponding_button.setWidth(725);
+            corresponding_button.setBackgroundColor(Color.GRAY);
             corresponding_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
