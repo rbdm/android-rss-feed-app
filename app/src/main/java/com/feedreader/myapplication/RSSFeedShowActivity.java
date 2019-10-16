@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         url = intent.getStringExtra("url");
         MyApplication app = (MyApplication) getApplication();
         app.setUrl(url);
+        System.out.println(url);
 
         putLayout putlayout = new putLayout();
         putlayout.execute(url);
@@ -103,7 +105,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         MyApplication app = (MyApplication) getApplication();
-                        RSSList = app.getRSSElementList();
+                        RSSList = app.getNewsList();
                         filteredRSSList.clear();
                         if (menuItem.getItemId() == R.id.filterLastHour) {
                             filteredRSSList = sfa.filterLastHour(RSSList);
@@ -179,7 +181,8 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             AppCompatButton new_button = new AppCompatButton(getApplicationContext());
             int number = i + 1;
             final String newsTitle = list.get(i).title;
-            new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n");
+            final String source = list.get(i).getNewsSource(list.get(i).link);
+            new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n" + source + "\r\n");
             new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
             new_button.setX(0);
             new_button.setY(0);
@@ -187,10 +190,10 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             new_button.setTag(list.get(i).link);
             new_button.setBackgroundColor(Color.WHITE);
             new_button.setFadingEdgeLength(10);
-            new_button.setPadding(50,50,50,50);
+            new_button.setPadding(50,20,50,20);
             GradientDrawable background = new GradientDrawable();
             background.setColor(Color.WHITE);
-            background.setStroke(15, Color.LTGRAY);
+            background.setStroke(15, Color.DKGRAY);
             new_button.setBackground(background);
             new_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -202,7 +205,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            new_button.setGravity(0);//Text to the left
+            new_button.setGravity(Gravity.CENTER_VERTICAL);//Text to the left
             layout.addView(new_button);
         }
     }
@@ -225,7 +228,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             String url = args[0];
             RSSList = parser.getRSSfeedFromUrl(url);
             MyApplication app = (MyApplication) getApplication();
-            app.setRSSElementList(RSSList);
+            app.setNewsList(RSSList);
 
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -242,7 +245,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             String url = args[0];
             RSSList = parser.getRSSfeedFromUrl(url);
             MyApplication app = (MyApplication) getApplication();
-            app.setRSSElementList(RSSList);
+            app.setNewsList(RSSList);
             return null;
         }
     }

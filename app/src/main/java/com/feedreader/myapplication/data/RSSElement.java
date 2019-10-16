@@ -42,41 +42,25 @@ public class RSSElement {
         this.title = title;
         this.link = link;
         this.pubDate = pubDate;
-        this.source = getNewsSource(link);
+
     }
 
 
     public String getNewsSource(String s) {
         String out = "";
-        switch(s) {
-            case "http://feeds.bbci.co.uk/news/world/rss.xml":
-                out = "BBC World News";
-                break;
-            case "http://www.abc.net.au/news/feed/51120/rss.xml":
-                out = "ABC World News";
-                break;
-            case "https://www.cnbc.com/id/100003114/device/rss/rss.html":
-                out = "CNBC TopStories News";
-                break;
-            case "https://www.cbsnews.com/latest/rss/main/":
-                out = "CBS TopStories News";
-                break;
-            case "http://feeds.nbcnews.com/nbcnews/public/politics":
-                out = "NBC Politics";
-                break;
-            case "http://feeds.bbci.co.uk/news/business/rss.xml":
-                out = "BBC Business";
-                break;
-            case "http://feeds.bbci.co.uk/news/technology/rss.xml":
-                out = "BBC Technology";
-                break;
-            case "http://feeds1.nytimes.com/nyt/rss/Sports":
-                out = "New York Times Sports";
-                break;
-            case "https://www.techworld.com/news/rss":
-                out = "Techworld News";
-                break;
-        }
+
+        if (s.contains("abc.net")) out = "ABC World News";
+        else if (s.contains("cnbc.com")) out = "CNBC TopStories News";
+        else if (s.contains("cbsnews.com")) out = "CBS TopStories News";
+        else if (s.contains("nbcnews.com")) out = "NBC Politics";
+        else if (s.contains("bbc.co.uk/news/business")) out = "BBC Business";
+        else if (s.contains("bbc.co.uk/news/technology")) out = "BBC Technology";
+        else if (s.contains("bbc.co.uk/news/science")) out = "BBC Science";
+        else if (s.contains("bbc.co.uk")) out = "BBC World News";
+        else if (s.contains("nytimes.com")) out = "New York Times Sports";
+        else if (s.contains("techworld.com")) out = "Techworld News";
+
+        else out = s;
         return out;
     }
 }

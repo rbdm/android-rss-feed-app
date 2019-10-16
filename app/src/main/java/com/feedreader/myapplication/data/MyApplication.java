@@ -18,10 +18,12 @@ public class MyApplication extends Application implements Serializable {
     //Provide initial values for all global variables
     private static final ArrayList<LinearLayout> LAYOUTLIST = new ArrayList<>();
     private static final ArrayList<RSSElement> RSS_ELEMENTS_lIST = new ArrayList<>();
+    private static final ArrayList<RSSElement> NEWS_LIST = new ArrayList<>();
     private static final RSSElement RSS_ELEMENT = new RSSElement("", "", "");
     private static final ArrayList<CheckBox> CHECKBOXLIST = new ArrayList<>();
 
 
+    private ArrayList<RSSElement> newsList;
     private ArrayList<RSSElement> RSSElementList;
     private RSSElement rssElement;
     private ArrayList<LinearLayout> layoutList;
@@ -38,9 +40,17 @@ public class MyApplication extends Application implements Serializable {
         setCheckBoxList(CHECKBOXLIST);
         setRssElement(RSS_ELEMENT);
         setRSSElementList(RSS_ELEMENTS_lIST);
+        setNewsList(NEWS_LIST);
 
         //Add check box
         addCheckbox();
+    }
+    public void setNewsList(ArrayList<RSSElement> newsList) {
+        this.newsList = newsList;
+    }
+
+    public ArrayList<RSSElement> getNewsList() {
+        return newsList;
     }
 
     public void setRSSElementList(ArrayList<RSSElement> RSSElementList) {
