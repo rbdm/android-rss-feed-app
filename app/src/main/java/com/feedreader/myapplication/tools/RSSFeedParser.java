@@ -52,6 +52,12 @@ public class RSSFeedParser {
                 NodeList pubdates = e1.getElementsByTagName("pubDate");
                 rssElement.pubDate = pubdates.item(0).getFirstChild().getTextContent();
                 RSSelements.add(rssElement);
+                /*
+                NodeList categoryNL = e1.getElementsByTagName("category");
+                for (int m=0;m<categoryNL.getLength();m++) {
+                    rssElement.category.add(categoryNL.item(m).getFirstChild().getTextContent());
+                }
+                */
             }
 
         } catch (Exception e) {

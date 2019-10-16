@@ -61,7 +61,7 @@ public class SortAndFilterAdapter {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
             String newsTitle = re.title.toLowerCase().trim();
-            String newsCategory = "";
+            String newsCategory = re.getConcatedCategory().toLowerCase().trim();
             if (newsTitle.contains(searchTerm) || newsCategory.contains(searchTerm)) {
                 filteredRSSList.add(re);
             }

@@ -1,5 +1,7 @@
 package com.feedreader.myapplication.data;
 
+import java.util.ArrayList;
+
 /* *
  * Author: Mingzhen Ao & Zixin Ye
  * This class used to get title, link ,and pubDate of the rss feed
@@ -9,6 +11,7 @@ public class RSSElement {
     public String link;
     public String pubDate;
     public String source;
+    public ArrayList<String> category;
 
     public RSSElement() {
 
@@ -36,6 +39,22 @@ public class RSSElement {
 
     public String getPubDate() {
         return pubDate;
+    }
+
+    public void addCategory(String s)  {this.category.add(s);}
+
+    public ArrayList<String> getCategory() {
+        return category;
+    }
+
+    public String getConcatedCategory() {
+        String out="";
+        if (category!=null) {
+            for (int i=0; i<category.size(); i++) {
+                out.concat(category.get(i));
+            }
+        }
+        return out;
     }
 
     public RSSElement(String title, String link, String pubDate) {

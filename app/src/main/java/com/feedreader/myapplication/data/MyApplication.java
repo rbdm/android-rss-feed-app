@@ -93,6 +93,12 @@ public class MyApplication extends Application implements Serializable {
         this.url = url;
     }
 
+    public ArrayList<RSSElement> addNewsSource(ArrayList<RSSElement> newList) {
+        ArrayList<RSSElement> targetList = RSSElementList;
+        for (RSSElement re: newList) targetList.add(re);
+        return targetList;
+    }
+
 
     /* *
      * Author: Mingzhen Ao

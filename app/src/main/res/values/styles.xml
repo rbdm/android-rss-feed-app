@@ -41,6 +41,20 @@
         <item name="android:shape">oval</item>
         <item name="android:backgroundTint">@color/colorButton4</item>
     </style>
-    
+
+    <style name="NewsButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fadingEdgeLength">10px</item>
+        <item name="android:paddingLeft">50px</item>
+        <item name="android:paddingTop">25px</item>
+        <item name="android:paddingRight">50px</item>
+        <item name="android:paddingBottom">25px</item>
+        <item name="android:shape">rectangle</item>
+        <item name="android:backgroundTint">@android:color/white</item>
+        <item name="android:strokeWidth">10</item>
+        <item name="android:strokeColor">@color/colorBackground</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
 
 </resources>

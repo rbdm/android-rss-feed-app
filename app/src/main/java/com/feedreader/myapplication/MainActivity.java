@@ -20,6 +20,7 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -334,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
             final String formattedDate = dta.formatDateTime(dta.getDateTime(list.get(i).pubDate));
 
             LinearLayout layout = findViewById(R.id.linearLayout);
-            AppCompatButton new_button = new AppCompatButton(getApplicationContext());
+            Button new_button = new Button(new ContextThemeWrapper(getApplicationContext(), R.style.NewsButton));
 
             //add icon to the left of each news button, but the icon is round
             /*
@@ -348,20 +349,24 @@ public class MainActivity extends AppCompatActivity {
             int number = i + 1;
             final String newsTitle = list.get(i).title;
             final String source = list.get(i).getNewsSource(list.get(i).link);
+            //final String category = list.get(i).getConcatedCategory();
             new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n" + source + "\r\n");
             new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
             new_button.setX(0);
             new_button.setY(0);
+            new_button.setTag(list.get(i).link);
 
+            /*
             new_button.setCompoundDrawablePadding(50);
             new_button.setAllCaps(false);
-            new_button.setTag(list.get(i).link);
+
             new_button.setFadingEdgeLength(10);
             new_button.setPadding(50,20,50,20);
             GradientDrawable background = new GradientDrawable();
             background.setColor(Color.WHITE);
             background.setStroke(15, Color.DKGRAY);
             new_button.setBackground(background);
+            */
             new_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -395,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
             String url = args[0];
             RSSList = parser.getRSSfeedFromUrl(url);
             MyApplication app = (MyApplication) getApplication();
-            app.setNewsList(RSSList);
+            app.addNewsSource(RSSList);
 
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -412,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
             String url = args[0];
             RSSList = parser.getRSSfeedFromUrl(url);
             MyApplication app = (MyApplication) getApplication();
-            app.setNewsList(RSSList);
+            app.addNewsSource(RSSList);
             return null;
         }
     }

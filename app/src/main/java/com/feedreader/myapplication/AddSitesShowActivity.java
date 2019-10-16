@@ -146,21 +146,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
             app.getCheckBoxList().get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*
-                    CheckBox checkBox = (CheckBox) view;
-                    if (checkBox.getTag().toString() != null) {
-                        if (checkBox.isChecked()) {
-                            putLayout putlayout = new putLayout();
-                            putlayout.execute(view.getTag().toString());
-                        } else {
-                            for (int j = 0; j < app.getLayoutList().size(); j++) {
-                                if (app.getLayoutList().get(j).getTag().equals(view.getTag().toString())) {
-                                    app.getLayoutList().remove(j);
-                                }
-                            }
-                        }
-                    }
-                    */
                     saveCheckBoxList(file);
                     System.out.println(filePath + "/isCheckedList.xml");
                 }
@@ -224,10 +209,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
-
 
     /**
      * Author: Mingzhen Ao
