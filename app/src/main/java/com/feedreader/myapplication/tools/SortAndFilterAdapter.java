@@ -43,6 +43,18 @@ public class SortAndFilterAdapter {
         return filteredRSSList;
     }
 
+    public ArrayList<RSSElement> filterTodayWithoutToast(ArrayList<RSSElement> RSSList) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
+        for (RSSElement re: RSSList) {
+            System.out.println(re.getLink());
+            DateTime dateTime = dta.getDateTime(re.pubDate);
+            if (dateTime.isAfter(new DateMidnight())) {
+                filteredRSSList.add(re);
+            }
+        }
+        return filteredRSSList;
+    }
+
     public ArrayList<RSSElement> filterLastHour(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -64,6 +76,17 @@ public class SortAndFilterAdapter {
         return filteredRSSList;
     }
 
+    public ArrayList<RSSElement> filterLastHourWithoutToast(ArrayList<RSSElement> RSSList) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
+        for (RSSElement re: RSSList) {
+            DateTime dateTime = dta.getDateTime(re.pubDate);
+            if (dateTime.isAfter(new DateTime().minusHours(1))) {
+                filteredRSSList.add(re);
+            }
+        }
+        return filteredRSSList;
+    }
+
     public ArrayList<RSSElement> filterThisWeek(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -81,6 +104,17 @@ public class SortAndFilterAdapter {
             View view = toast.getView();
             view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
             toast.show();
+        }
+        return filteredRSSList;
+    }
+
+    public ArrayList<RSSElement> filterThisWeekWithoutToast(ArrayList<RSSElement> RSSList) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
+        for (RSSElement re: RSSList) {
+            DateTime dateTime = dta.getDateTime(re.pubDate);
+            if (dateTime.isAfter(new DateTime().minusDays(7))) {
+                filteredRSSList.add(re);
+            }
         }
         return filteredRSSList;
     }
@@ -124,6 +158,18 @@ public class SortAndFilterAdapter {
             View view = toast.getView();
             view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
             toast.show();
+        }
+        return filteredRSSList;
+    }
+
+    public ArrayList<RSSElement> filterByTermWithoutToast(ArrayList<RSSElement> RSSList, String searchTerm) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
+        for (RSSElement re: RSSList) {
+            String newsTitle = re.title.toLowerCase().trim();
+            String newsCategory = re.getConcatedCategory().toLowerCase().trim();
+            if (newsTitle.contains(searchTerm) || newsCategory.contains(searchTerm)) {
+                filteredRSSList.add(re);
+            }
         }
         return filteredRSSList;
     }

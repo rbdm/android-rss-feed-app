@@ -33,7 +33,7 @@ public class DateTimeAdapter {
 
     public String formatDateTime(DateTime dt) {
         dt.getZone();
-        String formattedDateString = dt.toString(DateTimeFormat.forPattern("EEE, dd MMM yy, kk:mm")) + " AEST";
+        String formattedDateString = dt.toString(DateTimeFormat.forPattern("EEE, dd MMM yyyy kk:mm")) + " AEST";
         return formattedDateString;
     }
 }
