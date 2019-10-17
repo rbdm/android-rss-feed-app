@@ -2,6 +2,8 @@ package com.feedreader.myapplication.tools;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -9,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.feedreader.myapplication.AddSitesShowActivity;
 import com.feedreader.myapplication.R;
 import com.feedreader.myapplication.WebViewActivity;
 import com.feedreader.myapplication.data.MyApplication;
@@ -86,6 +90,10 @@ public class FavouritesAdapter extends BaseAdapter {
         viewHolder.contentView.setTag(RSSElementList.get(position).getLink());// Set Url of news to be redirected
         viewHolder.contentView.setGravity(Gravity.LEFT);//Text to the left（horizontally）
         viewHolder.contentView.setGravity(Gravity.CENTER_VERTICAL); //Text to the Center Vertical
+        viewHolder.contentView.setBackgroundColor(Color.WHITE);
+        viewHolder.contentView.setTextColor(Color.BLACK);
+        //viewHolder.contentView.setTypeface(viewHolder.contentView.getTypeface(), Typeface.BOLD);
+        viewHolder.contentView.setPadding(50,10,50,10);
 
 
         //Click to jump to the specified news
@@ -106,6 +114,12 @@ public class FavouritesAdapter extends BaseAdapter {
             public void onClick(View v) {
                 RSSElementList.remove(rssElement);
                 notifyDataSetChanged();
+
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Successfully removed "+rssElement.title,
+                        Toast.LENGTH_SHORT
+                ).show();
 
                 saveNewsList(RSSElementList, new File (Environment.getExternalStorageDirectory().getPath() + "/newsList.xml"));
             }

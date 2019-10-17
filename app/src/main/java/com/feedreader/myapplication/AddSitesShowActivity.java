@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.feedreader.myapplication.data.MyApplication;
@@ -70,7 +72,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(AddSitesShowActivity.this);
                 builder.setTitle("Input URL of New Source\r\n(In XML Format, without http://)");
                 builder.setView(et);
-                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final EditText et2 = new EditText(AddSitesShowActivity.this);
@@ -111,9 +113,15 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         String text = et.getText().toString().toLowerCase().trim();
                         MyApplication app = (MyApplication) getApplication();
                         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
-                            if (app.getCheckBoxList().get(i).getText().toString().toLowerCase().trim().equals(text))
-                            {app.getCheckBoxList().remove(i);
-                                break;}
+                            if (app.getCheckBoxList().get(i).getText().toString().toLowerCase().trim().equals(text)) {
+                                Toast.makeText(
+                                        AddSitesShowActivity.this,
+                                        "Successfully removed "+app.getCheckBoxList().get(i).getText().toString(),
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                                app.getCheckBoxList().remove(i);
+                                break;
+                            }
                         }
                         LinearLayout layout = findViewById(R.id.linearLayout3);
                         layout.removeAllViews();
@@ -146,10 +154,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
             if (app.getCheckBoxList().get(i).getParent() != null)
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
             Button corresponding_button = functionContainer.createButton(app.getCheckBoxList().get(i));
-            corresponding_button.setWidth(725);
             corresponding_button.setText(app.getCheckBoxList().get(i).getText());
-            corresponding_button.setGravity(Gravity.CENTER_HORIZONTAL);
-            corresponding_button.setBackgroundColor(Color.GRAY);
             corresponding_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -267,7 +272,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
     /**
      * Author: Mingzhen Ao
      * This function aims to delete the exact site if the site is right xml url* when click delete button
-     * @param v
+     * @param
      */
     /*
     public void Delete(View v) {
@@ -313,14 +318,29 @@ public class AddSitesShowActivity extends AppCompatActivity {
                         LinearLayout layout = findViewById(R.id.linearLayout3);
                         layout.removeAllViews();
                         checkBox();
+                        Toast.makeText(
+                                AddSitesShowActivity.this,
+                                "Successfully added "+sourceName+" to RSS Feed",
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 });
             else {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         ConstraintLayout layout = findViewById(R.id.layout);
+
+                        Toast toast = Toast.makeText(
+                                AddSitesShowActivity.this,
+                                "Invalid URL" + "\r\n" + "Please check your input and try again",
+                                Toast.LENGTH_SHORT
+                        );
+                        View view = toast.getView();
+                        view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
+                        toast.show();
+                        /*
                         TextView reminder = new Button(getApplicationContext());
-                        reminder.setText("This url is invalid" + "\r\n" +
+                        reminder.setText("Invalid URL" + "\r\n" +
                                 "Please press to close the window");
                         reminder.setX(100);
                         reminder.setY(800);
@@ -334,6 +354,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                             }
                         });
                         layout.addView(reminder);
+                        */
                     }
                 });
             }

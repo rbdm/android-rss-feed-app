@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -170,7 +171,11 @@ public class WebViewActivity extends AppCompatActivity {
                     if (flag) {
                         app.setRssElement(new RSSElement(title, url, date));
                         app.getRSSElementList().add(app.getRssElement());
-
+                        Toast.makeText(
+                                WebViewActivity.this,
+                                "Successfully added:"+"\r\n"+title,
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 }
                 saveNewsList(newsListFile);

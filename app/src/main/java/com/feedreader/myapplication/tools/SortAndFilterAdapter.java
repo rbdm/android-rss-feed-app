@@ -1,5 +1,11 @@
 package com.feedreader.myapplication.tools;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.view.View;
+import android.widget.Toast;
+
+import com.feedreader.myapplication.AddSitesShowActivity;
 import com.feedreader.myapplication.data.RSSElement;
 
 import org.joda.time.DateMidnight;
@@ -9,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class SortAndFilterAdapter {
     DateTimeAdapter dta = new DateTimeAdapter();
@@ -32,6 +40,16 @@ public class SortAndFilterAdapter {
             if (dateTime.isAfter(new DateTime().minusHours(1))) {
                 filteredRSSList.add(re);
             }
+        }
+        if (filteredRSSList.size()==0) {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(),
+                    "No news found in the last hour",
+                    Toast.LENGTH_SHORT
+            );
+            View view = toast.getView();
+            view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
+            toast.show();
         }
         return filteredRSSList;
     }
@@ -66,6 +84,16 @@ public class SortAndFilterAdapter {
             if (newsTitle.contains(searchTerm) || newsCategory.contains(searchTerm)) {
                 filteredRSSList.add(re);
             }
+        }
+        if (filteredRSSList.size()==0) {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(),
+                    "Search term yielded no result",
+                    Toast.LENGTH_SHORT
+            );
+            View view = toast.getView();
+            view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
+            toast.show();
         }
         return filteredRSSList;
     }
