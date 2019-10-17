@@ -24,7 +24,6 @@ public class SortAndFilterAdapter {
     public ArrayList<RSSElement> filterToday(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
-            System.out.println(re.getLink());
             DateTime dateTime = dta.getDateTime(re.pubDate);
             if (dateTime.isAfter(new DateMidnight())) {
                 filteredRSSList.add(re);
@@ -46,7 +45,6 @@ public class SortAndFilterAdapter {
     public ArrayList<RSSElement> filterTodayWithoutToast(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
-            System.out.println(re.getLink());
             DateTime dateTime = dta.getDateTime(re.pubDate);
             if (dateTime.isAfter(new DateMidnight())) {
                 filteredRSSList.add(re);

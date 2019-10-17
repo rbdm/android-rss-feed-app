@@ -57,7 +57,7 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         url = intent.getStringExtra("url");
         MyApplication app = (MyApplication) getApplication();
         app.setUrl(url);
-        System.out.println(url);
+
 
         putLayout putlayout = new putLayout();
         putlayout.execute(url);

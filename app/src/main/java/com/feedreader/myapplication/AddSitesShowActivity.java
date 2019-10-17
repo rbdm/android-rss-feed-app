@@ -167,7 +167,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     saveCheckBoxList(file);
-                    System.out.println(filePath + "/isCheckedList.xml");
                 }
             });
 
@@ -213,11 +212,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
                 isCheckedListElement.appendChild(isCheckedElement);
             }
-            for (Boolean b : isCheckedList) {
-                System.out.println(isCheckedList.toString());
-            }
 
-            System.out.println(isCheckedListElement.toString());
 
             Transformer t = TransformerFactory.newInstance().newTransformer();
             DOMSource ds = new DOMSource(isCheckedListElement);
