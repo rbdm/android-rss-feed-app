@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  * Author: Mingzhen Ao
  * This class aims to test an button information if it corresponding to checkbox;
  */
-public class FunctionContainerTest {
+public class ButtonCreateTest {
     @Test
     public void testCreateButton() {
         CheckBox checkBox=new CheckBox(getApplicationContext());
