@@ -68,7 +68,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 final EditText et = new EditText(AddSitesShowActivity.this);
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(AddSitesShowActivity.this);
-                builder.setTitle("Input URL of New Source\r\n(In XML Format)");
+                builder.setTitle("Input URL of New Source\r\n(In XML Format, without http://)");
                 builder.setView(et);
                 builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
@@ -77,7 +77,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
                         final AlertDialog.Builder builder2 = new AlertDialog.Builder(AddSitesShowActivity.this);
                         builder2.setView(et2);
-                        builder2.setTitle("Input the Name Of The RSS Feed");
+                        builder2.setTitle("Input Name of RSS Feed");
                         builder2.setPositiveButton("ADD RSS FEED", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -102,7 +102,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(AddSitesShowActivity.this);
                 //builder.setTitle("Input URL to Remove\r\n(in XML format)");
-                builder.setTitle("Input RSS Feed Name To Be Removed\r\n");
+                builder.setTitle("RSS Feed Name\r\n");
                 builder.setView(et);
                 builder.setPositiveButton("REMOVE", new DialogInterface.OnClickListener() {
                     @Override

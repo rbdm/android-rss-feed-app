@@ -98,13 +98,20 @@ public class MainActivity extends AppCompatActivity {
         imageButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MyApplication app = (MyApplication) getApplication();
+                if (app.getNewsList().size()==0 || app.getNewsList()==null) {
+                    MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                    refresh.execute();
+                    System.out.println("found 0");
+                }
+                RSSList = app.getNewsList();
+
                 final EditText et = new EditText(MainActivity.this);
                 filteredRSSList.clear();
-
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Input Search Term");
                 builder.setView(et);
-                builder.setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String searchTerm = et.getText().toString().toLowerCase().trim();
@@ -360,7 +367,8 @@ public class MainActivity extends AppCompatActivity {
 
             int number = i + 1;
             final String newsTitle = list.get(i).title;
-            final String source = list.get(i).getNewsSource(list.get(i).link);
+            String source = list.get(i).getNewsSource(list.get(i).link);
+            if (source.contains("http")) source = "";
             //final String category = list.get(i).getConcatedCategory();
             new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n" + source + "\r\n");
             new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));

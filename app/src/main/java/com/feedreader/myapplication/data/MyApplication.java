@@ -119,7 +119,6 @@ public class MyApplication extends Application implements Serializable {
         return newsList;
     }
 
-
     /* *
      * Author: Mingzhen Ao
      * Add one xml url

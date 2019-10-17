@@ -61,7 +61,13 @@ public class RSSElement {
         this.title = title;
         this.link = link;
         this.pubDate = pubDate;
-        this.source = getNewsSource(link);
+    }
+
+    public RSSElement(String title, String link, String pubDate, String source) {
+        this.title = title;
+        this.link = link;
+        this.pubDate = pubDate;
+        this.source = source;
     }
 
 
@@ -79,8 +85,9 @@ public class RSSElement {
         else if (s.contains("bbc.co.uk")) out = "BBC World News";
         else if (s.contains("nytimes.com")) out = "New York Times Sports";
         else if (s.contains("techworld.com")) out = "Techworld News";
+        else if (s.substring(6).contains("e.com")) out = "Apple News";
 
-        else out = s;
+        else out = s.substring(15);
         return out;
     }
 }
