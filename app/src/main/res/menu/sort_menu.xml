@@ -10,9 +10,10 @@
         android:id="@+id/sortOldestFirst"
         android:title="Oldest First"></item>
 
+    <!--
     <item
         android:id="@+id/sortBySource"
-        android:title="Sort by Source"></item>
+        android:title="Sort by Source"></item>-->
 
     <item
         android:id="@+id/sortByTitle"

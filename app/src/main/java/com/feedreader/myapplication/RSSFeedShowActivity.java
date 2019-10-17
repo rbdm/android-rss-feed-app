@@ -119,20 +119,10 @@ public class RSSFeedShowActivity extends AppCompatActivity {
                             };
                         } else if (menuItem.getItemId() == R.id.sortNewestFirst) {
                             filteredRSSList = sfa.sortNewestFirst(RSSList);
-                            RefreshRSSFeed refresh = new RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
                         } else if (menuItem.getItemId() == R.id.sortOldestFirst) {
                             filteredRSSList = sfa.sortOldestFirst(RSSList);
-                            RefreshRSSFeed refresh = new RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
-                        } else if (menuItem.getItemId() == R.id.sortBySource) {
-                            filteredRSSList = sfa.sortBySource(RSSList);
-                            RefreshRSSFeed refresh = new RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
                         } else if (menuItem.getItemId() == R.id.sortByTitle) {
                             filteredRSSList = sfa.sortByTitle(RSSList);
-                            RefreshRSSFeed refresh = new RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
                         }
                         refreshFilteredLayout();
                         return true;

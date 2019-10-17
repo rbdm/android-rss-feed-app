@@ -6,6 +6,7 @@ import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -70,6 +71,7 @@ public class SortAndFilterAdapter {
     }
 
     public ArrayList<RSSElement> sortNewestFirst(ArrayList<RSSElement> RSSList) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         Collections.sort(RSSList, new Comparator<RSSElement>() {
             @Override
             public int compare(RSSElement re1, RSSElement re2) {
@@ -77,10 +79,12 @@ public class SortAndFilterAdapter {
                 else return -1;
             }
         });
-        return RSSList;
+        for (RSSElement re: RSSList) filteredRSSList.add(re);
+        return filteredRSSList;
     }
 
     public ArrayList<RSSElement> sortOldestFirst(ArrayList<RSSElement> RSSList) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         Collections.sort(RSSList, new Comparator<RSSElement>() {
             @Override
             public int compare(RSSElement re1, RSSElement re2) {
@@ -88,10 +92,13 @@ public class SortAndFilterAdapter {
                 else return 1;
             }
         });
-        return RSSList;
+        for (RSSElement re: RSSList) filteredRSSList.add(re);
+        return filteredRSSList;
     }
 
+    /*
     public ArrayList<RSSElement> sortBySource(ArrayList<RSSElement> RSSList) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         Collections.sort(RSSList, new Comparator<RSSElement>() {
             @Override
             public int compare(RSSElement re1, RSSElement re2) {
@@ -102,10 +109,13 @@ public class SortAndFilterAdapter {
                 }
             }
         });
-        return RSSList;
+        for (RSSElement re: RSSList) filteredRSSList.add(re);
+        return filteredRSSList;
     }
+    */
 
     public ArrayList<RSSElement> sortByTitle(ArrayList<RSSElement> RSSList) {
+        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         Collections.sort(RSSList, new Comparator<RSSElement>() {
             @Override
             public int compare(RSSElement re1, RSSElement re2) {
@@ -116,7 +126,8 @@ public class SortAndFilterAdapter {
                 }
             }
         });
-        return RSSList;
+        for (RSSElement re: RSSList) filteredRSSList.add(re);
+        return filteredRSSList;
     }
 
 

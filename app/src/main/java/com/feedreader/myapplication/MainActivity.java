@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyApplication app = (MyApplication) getApplication();
-                if (app.getNewsList().size()==0 || app.getNewsList()==null || needRefresh) {
+                if (app.getNewsList().size()==0 || app.getNewsList()==null) {
                     MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                     refresh.execute();
                     System.out.println("found 0");
@@ -143,25 +143,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         MyApplication app = (MyApplication) getApplication();
-                        /*if (app.getNewsList().size()==0 || app.getNewsList()==null || needRefresh) {
-                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-                            refresh.execute();
-                            System.out.println("found 0");
-                        }*/
                         System.out.println(getAvailableMemory().lowMemory+"XXX");
                         RSSList = app.getNewsList();
                         if (RSSList!=null) System.out.println(RSSList.size());
                         filteredRSSList.clear();
                         if (menuItem.getItemId() == R.id.filterLastHour) {
                             filteredRSSList = sfa.filterLastHour(RSSList);
-                            needRefresh = false;
                         } else if (menuItem.getItemId() == R.id.filterToday) {
                             filteredRSSList = sfa.filterToday(RSSList);
-                            needRefresh = false;
                         } else if (menuItem.getItemId() == R.id.filterThisWeek) {
                             RSSList = app.getNewsList();
                             filteredRSSList = sfa.filterThisWeek(RSSList);
-                            needRefresh = false;
                         } else if (menuItem.getItemId() == R.id.filterDate) {
                             DialogFragment newFragment = new RSSFeedShowActivity.DatePickerFragment();
                             newFragment.show(getFragmentManager(), "datePicker");
@@ -170,25 +162,14 @@ public class MainActivity extends AppCompatActivity {
                                     DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
                                     filteredRSSList = sfa.filterByDate(RSSList, selectedDate);
                                     refreshFilteredLayout();
-                                    needRefresh = false;
                                 }
                             };
                         } else if (menuItem.getItemId() == R.id.sortNewestFirst) {
                             filteredRSSList = sfa.sortNewestFirst(RSSList);
-                            needRefresh = true;
                         } else if (menuItem.getItemId() == R.id.sortOldestFirst) {
                             filteredRSSList = sfa.sortOldestFirst(RSSList);
-                            needRefresh = true;
-                        } else if (menuItem.getItemId() == R.id.sortBySource) {
-                            filteredRSSList = sfa.sortBySource(RSSList);
-                            needRefresh = true;
-                            //MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-                            //refresh.execute();
                         } else if (menuItem.getItemId() == R.id.sortByTitle) {
                             filteredRSSList = sfa.sortByTitle(RSSList);
-                            needRefresh = true;
-                            //MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-                            //refresh.execute();
                         }
                         refreshFilteredLayout();
                         return true;
