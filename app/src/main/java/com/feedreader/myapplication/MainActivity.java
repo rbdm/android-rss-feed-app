@@ -2,27 +2,16 @@ package com.feedreader.myapplication;
 
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.Menu;
@@ -51,31 +40,25 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity {
-    //String filePath;
-    //File file;
     private int permissionCode;
     private int[] permissionReceived;
+    private String[] permissions = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String[] permissionsApproved = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     ArrayList<RSSElement> RSSList = new ArrayList<>();
     ArrayList<RSSElement> partialRSSList = new ArrayList<>();
     ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
-    boolean needRefresh = false;
 
     String filePath = Environment.getExternalStorageDirectory().getPath();
     File checkBoxFile = new File(filePath + "/isCheckedList.xml");
     File newsListFile = new File(filePath + "/newsList.xml");
-    static ArrayList<RSSElement> savedList;
 
     //DateTimeAdapter dta = new DateTimeAdapter();
     SortAndFilterAdapter sfa = new SortAndFilterAdapter();
@@ -86,18 +69,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        ActivityCompat.requestPermissions(this, new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        }, permissionCode);
-        onRequestPermissionsResult(permissionCode, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReceived);
+        //request permission for persistent data
+        ActivityCompat.requestPermissions(MainActivity.this, permissions, permissionCode);
+        onRequestPermissionsResult(permissionCode, permissionsApproved, permissionReceived);
 
         setContentView(R.layout.activity);
 
+        //load external source for initial app state
         loadCheckBoxList(checkBoxFile);
         loadNewsList(newsListFile);
 
+        //displays initial news feed
         display();
 
+        //button handlers
         imageButtonSearch = findViewById(R.id.imageButtonSearch);
         imageButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 if (app.getNewsList().size()==0 || app.getNewsList()==null) {
                     MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                     refresh.execute();
-                    System.out.println("found 0");
                 }
                 RSSList = app.getNewsList();
 
@@ -126,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-
         imageButtonSort = findViewById(R.id.imageButtonSort);
         imageButtonSort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
                 if (app.getNewsList().size()==0 || app.getNewsList()==null) {
                     MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                     refresh.execute();
-                    System.out.println("found 0");
                 }
                 PopupMenu sortMenu = new PopupMenu(MainActivity.this, imageButtonSort);
                 sortMenu.getMenuInflater().inflate(R.menu.sort_menu, sortMenu.getMenu());
@@ -143,9 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         MyApplication app = (MyApplication) getApplication();
-                        System.out.println(getAvailableMemory().lowMemory+"XXX");
                         RSSList = app.getNewsList();
-                        if (RSSList!=null) System.out.println(RSSList.size());
                         filteredRSSList.clear();
                         if (menuItem.getItemId() == R.id.filterLastHour) {
                             filteredRSSList = sfa.filterLastHour(RSSList);
@@ -180,21 +160,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private ActivityManager.MemoryInfo getAvailableMemory() {
-        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
-        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-        activityManager.getMemoryInfo(memoryInfo);
-        return memoryInfo;
-    }
-
-    void checkRefresh(boolean needRefresh) {
-        MyApplication app = (MyApplication) getApplication();
-        if (app.getNewsList().size()==0 || app.getNewsList()==null || needRefresh) {
-            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-            refresh.execute();
-        }
-    }
-
     void display() {
         ArrayList<String> urlList = new ArrayList<>();
 
@@ -204,13 +169,10 @@ public class MainActivity extends AppCompatActivity {
             if (checkBox.getTag().toString() != null) {
                 if (checkBox.isChecked()) {
                     urlList.add(checkBox.getTag().toString());
-                    System.out.println(checkBox.getTag().toString()+"AA");
                 }
             }
         }
         app.setUrlList(urlList);
-        System.out.println(urlList);
-
 
         putLayout putlayout = new putLayout();
         putlayout.execute();
@@ -222,8 +184,6 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.putFilteredLayout pfl = new MainActivity.putFilteredLayout();
         pfl.execute();
     }
-
-
 
     /**
      Author: Mingzhen Ao
@@ -361,37 +321,16 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout layout = findViewById(R.id.linearLayout);
             Button new_button = new Button(new ContextThemeWrapper(getApplicationContext(), R.style.NewsButton));
 
-            //add icon to the left of each news button, but the icon is round
-            /*
-            Drawable sourceIcon = getDrawable(R.mipmap.test);
-            int height = sourceIcon.getIntrinsicHeight();
-            int width = sourceIcon.getIntrinsicWidth();
-            sourceIcon.setBounds(0,0,width,height);
-            new_button.setCompoundDrawables(sourceIcon,null,null,null);
-            */
-
             int number = i + 1;
             final String newsTitle = list.get(i).title;
             String source = list.get(i).getNewsSource(list.get(i).link);
             if (source.contains("http")) source = "";
-            //final String category = list.get(i).getConcatedCategory();
             new_button.setText(number + ". " + newsTitle + "\r\n" + formattedDate +"\r\n" + source + "\r\n");
             new_button.setLayoutParams(new ViewGroup.LayoutParams(1450, 300));
             new_button.setX(0);
             new_button.setY(0);
             new_button.setTag(list.get(i).link);
 
-            /*
-            new_button.setCompoundDrawablePadding(50);
-            new_button.setAllCaps(false);
-
-            new_button.setFadingEdgeLength(10);
-            new_button.setPadding(50,20,50,20);
-            GradientDrawable background = new GradientDrawable();
-            background.setColor(Color.WHITE);
-            background.setStroke(15, Color.DKGRAY);
-            new_button.setBackground(background);
-            */
             new_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -410,9 +349,6 @@ public class MainActivity extends AppCompatActivity {
     public class putFilteredLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
-            System.out.println(filteredRSSList.size()+"here");
-            System.out.println(savedList.size()+"saved");
-
             runOnUiThread(new Runnable() {
                 public void run() {
                     setLinearLayout(filteredRSSList);
@@ -430,15 +366,9 @@ public class MainActivity extends AppCompatActivity {
             final MyApplication app = (MyApplication) getApplication();
             app.getNewsList().clear();
             for (String s: app.getUrlList()) {
-                //System.out.println(s);
                 partialRSSList = parser.getRSSfeedFromUrl(s);
                 app.addNewsSource(partialRSSList);
             }
-            System.out.println(app.getNewsList().size());
-            //System.out.println(partialRSSList.size());
-            System.out.println(RSSList.size());
-
-            //final MyApplication app2 = (MyApplication) getApplication();
 
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -446,19 +376,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            try {
-                MainActivity.this.finalize();
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
             return null;
         }
-    }
-
-    public void finalize() {
-        MyApplication app = (MyApplication) getApplication();
-        savedList = app.getNewsList();
     }
 
     public class RefreshRSSFeed extends AsyncTask<String, String, String> {
@@ -468,14 +387,9 @@ public class MainActivity extends AppCompatActivity {
             MyApplication app = (MyApplication) getApplication();
             app.getNewsList().clear();
             for (String s: app.getUrlList()) {
-                //System.out.println(s);
                 partialRSSList = parser.getRSSfeedFromUrl(s);
                 app.addNewsSource(partialRSSList);
             }
-            //System.out.println(app.getFilteredNewsList().size()+"me");
-            System.out.println(app.getNewsList().size());
-            //System.out.println(partialRSSList.size());
-            System.out.println(partialRSSList.size());
 
             return null;
         }
