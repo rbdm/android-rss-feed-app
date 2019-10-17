@@ -43,6 +43,7 @@ public class MyApplication extends Application implements Serializable {
         setRssElement(RSS_ELEMENT);
         setRSSElementList(RSS_ELEMENTS_lIST);
         setNewsList(NEWS_LIST);
+        setUrlList(URL_LIST);
 
         //Add check box
         addCheckbox();

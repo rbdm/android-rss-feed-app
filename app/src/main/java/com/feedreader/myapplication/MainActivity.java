@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Input Search Term");
                 builder.setView(et);
-                builder.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String searchTerm = et.getText().toString().toLowerCase().trim();

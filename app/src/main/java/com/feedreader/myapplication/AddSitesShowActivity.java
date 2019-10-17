@@ -73,9 +73,21 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String url = "http://" + et.getText().toString().toLowerCase().trim();
-                        Check checkurl = new Check();
-                        checkurl.execute(url);
+                        final EditText et2 = new EditText(AddSitesShowActivity.this);
+
+                        final AlertDialog.Builder builder2 = new AlertDialog.Builder(AddSitesShowActivity.this);
+                        builder2.setView(et2);
+                        builder2.setTitle("Input the Name Of The RSS Feed");
+                        builder2.setPositiveButton("ADD RSS FEED", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String url = "http://" + et.getText().toString().toLowerCase().trim();
+                                Check checkurl = new Check();
+                                checkurl.execute(url);
+                                //todo: get string from et2 as source name
+                            }
+                        });
+                        builder2.show();
                     }
                 });
                 builder.show();
