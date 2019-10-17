@@ -1,16 +1,14 @@
 package com.feedreader.myapplication;
 
-import android.graphics.Color;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import org.junit.Test;
-
-import com.feedreader.myapplication.AddSitesShowActivity;
 import com.feedreader.myapplication.tools.FunctionContainer;
 
+import org.junit.Test;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class FunctionContainerTest {
     @Test
