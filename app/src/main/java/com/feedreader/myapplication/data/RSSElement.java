@@ -72,6 +72,7 @@ public class RSSElement {
         else if (s.contains("cnbc.com")) out = "CNBC TopStories News";
         else if (s.contains("cbsnews.com")) out = "CBS TopStories News";
         else if (s.contains("nbcnews.com")) out = "NBC Politics";
+        else if (s.contains("msnbc.com")) out = "NBC Daily";
         else if (s.contains("bbc.co.uk/news/business")) out = "BBC Business";
         else if (s.contains("bbc.co.uk/news/technology")) out = "BBC Technology";
         else if (s.contains("bbc.co.uk/news/science")) out = "BBC Science";

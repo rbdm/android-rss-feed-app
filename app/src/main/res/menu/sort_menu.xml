@@ -11,6 +11,14 @@
         android:title="Oldest First"></item>
 
     <item
+        android:id="@+id/sortBySource"
+        android:title="Sort by Source"></item>
+
+    <item
+        android:id="@+id/sortByTitle"
+        android:title="Sort by Title"></item>
+
+    <item
         android:id="@+id/filterLastHour"
         android:title="Last Hour"></item>
 
@@ -25,13 +33,5 @@
     <item
         android:id="@+id/filterDate"
         android:title="Select Date"></item>
-
-    <item
-        android:id="@+id/sortBySource"
-        android:title="Sort by Source"></item>
-
-    <item
-        android:id="@+id/sortByTitle"
-        android:title="Sort by Title"></item>
 
 </menu>

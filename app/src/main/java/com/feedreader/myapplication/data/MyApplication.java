@@ -21,14 +21,16 @@ public class MyApplication extends Application implements Serializable {
     private static final ArrayList<RSSElement> NEWS_LIST = new ArrayList<>();
     private static final RSSElement RSS_ELEMENT = new RSSElement("", "", "");
     private static final ArrayList<CheckBox> CHECKBOXLIST = new ArrayList<>();
+    private static final ArrayList<String> URL_LIST = new ArrayList<>();
 
-
+    private ArrayList<RSSElement> filteredNewsList;
     private ArrayList<RSSElement> newsList;
     private ArrayList<RSSElement> RSSElementList;
     private RSSElement rssElement;
     private ArrayList<LinearLayout> layoutList;
     private ArrayList<CheckBox> checkBoxList;
     private String url;
+    private ArrayList<String> urlList;
 
 
     @Override
@@ -45,6 +47,23 @@ public class MyApplication extends Application implements Serializable {
         //Add check box
         addCheckbox();
     }
+    public void setUrlList(ArrayList<String> urlList) {
+        this.urlList = urlList;
+    }
+
+    public ArrayList<String> getUrlList() {
+        return urlList;
+    }
+
+    public void setFilteredNewsList(ArrayList<RSSElement> filteredNewsList) {
+        this.filteredNewsList = filteredNewsList;
+    }
+
+    public ArrayList<RSSElement> getFilteredNewsList() {
+        return filteredNewsList;
+    }
+
+
     public void setNewsList(ArrayList<RSSElement> newsList) {
         this.newsList = newsList;
     }
@@ -94,9 +113,9 @@ public class MyApplication extends Application implements Serializable {
     }
 
     public ArrayList<RSSElement> addNewsSource(ArrayList<RSSElement> newList) {
-        ArrayList<RSSElement> targetList = RSSElementList;
-        for (RSSElement re: newList) targetList.add(re);
-        return targetList;
+
+        for (RSSElement re: newList) newsList.add(re);
+        return newsList;
     }
 
 

@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     String filePath = Environment.getExternalStorageDirectory().getPath();
     File checkBoxFile = new File(filePath + "/isCheckedList.xml");
     File newsListFile = new File(filePath + "/newsList.xml");
+    static ArrayList<RSSElement> savedList;
 
     DateTimeAdapter dta = new DateTimeAdapter();
     SortAndFilterAdapter sfa = new SortAndFilterAdapter();
@@ -120,22 +121,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyApplication app = (MyApplication) getApplication();
+                if (app.getNewsList().size()==0 || app.getNewsList()==null) {
+                    MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                    refresh.execute();
+                    System.out.println("found 0");
+                }
                 PopupMenu sortMenu = new PopupMenu(MainActivity.this, imageButtonSort);
                 sortMenu.getMenuInflater().inflate(R.menu.sort_menu, sortMenu.getMenu());
-                System.out.println(RSSList.get(0).getLink());
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         MyApplication app = (MyApplication) getApplication();
+                        if (app.getNewsList().size()==0 || app.getNewsList()==null) {
+                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                            refresh.execute();
+                            System.out.println("found 0");
+                        }
                         RSSList = app.getNewsList();
-                        System.out.println(RSSList.get(0).getLink());
+                        if (RSSList!=null) System.out.println(RSSList.size());
                         filteredRSSList.clear();
                         if (menuItem.getItemId() == R.id.filterLastHour) {
                             filteredRSSList = sfa.filterLastHour(RSSList);
+                            refreshFilteredLayout();
                         } else if (menuItem.getItemId() == R.id.filterToday) {
                             filteredRSSList = sfa.filterToday(RSSList);
+                            refreshFilteredLayout();
                         } else if (menuItem.getItemId() == R.id.filterThisWeek) {
+                            RSSList = app.getNewsList();
                             filteredRSSList = sfa.filterThisWeek(RSSList);
+                            refreshFilteredLayout();
                         } else if (menuItem.getItemId() == R.id.filterDate) {
                             DialogFragment newFragment = new RSSFeedShowActivity.DatePickerFragment();
                             newFragment.show(getFragmentManager(), "datePicker");
@@ -148,22 +162,23 @@ public class MainActivity extends AppCompatActivity {
                             };
                         } else if (menuItem.getItemId() == R.id.sortNewestFirst) {
                             filteredRSSList = sfa.sortNewestFirst(RSSList);
-                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
+                            System.out.println(filteredRSSList.size()+"hwrw");
+                            refreshFilteredLayout();
                         } else if (menuItem.getItemId() == R.id.sortOldestFirst) {
                             filteredRSSList = sfa.sortOldestFirst(RSSList);
-                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
+                            refreshFilteredLayout();
                         } else if (menuItem.getItemId() == R.id.sortBySource) {
                             filteredRSSList = sfa.sortBySource(RSSList);
-                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
+                            refreshFilteredLayout();
+                            //MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                            //refresh.execute();
                         } else if (menuItem.getItemId() == R.id.sortByTitle) {
                             filteredRSSList = sfa.sortByTitle(RSSList);
-                            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
-                            refresh.execute(app.getUrl());
+                            refreshFilteredLayout();
+                            //MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+                            //refresh.execute();
                         }
-                        refreshFilteredLayout();
+
                         return true;
                     }
                 });
@@ -171,8 +186,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     void display() {
         ArrayList<String> urlList = new ArrayList<>();
@@ -186,10 +199,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        for (String s : urlList) {
-            putLayout putlayout = new putLayout();
-            putlayout.execute(s);
-        }
+        app.setUrlList(urlList);
+
+        putLayout putlayout = new putLayout();
+        putlayout.execute();
     }
 
     public void refreshFilteredLayout() {
@@ -220,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
         }
     }
 
@@ -385,6 +397,9 @@ public class MainActivity extends AppCompatActivity {
     public class putFilteredLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
+            System.out.println(filteredRSSList.size()+"here");
+            System.out.println(savedList.size()+"saved");
+
             runOnUiThread(new Runnable() {
                 public void run() {
                     setLinearLayout(filteredRSSList);
@@ -397,27 +412,58 @@ public class MainActivity extends AppCompatActivity {
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
-            String url = args[0];
-            RSSList = parser.getRSSfeedFromUrl(url);
-            MyApplication app = (MyApplication) getApplication();
-            app.addNewsSource(RSSList);
+            //String url = args[0];
+
+            final MyApplication app = (MyApplication) getApplication();
+            app.getNewsList().clear();
+            for (String s: app.getUrlList()) {
+                //System.out.println(s);
+                partialRSSList = parser.getRSSfeedFromUrl(s);
+                app.addNewsSource(partialRSSList);
+            }
+            System.out.println(app.getNewsList().size());
+            //System.out.println(partialRSSList.size());
+            System.out.println(RSSList.size());
+
+            //final MyApplication app2 = (MyApplication) getApplication();
 
             runOnUiThread(new Runnable() {
                 public void run() {
-                    setLinearLayout(RSSList);
+                    setLinearLayout(app.getNewsList());
                 }
             });
+
+            try {
+                MainActivity.this.finalize();
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
+    }
+
+    public void finalize() {
+        MyApplication app = (MyApplication) getApplication();
+        savedList = app.getNewsList();
     }
 
     public class RefreshRSSFeed extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
-            String url = args[0];
-            RSSList = parser.getRSSfeedFromUrl(url);
+            //String url = args[0];
             MyApplication app = (MyApplication) getApplication();
-            app.addNewsSource(RSSList);
+            app.getNewsList().clear();
+            for (String s: app.getUrlList()) {
+                //System.out.println(s);
+                partialRSSList = parser.getRSSfeedFromUrl(s);
+                app.addNewsSource(partialRSSList);
+            }
+            //System.out.println(app.getFilteredNewsList().size()+"me");
+            System.out.println(app.getNewsList().size());
+            //System.out.println(partialRSSList.size());
+            System.out.println(partialRSSList.size());
+
             return null;
         }
     }
