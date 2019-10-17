@@ -2,6 +2,8 @@ package com.feedreader.myapplication;
 
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
@@ -17,6 +19,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -67,13 +70,14 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<RSSElement> partialRSSList = new ArrayList<>();
     ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
+    boolean needRefresh = false;
 
     String filePath = Environment.getExternalStorageDirectory().getPath();
     File checkBoxFile = new File(filePath + "/isCheckedList.xml");
     File newsListFile = new File(filePath + "/newsList.xml");
     static ArrayList<RSSElement> savedList;
 
-    DateTimeAdapter dta = new DateTimeAdapter();
+    //DateTimeAdapter dta = new DateTimeAdapter();
     SortAndFilterAdapter sfa = new SortAndFilterAdapter();
     ImageButton imageButtonSort, imageButtonSearch;
 
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyApplication app = (MyApplication) getApplication();
-                if (app.getNewsList().size()==0 || app.getNewsList()==null) {
+                if (app.getNewsList().size()==0 || app.getNewsList()==null || needRefresh) {
                     MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                     refresh.execute();
                     System.out.println("found 0");
@@ -139,24 +143,25 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         MyApplication app = (MyApplication) getApplication();
-                        if (app.getNewsList().size()==0 || app.getNewsList()==null) {
+                        /*if (app.getNewsList().size()==0 || app.getNewsList()==null || needRefresh) {
                             MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                             refresh.execute();
                             System.out.println("found 0");
-                        }
+                        }*/
+                        System.out.println(getAvailableMemory().lowMemory+"XXX");
                         RSSList = app.getNewsList();
                         if (RSSList!=null) System.out.println(RSSList.size());
                         filteredRSSList.clear();
                         if (menuItem.getItemId() == R.id.filterLastHour) {
                             filteredRSSList = sfa.filterLastHour(RSSList);
-                            refreshFilteredLayout();
+                            needRefresh = false;
                         } else if (menuItem.getItemId() == R.id.filterToday) {
                             filteredRSSList = sfa.filterToday(RSSList);
-                            refreshFilteredLayout();
+                            needRefresh = false;
                         } else if (menuItem.getItemId() == R.id.filterThisWeek) {
                             RSSList = app.getNewsList();
                             filteredRSSList = sfa.filterThisWeek(RSSList);
-                            refreshFilteredLayout();
+                            needRefresh = false;
                         } else if (menuItem.getItemId() == R.id.filterDate) {
                             DialogFragment newFragment = new RSSFeedShowActivity.DatePickerFragment();
                             newFragment.show(getFragmentManager(), "datePicker");
@@ -165,33 +170,48 @@ public class MainActivity extends AppCompatActivity {
                                     DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
                                     filteredRSSList = sfa.filterByDate(RSSList, selectedDate);
                                     refreshFilteredLayout();
+                                    needRefresh = false;
                                 }
                             };
                         } else if (menuItem.getItemId() == R.id.sortNewestFirst) {
                             filteredRSSList = sfa.sortNewestFirst(RSSList);
-                            System.out.println(filteredRSSList.size()+"hwrw");
-                            refreshFilteredLayout();
+                            needRefresh = true;
                         } else if (menuItem.getItemId() == R.id.sortOldestFirst) {
                             filteredRSSList = sfa.sortOldestFirst(RSSList);
-                            refreshFilteredLayout();
+                            needRefresh = true;
                         } else if (menuItem.getItemId() == R.id.sortBySource) {
                             filteredRSSList = sfa.sortBySource(RSSList);
-                            refreshFilteredLayout();
+                            needRefresh = true;
                             //MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                             //refresh.execute();
                         } else if (menuItem.getItemId() == R.id.sortByTitle) {
                             filteredRSSList = sfa.sortByTitle(RSSList);
-                            refreshFilteredLayout();
+                            needRefresh = true;
                             //MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                             //refresh.execute();
                         }
-
+                        refreshFilteredLayout();
                         return true;
                     }
                 });
                 sortMenu.show();
             }
         });
+    }
+
+    private ActivityManager.MemoryInfo getAvailableMemory() {
+        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(memoryInfo);
+        return memoryInfo;
+    }
+
+    void checkRefresh(boolean needRefresh) {
+        MyApplication app = (MyApplication) getApplication();
+        if (app.getNewsList().size()==0 || app.getNewsList()==null || needRefresh) {
+            MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
+            refresh.execute();
+        }
     }
 
     void display() {
@@ -203,10 +223,13 @@ public class MainActivity extends AppCompatActivity {
             if (checkBox.getTag().toString() != null) {
                 if (checkBox.isChecked()) {
                     urlList.add(checkBox.getTag().toString());
+                    System.out.println(checkBox.getTag().toString()+"AA");
                 }
             }
         }
         app.setUrlList(urlList);
+        System.out.println(urlList);
+
 
         putLayout putlayout = new putLayout();
         putlayout.execute();
@@ -351,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setLinearLayout(ArrayList<RSSElement> list) {
         for (int i = 0; i < list.size(); i++) {
+            DateTimeAdapter dta = new DateTimeAdapter();
             final String formattedDate = dta.formatDateTime(dta.getDateTime(list.get(i).pubDate));
 
             LinearLayout layout = findViewById(R.id.linearLayout);
