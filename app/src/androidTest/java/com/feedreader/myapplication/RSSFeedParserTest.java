@@ -20,6 +20,10 @@ public class RSSFeedParserTest {
     String Validurl2 = "https://www.npr.org/rss/rss.php?id=1003";
     String Invalidurl1 = "COOL";
     String Invalidurl2 = "just for test";
+    /*
+     * Author: Mingzhen Ao
+     * test web
+     */
     @Test
     public void testRSSFeedweb() {
         RSSFeedParser parser = new RSSFeedParser();
@@ -28,6 +32,10 @@ public class RSSFeedParserTest {
         assertTrue(parser.getRSSfeedFromUrl(Invalidurl1)==null);
         assertTrue(parser.getRSSfeedFromUrl(Invalidurl2)==null);
     }
+    /*
+     * Author: Mingzhen Ao
+     * test whether valid web1 can get information
+     */
     @Test
     public void testRSSFeedItem1() {
         RSSFeedParser parser = new RSSFeedParser();
@@ -37,6 +45,10 @@ public class RSSFeedParserTest {
         assertTrue(a.get(i).pubDate!=null);
         assertTrue(a.get(i).title!=null);}
     }
+    /*
+     * Author: Mingzhen Ao
+     * test whether valid web2 can get information
+     */
     @Test
     public void testRSSFeedItem2() {
         RSSFeedParser parser = new RSSFeedParser();
