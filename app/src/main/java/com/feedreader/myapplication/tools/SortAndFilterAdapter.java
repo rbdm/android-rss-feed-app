@@ -30,6 +30,16 @@ public class SortAndFilterAdapter {
                 filteredRSSList.add(re);
             }
         }
+        if (filteredRSSList.size()==0) {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(),
+                    "No news found for today",
+                    Toast.LENGTH_SHORT
+            );
+            View view = toast.getView();
+            view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
+            toast.show();
+        }
         return filteredRSSList;
     }
 
@@ -62,6 +72,16 @@ public class SortAndFilterAdapter {
                 filteredRSSList.add(re);
             }
         }
+        if (filteredRSSList.size()==0) {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(),
+                    "No news found for the last week",
+                    Toast.LENGTH_SHORT
+            );
+            View view = toast.getView();
+            view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
+            toast.show();
+        }
         return filteredRSSList;
     }
 
@@ -72,6 +92,16 @@ public class SortAndFilterAdapter {
             if (dateTime.isAfter(selectedDate) && dateTime.isBefore(selectedDate.plusDays(1))) {
                 filteredRSSList.add(re);
             }
+        }
+        if (filteredRSSList.size()==0) {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(),
+                    "No news found for " + dta.formatDateTime(selectedDate),
+                    Toast.LENGTH_SHORT
+            );
+            View view = toast.getView();
+            view.getBackground().setColorFilter(Color.rgb(255, 105, 97), PorterDuff.Mode.SRC_IN);
+            toast.show();
         }
         return filteredRSSList;
     }

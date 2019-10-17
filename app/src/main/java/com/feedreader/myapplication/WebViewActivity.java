@@ -173,7 +173,7 @@ public class WebViewActivity extends AppCompatActivity {
                         app.getRSSElementList().add(app.getRssElement());
                         Toast.makeText(
                                 WebViewActivity.this,
-                                "Successfully added:"+"\r\n"+title,
+                                "Successfully added:"+"\r\n"+title+" to favourites",
                                 Toast.LENGTH_SHORT
                         ).show();
                     }
