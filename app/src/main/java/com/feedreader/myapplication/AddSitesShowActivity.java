@@ -82,9 +82,9 @@ public class AddSitesShowActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String url = "http://" + et.getText().toString().toLowerCase().trim();
+                                String sourceName = et2.getText().toString().trim();
                                 Check checkurl = new Check();
-                                checkurl.execute(url);
-                                //todo: get string from et2 as source name
+                                checkurl.execute(url, sourceName);
                             }
                         });
                         builder2.show();
@@ -101,15 +101,17 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 final EditText et = new EditText(AddSitesShowActivity.this);
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(AddSitesShowActivity.this);
-                builder.setTitle("Input URL to Remove\r\n(in XML format)");
+                //builder.setTitle("Input URL to Remove\r\n(in XML format)");
+                builder.setTitle("Input RSS Feed Name To Be Removed\r\n");
                 builder.setView(et);
-                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("REMOVE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String url = "http://" + et.getText().toString().toLowerCase().trim();
+                        //String url = "http://" + et.getText().toString().toLowerCase().trim();
+                        String text = et.getText().toString().toLowerCase().trim();
                         MyApplication app = (MyApplication) getApplication();
                         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
-                            if (app.getCheckBoxList().get(i).getTag().equals(url))
+                            if (app.getCheckBoxList().get(i).getText().toString().toLowerCase().trim().equals(text))
                             {app.getCheckBoxList().remove(i);
                                 break;}
                         }
@@ -145,6 +147,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 ((ViewGroup) app.getCheckBoxList().get(i).getParent()).removeView(app.getCheckBoxList().get(i));
             Button corresponding_button = functionContainer.createButton(app.getCheckBoxList().get(i));
             corresponding_button.setWidth(725);
+            corresponding_button.setText(app.getCheckBoxList().get(i).getText());
             corresponding_button.setGravity(Gravity.CENTER_HORIZONTAL);
             corresponding_button.setBackgroundColor(Color.GRAY);
             corresponding_button.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +180,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
         for (int i = 0; i < app.getCheckBoxList().size(); i++) {
             CheckBox checkBox = app.getCheckBoxList().get(i);
-            if (checkBox.getParent() != null) {
+            if (checkBox.getTag() != null) {
                 if (checkBox.isChecked()) {
                     isCheckedList.add(true);
                 } else {
@@ -293,6 +296,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             final String url = args[0];
+            final String sourceName = args[1];
             RSSFeedParser parser = new RSSFeedParser();
             final ArrayList<RSSElement> a = parser.getRSSfeedFromUrl(url);
             if (a != null)
@@ -300,11 +304,12 @@ public class AddSitesShowActivity extends AppCompatActivity {
                     public void run() {
                         MyApplication app = (MyApplication) getApplication();
                         CheckBox checkBox = new CheckBox(getApplicationContext());
-                        checkBox.setText(url);
+                        checkBox.setText(sourceName);
                         checkBox.setTextColor(Color.WHITE);
                         checkBox.setTag(url);
                         checkBox.setChecked(false);
                         app.getCheckBoxList().add(checkBox);
+                        saveCheckBoxList(file);
                         LinearLayout layout = findViewById(R.id.linearLayout3);
                         layout.removeAllViews();
                         checkBox();
