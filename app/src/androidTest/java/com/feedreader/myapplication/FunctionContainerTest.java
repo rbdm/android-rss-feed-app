@@ -9,7 +9,10 @@ import org.junit.Test;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static org.junit.Assert.assertTrue;
-
+/*
+ * Author: Mingzhen Ao
+ * This class aims to test an button information if it corresponding to checkbox;
+ */
 public class FunctionContainerTest {
     @Test
     public void testCreateButton() {

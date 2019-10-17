@@ -10,7 +10,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-
+/*
+ * Author: Mingzhen Ao
+ * This class aims to check whether we successful
+ * parser information from internet
+ */
 public class RSSFeedParserTest {
     String Validurl1 = "https://rss.csmonitor.com/feeds/usa";
     String Validurl2 = "https://www.npr.org/rss/rss.php?id=1003";
