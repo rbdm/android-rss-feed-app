@@ -446,12 +446,14 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+    // displays refresh button on top right of screen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.refresh_menu, menu);
         return true;
     }
+    // do refresh when that button is pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();

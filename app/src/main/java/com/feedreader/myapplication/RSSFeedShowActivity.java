@@ -277,24 +277,30 @@ public class RSSFeedShowActivity extends AppCompatActivity {
             return null;
         }
     }
+    // go to Favourites Activity
     public void openFavourites(View v) {
         Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
         startActivity(intent);
     }
+    // go to AddSitesShowActivity
     public void addSitePage(View v) {
         Intent intent = new Intent(getApplicationContext(), AddSitesShowActivity.class);
         startActivity(intent);
     }
+    // go to MainActivity
     public void returnHome(View v) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
+
+    // displays refresh button on top right of screen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.refresh_menu, menu);
         return true;
     }
+    // do refresh when that button is pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         LinearLayout layout = findViewById(R.id.linearLayout);
