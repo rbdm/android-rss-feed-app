@@ -163,7 +163,12 @@ public class FavouritesAdapter extends BaseAdapter {
         public TextView menuView;
     }
 
-
+    /**
+     * Author: Mirhady Dorodjatun
+     * This method aims to save to external file that contains state of favourite news,
+     * by getting the current value from MyApplication. It saves in XML format
+     * @param file the file containing favourite news data
+     */
     public void saveNewsList(ArrayList<RSSElement> RSSElementList, File file) {
         ArrayList<RSSElement> newsList = RSSElementList;
 

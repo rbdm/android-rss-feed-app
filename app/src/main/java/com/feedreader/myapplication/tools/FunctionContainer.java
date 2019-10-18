@@ -3,7 +3,9 @@ package com.feedreader.myapplication.tools;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -12,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 
 import com.feedreader.myapplication.R;
+import com.feedreader.myapplication.data.MyApplication;
 
 import org.joda.time.DateTime;
 

@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Author: Mirhady Dorodjatun
      * This method aims to load from external file that contains previous state of checkBoxList,
-     * then passes the argument to MyApplication. It saves in XML format
+     * then passes the argument to MyApplication. It loads from XML format
      * @param file the file containing checkBoxList data
      */
     public void loadCheckBoxList(File file) {
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Author: Mirhady Dorodjatun
      * This method aims to load from external file that contains previous state of favourite news,
-     * then passes the argument to MyApplication. It saves in XML format
+     * then passes the argument to MyApplication. It loads from XML format
      * @param file the file containing favourite news data
      */
     public void loadNewsList(File file) {
