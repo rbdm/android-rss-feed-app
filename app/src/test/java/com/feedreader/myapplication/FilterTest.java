@@ -18,6 +18,12 @@ public class FilterTest {
     SortAndFilterAdapter sfa = new SortAndFilterAdapter();
     DateTimeAdapter dta = new DateTimeAdapter();
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This test class aims to test several filtering methods which are stored in SortAndFilterAdapter.
+     * includes testFilterToday, testFilterLastHour and testFilterThisWeek
+     * @param
+     */
     @Test
     public void testFilterToday() {
         DateTime[] testInput = new DateTime[]{

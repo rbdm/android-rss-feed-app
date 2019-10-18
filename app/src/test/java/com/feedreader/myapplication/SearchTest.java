@@ -15,6 +15,11 @@ public class SearchTest {
     SortAndFilterAdapter sfa = new SortAndFilterAdapter();
     DateTimeAdapter dta = new DateTimeAdapter();
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This test class aims to test our search method which is stored in SortAndFilterAdapter.
+     * @param
+     */
     @Test
     public void testSearch() {
         String[] testInput = new String[]{

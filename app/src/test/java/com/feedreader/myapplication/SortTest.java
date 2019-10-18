@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Author: Mirhady Dorodjatun
- * This class aims to test several sorting methods which are stored in SortAndFilterAdapter.
+ * This test class aims to test several sorting methods which are stored in SortAndFilterAdapter.
  * includes sortOldestFirst, sortNewestFirst and sortByTitle.
  * @param
  */
