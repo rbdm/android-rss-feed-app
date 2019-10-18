@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Author: Mirhady Dorodjatun
+ * This class aims to test several sorting methods which are stored in SortAndFilterAdapter.
+ * includes sortOldestFirst, sortNewestFirst and sortByTitle.
+ * @param
+ */
 public class SortTest {
     DateTimeAdapter dta = new DateTimeAdapter();
     SortAndFilterAdapter sfa = new SortAndFilterAdapter();
@@ -103,6 +109,54 @@ public class SortTest {
 
         for (int i=0; i<testInput.length; i++) {
             assertTrue(sfa.sortNewestFirst(rssInput).equals(expectedOutput));
+        }
+    }
+
+    @Test
+    public void testSortByTitle() {
+        String[] testInput = new String[]{
+                "aaaaaaaaaaaaaa", //current time
+                "baa",
+                "my_application",
+                "as a aa a a a aa a",
+                "'aa\n \r\naaa \n\r\n  ",
+                "adadasaefa    "
+        };
+
+        RSSElement re = new RSSElement();
+        RSSElement re1 = new RSSElement();
+        RSSElement re2 = new RSSElement();
+        RSSElement re3 = new RSSElement();
+        RSSElement re4 = new RSSElement();
+        RSSElement re5 = new RSSElement();
+
+        re.setTitle(testInput[0]);
+        re1.setTitle(testInput[1]);
+        re2.setTitle(testInput[2]);
+        re3.setTitle(testInput[3]);
+        re4.setTitle(testInput[4]);
+        re5.setTitle(testInput[5]);
+
+        ArrayList<RSSElement> rssInput = new ArrayList<>();
+        rssInput.add(re);
+        rssInput.add(re1);
+        rssInput.add(re2);
+        rssInput.add(re3);
+        rssInput.add(re4);
+        rssInput.add(re5);
+
+        ArrayList<RSSElement> expectedOutput = new ArrayList<>();
+        expectedOutput.add(re4);
+        expectedOutput.add(re);
+        expectedOutput.add(re5);
+        expectedOutput.add(re3);
+        expectedOutput.add(re1);
+        expectedOutput.add(re2);
+
+        for (int i=0; i<testInput.length; i++) {
+            System.out.println(expectedOutput.get(i).getTitle());
+            System.out.println(sfa.sortByTitle(rssInput).get(i).getTitle());
+            assertTrue(sfa.sortByTitle(rssInput).get(i).getTitle().equals(expectedOutput.get(i).getTitle()));
         }
     }
 }
