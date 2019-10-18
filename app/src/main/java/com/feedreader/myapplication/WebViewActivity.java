@@ -42,6 +42,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class WebViewActivity extends AppCompatActivity {
 
+    // initialize variables
     ImageButton buttonShare;
     ImageButton buttonHome;
     ImageButton buttonLike;
@@ -57,15 +58,6 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // initialize facebook SDK
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
-
-        // initialize twitter SDK
-        TwitterConfig twitterConfig = new TwitterConfig.Builder(this)
-                .twitterAuthConfig(new TwitterAuthConfig("@strings/twitter_consumer_key", "@strings/twitter_consumer_secret"))
-                .build();
-        Twitter.initialize(this);
 
         setContentView(R.layout.web_view);
         final Intent intent = getIntent();
@@ -87,57 +79,88 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
-        buttonShare = findViewById(R.id.buttonShare);
-
+        /**
+         * Author: Mirhady Dorodjatun
+         * This part defines the behaviour of the share button.
+         * It aims to share the url content to Facebook and Twitter using their respective APIs
+         * @param
+         */
+        // initialize facebook and twitter SDK
+        // in case of facebook it simply initializes on context, where the keys are defined in manifest.
+        // for twitter, we build an auth instance by passing consumer key and secret to an auth builder.
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        TwitterConfig.Builder tc = new TwitterConfig.Builder(WebViewActivity.this);
+        TwitterAuthConfig auth = new TwitterAuthConfig("@strings/twitter_consumer_key", "@strings/twitter_consumer_secret");
+        TwitterConfig twitterConfig = tc
+                .twitterAuthConfig(auth)
+                .build();
+        Twitter.initialize(this);
+        
         // initialize facebook dialog
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
 
-
+        // defines event on buttonShare.onClick()
+        buttonShare = findViewById(R.id.buttonShare);
         buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                // inflates popup menu from R.menu.share_menu
                 PopupMenu popupMenu = new PopupMenu(WebViewActivity.this, buttonShare);
                 popupMenu.getMenuInflater().inflate(R.menu.share_menu, popupMenu.getMenu());
 
+                // set listener for each popup menu
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+
+                        // sharing to facebook
                         if (menuItem.getItemId() == R.id.shareToFacebook) {
+
+                            // generate hashtag with our group ID
                             ShareHashtag facebookHashtag = new ShareHashtag.Builder().setHashtag("#RSSFeedGp19s2").build();
 
-                            ShareLinkContent facebookContent = new ShareLinkContent.Builder()
+                            // calls an instance of ShareLinkContent by utilizing its Builder() function
+                            // to define the share parameters
+                            ShareLinkContent slc = new ShareLinkContent.Builder()
                                     .setShareHashtag(facebookHashtag)
                                     .setQuote(getIntent().getStringExtra("title"))
                                     .setContentUrl(Uri.parse(getIntent().getStringExtra("url")))
                                     .build();
+                            // show the facebook content after user login
                             if (ShareDialog.canShow(ShareLinkContent.class)) {
-                                shareDialog.show(facebookContent);
+                                shareDialog.show(slc);
                             }
-                        } else if (menuItem.getItemId() == R.id.shareToTwitter) {
+
+                        }
+                        // sharing to twitter
+                        else if (menuItem.getItemId() == R.id.shareToTwitter) {
 
                             try {
+                                // get url from string passed from previous intent
                                 URL url = new URL(getIntent().getStringExtra("url"));
 
-                                TweetComposer.Builder builder = new TweetComposer.Builder(WebViewActivity.this)
+                                // builds an instance of tweetcomposer using its respective builder
+                                TweetComposer.Builder tc = new TweetComposer.Builder(WebViewActivity.this);
+                                TweetComposer.Builder builder = tc
+                                        // generate hashtag with our group ID
                                         .text("#RSSFeedGp19s2")
                                         .url(url);
                                 builder.show();
-
-                            } catch (Exception e) {
+                            }
+                            catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-
                         return true;
                     }
                 });
-
                 popupMenu.show();
             }
         });
 
+        // returns home when home button is clicked
         buttonHome = findViewById(R.id.buttonHome);
         buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override

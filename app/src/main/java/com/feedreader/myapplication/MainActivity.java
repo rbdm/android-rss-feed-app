@@ -72,12 +72,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setContentView(R.layout.activity);
 
         //request permission for persistent data
         ActivityCompat.requestPermissions(MainActivity.this, permissions, permissionCode);
         onRequestPermissionsResult(permissionCode, permissionsApproved, permissionReceived);
-
-        setContentView(R.layout.activity);
 
         //load external source for initial app state
         loadCheckBoxList(checkBoxFile);
@@ -86,7 +85,12 @@ public class MainActivity extends AppCompatActivity {
         //displays initial news feed
         displayNews();
 
-        //button handlers
+        /**
+         * Author: Mirhady Dorodjatun
+         * This part defines the behaviour of the search button.
+         * It runs the search method by an instance of SortAndFilterAdapter.
+         * @param
+         */
         imageButtonSearch = findViewById(R.id.imageButtonSearch);
         imageButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override

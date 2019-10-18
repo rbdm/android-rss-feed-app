@@ -74,6 +74,12 @@ public class RSSFeedShowActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.linearLayout2);
         ImageButton refreshBtn = layout.findViewWithTag(tag);
 
+        /**
+         * Author: Mirhady Dorodjatun
+         * This part defines the behaviour of the search button.
+         * It runs the search method by an instance of SortAndFilterAdapter.
+         * @param
+         */
         imageButtonSearch = findViewById(R.id.imageButtonSearch);
         imageButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
