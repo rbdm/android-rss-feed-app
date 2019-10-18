@@ -27,9 +27,9 @@ public class FilterTest {
     @Test
     public void testFilterToday() {
         DateTime[] testInput = new DateTime[]{
-                new DateTime(), //current time
-                new DateTime().withTimeAtStartOfDay(),
-                new DateTime().minusDays(1),
+                new DateTime().plusHours(0), //current time
+                new DateTime().minusDays(5),
+                new DateTime().minusDays(3),
                 new DateTime().minusDays(2),
                 new DateTime().minusDays(6),
                 new DateTime().minusDays(8),
@@ -37,7 +37,7 @@ public class FilterTest {
 
         boolean[] expectedOutput = new boolean[]{
                 true,
-                true,
+                false,
                 false,
                 false,
                 false,
@@ -49,7 +49,7 @@ public class FilterTest {
             ArrayList<RSSElement> reList = new ArrayList<>();
             reList.add(re);
             re.setPubDate(dta.formatDateTime(testInput[i]));
-            assertEquals(sfa.filterTodayWithoutToast(reList).size()>0, expectedOutput[i]);
+            assertEquals(expectedOutput[i], sfa.filterTodayWithoutToast(reList).size()>0);
         }
     }
 

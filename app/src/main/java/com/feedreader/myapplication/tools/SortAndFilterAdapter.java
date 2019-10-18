@@ -50,7 +50,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterTodayWithoutToast(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -61,7 +60,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterLastHour(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -82,7 +80,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterLastHourWithoutToast(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -93,7 +90,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterThisWeek(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -114,7 +110,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterThisWeekWithoutToast(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -125,7 +120,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterByDate(ArrayList<RSSElement> RSSList, DateTime selectedDate) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -146,7 +140,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterByTerm(ArrayList<RSSElement> RSSList, String searchTerm) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -168,7 +161,6 @@ public class SortAndFilterAdapter {
         }
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> filterByTermWithoutToast(ArrayList<RSSElement> RSSList, String searchTerm) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {
@@ -181,6 +173,11 @@ public class SortAndFilterAdapter {
         return filteredRSSList;
     }
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This part onwards defines all methods related to sorting
+     * For sorting the input list, we define a sorting criteria using built-in method Collections.sort()
+     */
     public ArrayList<RSSElement> sortNewestFirst(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         Collections.sort(RSSList, new Comparator<RSSElement>() {
@@ -193,7 +190,6 @@ public class SortAndFilterAdapter {
         for (RSSElement re: RSSList) filteredRSSList.add(re);
         return filteredRSSList;
     }
-
     public ArrayList<RSSElement> sortOldestFirst(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         Collections.sort(RSSList, new Comparator<RSSElement>() {
@@ -206,25 +202,6 @@ public class SortAndFilterAdapter {
         for (RSSElement re: RSSList) filteredRSSList.add(re);
         return filteredRSSList;
     }
-
-    /*
-    public ArrayList<RSSElement> sortBySource(ArrayList<RSSElement> RSSList) {
-        ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
-        Collections.sort(RSSList, new Comparator<RSSElement>() {
-            @Override
-            public int compare(RSSElement re1, RSSElement re2) {
-                if (re1.getNewsSource(re1.link).compareTo(re2.getNewsSource(re2.link))>0) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        });
-        for (RSSElement re: RSSList) filteredRSSList.add(re);
-        return filteredRSSList;
-    }
-    */
-
     public ArrayList<RSSElement> sortByTitle(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         Collections.sort(RSSList, new Comparator<RSSElement>() {
