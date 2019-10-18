@@ -44,7 +44,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-/* *
+/***
  * Author: Mingzhen Ao
  * This class aims to show the websites that contains the rss feeds
  */
@@ -62,7 +62,13 @@ public class AddSitesShowActivity extends AppCompatActivity {
         setContentView(R.layout.addsite_layout);
         checkBox();
 
-
+        /**
+         * Author: Mingzhen Ao and Mirhady Dorodjatun
+         * This part defines the behaviour of the add RSSFeed button
+         * It attempts to add a new RSS Feed from the user's string inputs
+         * If not successful, create toast to notify user of the failure
+         * @param
+         */
         addButton = findViewById(R.id.imageButtonAddSource);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +102,12 @@ public class AddSitesShowActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Author: Mingzhen Ao and Mirhady Dorodjatun
+         * This part defines the behaviour of the remove RSSFeed button
+         * It attempts to remove an existing RSS Feed from the user's string input
+         * @param
+         */
         removeButton = findViewById(R.id.imageButtonRemove);
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,11 +143,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-
-
     }
-
-
 
     /**
      * Author: Mingzhen Ao
@@ -178,6 +186,12 @@ public class AddSitesShowActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This method aims to save to external file that contains state of checkBoxList,
+     * by getting the current value from MyApplication. It saves in XML format
+     * @param file the file containing checkBoxList data
+     */
     public void saveCheckBoxList(File file) {
         ArrayList<Boolean> isCheckedList = new ArrayList<>();
         final MyApplication app = (MyApplication) getApplication();
@@ -231,13 +245,10 @@ public class AddSitesShowActivity extends AppCompatActivity {
      *
      * @param view
      */
-
     public void goBackToHome(View view) {
         Intent intent = new Intent(AddSitesShowActivity.this, MainActivity.class);
         AddSitesShowActivity.this.startActivity(intent);
     }
-
-
 
     /** Author: Mingzhen Ao
      * When click on the favourite button, go to FavouritesActivity
@@ -247,8 +258,6 @@ public class AddSitesShowActivity extends AppCompatActivity {
         Intent intent = new Intent(AddSitesShowActivity.this, FavouritesActivity.class);
         AddSitesShowActivity.this.startActivity(intent);
     }
-
-
 
     /** Author: Mingzhen Ao
      * This function aims to add site if the site is right xml url when click add button
@@ -287,11 +296,10 @@ public class AddSitesShowActivity extends AppCompatActivity {
 
 
 
-    /* * Author: Mingzhen Ao
+    /*** Author: Mingzhen Ao
      * This function aims to check if there is a right xml url or not,
      * if it's right ,added it, if not, show not valid.
      */
-
     class Check extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -358,7 +366,7 @@ public class AddSitesShowActivity extends AppCompatActivity {
     }
 
 
-    /* *
+    /***
      * Author: Mingzhen Ao
      * This function aims to save corresponding rss feeds to Myapplication
      */

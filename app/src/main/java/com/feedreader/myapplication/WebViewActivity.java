@@ -230,7 +230,7 @@ public class WebViewActivity extends AppCompatActivity {
     /**
      * Author: Mirhady Dorodjatun
      * This method aims to save to external file that contains state of favourite news,
-     * by getting the current value from MyApplication.
+     * by getting the current value from MyApplication. It saves in XML format
      * @param file the file containing favourite news data
      */
     public void saveNewsList(File file) {
