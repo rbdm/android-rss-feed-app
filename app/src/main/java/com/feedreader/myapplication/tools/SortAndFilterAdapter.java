@@ -18,9 +18,18 @@ import java.util.Comparator;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+/**
+ * Author: Mirhady Dorodjatun
+ * This class defines the all methods related to sort, search and filter
+ * One method is defined for each sorting/filtering criteria
+ * If it returns zero sized array, create a new Toast to notify the user
+ */
 public class SortAndFilterAdapter {
     DateTimeAdapter dta = new DateTimeAdapter();
 
+    /**
+     * @param RSSList arraylist containing RSSElement to be filtered/sorted/searched
+     */
     public ArrayList<RSSElement> filterToday(ArrayList<RSSElement> RSSList) {
         ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
         for (RSSElement re: RSSList) {

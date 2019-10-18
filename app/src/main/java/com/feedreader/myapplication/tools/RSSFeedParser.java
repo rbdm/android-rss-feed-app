@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-/* *
+/***
  * Author: Mingzhen Ao
  * This class used to parse the information from xml url from internet
  */

@@ -2,7 +2,7 @@ package com.feedreader.myapplication.data;
 
 import java.util.ArrayList;
 
-/* *
+/***
  * Author: Mingzhen Ao & Zixin Ye
  * This class used to get title, link ,and pubDate of the rss feed
  */
@@ -69,7 +69,6 @@ public class RSSElement {
         this.pubDate = pubDate;
         this.source = source;
     }
-
 
     public String getNewsSource(String s) {
         String out = "";

@@ -7,6 +7,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Author: Mirhady Dorodjatun
+ * This class defines the all methods related to formatting DateTime values
+ * It uses Joda's DateTime library along with Java.util.Date to convert and compare DateTimes
+ */
 public class DateTimeAdapter {
     public DateTime getDateTime(String s) {
         String[] dateTime = s.split(" ");
@@ -30,7 +35,6 @@ public class DateTimeAdapter {
             return null;
         }
     }
-
     public String formatDateTime(DateTime dt) {
         dt.getZone();
         String formattedDateString = dt.toString(DateTimeFormat.forPattern("EEE, dd MMM yyyy kk:mm")) + " AEST";
