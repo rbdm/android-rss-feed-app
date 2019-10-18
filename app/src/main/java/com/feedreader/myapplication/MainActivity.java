@@ -30,6 +30,7 @@ import android.widget.PopupMenu;
 import com.feedreader.myapplication.data.MyApplication;
 import com.feedreader.myapplication.data.RSSElement;
 import com.feedreader.myapplication.tools.DateTimeAdapter;
+import com.feedreader.myapplication.tools.FunctionContainer;
 import com.feedreader.myapplication.tools.RSSFeedParser;
 import com.feedreader.myapplication.tools.SortAndFilterAdapter;
 
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         imageButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // if memory runs out and variable is collected by garbage collector after heavy usage, refresh the RSS List
                 MyApplication app = (MyApplication) getApplication();
                 if (app.getNewsList().size()==0 || app.getNewsList()==null) {
                     MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
@@ -97,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 RSSList = app.getNewsList();
 
+                // calls an instance of editText and put it as input in AlertDialog.Builder
+                // then reads the input as the search term
                 final EditText et = new EditText(MainActivity.this);
                 filteredRSSList.clear();
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -113,15 +117,24 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+
+        /**
+         * Author: Mirhady Dorodjatun
+         * This part defines the behaviour of the sort/filter button. it inflates menu from R.menu.sort_menu
+         * Then runs the sort/filter method by an instance of SortAndFilterAdapter.
+         * @param
+         */
         imageButtonSort = findViewById(R.id.imageButtonSort);
         imageButtonSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // if memory runs out and variable is collected by garbage collector after heavy usage, refresh the RSS List
                 MyApplication app = (MyApplication) getApplication();
                 if (app.getNewsList().size()==0 || app.getNewsList()==null) {
                     MainActivity.RefreshRSSFeed refresh = new MainActivity.RefreshRSSFeed();
                     refresh.execute();
                 }
+                // inflates sort menu from R.menu.sort_menu
                 PopupMenu sortMenu = new PopupMenu(MainActivity.this, imageButtonSort);
                 sortMenu.getMenuInflater().inflate(R.menu.sort_menu, sortMenu.getMenu());
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -130,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
                         MyApplication app = (MyApplication) getApplication();
                         RSSList = app.getNewsList();
                         filteredRSSList.clear();
+
+                        //calls the corresponding method in SortAndFilterAdapter to perform the respective sorting/filtering operation
                         if (menuItem.getItemId() == R.id.filterLastHour) {
                             filteredRSSList = sfa.filterLastHour(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterToday) {
@@ -138,10 +153,15 @@ public class MainActivity extends AppCompatActivity {
                             RSSList = app.getNewsList();
                             filteredRSSList = sfa.filterThisWeek(RSSList);
                         } else if (menuItem.getItemId() == R.id.filterDate) {
-                            DialogFragment newFragment = new RSSFeedShowActivity.DatePickerFragment();
+
+                            // calls an instance of date picker fragment from FunctionContainer
+                            DialogFragment newFragment = new FunctionContainer.DatePickerFragment();
                             newFragment.show(getFragmentManager(), "datePicker");
-                            ((RSSFeedShowActivity.DatePickerFragment) newFragment).dateSetListener = new DatePickerDialog.OnDateSetListener() {
+                            FunctionContainer.DatePickerFragment dpf = (FunctionContainer.DatePickerFragment) newFragment;
+                            dpf.dateSetListener = new DatePickerDialog.OnDateSetListener() {
                                 public void onDateSet(DatePicker view, int year, int month, int day) {
+
+                                    //somehow there is a discrepancy of 1 month between Joda's dateTime library and Java.util.Date
                                     DateTime selectedDate = new DateTime(year, month+1, day, 0, 0, 0);
                                     filteredRSSList = sfa.filterByDate(RSSList, selectedDate);
                                     refreshFilteredLayout();
@@ -154,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                         } else if (menuItem.getItemId() == R.id.sortByTitle) {
                             filteredRSSList = sfa.sortByTitle(RSSList);
                         }
+                        // refresh displayed news list based on filteredRSSList variable
                         refreshFilteredLayout();
                         return true;
                     }

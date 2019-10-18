@@ -1,12 +1,19 @@
 package com.feedreader.myapplication.tools;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 
 import com.feedreader.myapplication.R;
+
+import org.joda.time.DateTime;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -33,4 +40,29 @@ public class FunctionContainer {
         return button;
     }
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This class aims to create fragment DatePickerFragment while using interface DatePickerDialog.OnDateSetListener
+     * in order to listens to the date input event by user.
+     * onDateSet is not defined here as we need to put it in UI thread
+     * @param
+     */
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+        public DatePickerDialog.OnDateSetListener dateSetListener;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Set default date using joda time
+            final DateTime now = new DateTime();
+            int year = now.getYear();
+            int month = now.getMonthOfYear();
+            int day = now.getDayOfMonth();
+            // Somehow there is a discrepancy of 1 month between Joda library's DateTime class and Java.util.Date
+            return new DatePickerDialog(getActivity(), dateSetListener, year, month-1, day);
+        }
+
+        public void onDateSet(DatePicker dp, int year, int month, int day) {
+            // Must define inside UI Activity, because this class is static
+        }
+    }
 }
