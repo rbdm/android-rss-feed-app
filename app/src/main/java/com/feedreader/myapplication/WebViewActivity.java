@@ -95,7 +95,7 @@ public class WebViewActivity extends AppCompatActivity {
                 .twitterAuthConfig(auth)
                 .build();
         Twitter.initialize(this);
-        
+
         // initialize facebook dialog
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
@@ -205,7 +205,7 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
-
+        // add news url to favourites
         ImageButton imageButtonAdd = findViewById(R.id.imageButtonAdd);
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +215,7 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
-
+        // move to favourites page
         ImageButton imageButtonFavourites = findViewById(R.id.imageButtonFavorites);
         imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +227,12 @@ public class WebViewActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This method aims to save to external file that contains state of favourite news,
+     * by getting the current value from MyApplication.
+     * @param file the file containing favourite news data
+     */
     public void saveNewsList(File file) {
         MyApplication app = (MyApplication) getApplication();
         ArrayList<RSSElement> newsList = app.getRSSElementList();
@@ -249,7 +255,6 @@ public class WebViewActivity extends AppCompatActivity {
 
                 newsListElement.appendChild(newsElem);
             }
-
             Transformer t = TransformerFactory.newInstance().newTransformer();
             DOMSource ds = new DOMSource(newsListElement);
             StreamResult sr = new StreamResult(file);
