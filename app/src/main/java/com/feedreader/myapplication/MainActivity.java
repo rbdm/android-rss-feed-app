@@ -46,21 +46,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity {
+
+    // variables to request and store permissions
     private int permissionCode;
     private int[] permissionReceived;
     private String[] permissions = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String[] permissionsApproved = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
+    // variables to manage RSS feed list
     ArrayList<RSSElement> RSSList = new ArrayList<>();
     ArrayList<RSSElement> partialRSSList = new ArrayList<>();
     ArrayList<RSSElement> filteredRSSList = new ArrayList<>();
     RSSFeedParser parser = new RSSFeedParser();
 
+    // defines path of external files for persistent data
     String filePath = Environment.getExternalStorageDirectory().getPath();
     File checkBoxFile = new File(filePath + "/isCheckedList.xml");
     File newsListFile = new File(filePath + "/newsList.xml");
 
-    //DateTimeAdapter dta = new DateTimeAdapter();
     SortAndFilterAdapter sfa = new SortAndFilterAdapter();
     ImageButton imageButtonSort, imageButtonSearch;
 
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         loadNewsList(newsListFile);
 
         //displays initial news feed
-        display();
+        displayNews();
 
         //button handlers
         imageButtonSearch = findViewById(R.id.imageButtonSearch);
@@ -160,7 +163,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    void display() {
+    /**
+     * Author: Mirhady Dorodjatun
+     * This method aims to display the news buttons by extracting the checkBox saved in MyApplication,
+     * then runs putLayout() for each checkBox to display them.
+     * @param
+     */
+    void displayNews() {
         ArrayList<String> urlList = new ArrayList<>();
 
         MyApplication app = (MyApplication) getApplication();
@@ -178,6 +187,12 @@ public class MainActivity extends AppCompatActivity {
         putlayout.execute();
     }
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This method aims to refresh the feed based on the filteredRSSList, which is the output variable
+     * of sort, search and filter methods. It utilizes variable filteredRSSList
+     * @param
+     */
     public void refreshFilteredLayout() {
         LinearLayout layout = findViewById(R.id.linearLayout);
         layout.removeAllViews();
@@ -207,9 +222,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     /**
      * Author: Mingzhen Ao
      * if click favourite button, go to favouritesactivity
@@ -220,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
         MainActivity.this.startActivity(intent);
     }
-
 
     /**
      * Author: Mingzhen Ao
@@ -233,22 +244,13 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.refresh_menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    /**
+     * Author: Mirhady Dorodjatun
+     * This method aims to load from external file that contains previous state of checkBoxList,
+     * then passes the argument to MyApplication.
+     * @param file the file containing checkBoxList data
+     */
     public void loadCheckBoxList(File file) {
         ArrayList<Boolean> isCheckedList = new ArrayList<>();
 
@@ -286,7 +288,12 @@ public class MainActivity extends AppCompatActivity {
         app.setCheckBoxList(app.getCheckBoxList());
     }
 
-
+    /**
+     * Author: Mirhady Dorodjatun
+     * This method aims to load from external file that contains previous state of favourite news,
+     * then passes the argument to MyApplication.
+     * @param file the file containing favourite news data
+     */
     public void loadNewsList(File file) {
         final MyApplication app = (MyApplication) getApplication();
         ArrayList<RSSElement> newsList = new ArrayList<>();
@@ -313,6 +320,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    /***
+     * Author: Mingzhen Ao
+     * This function aims to display news buttons then save corresponding rss feeds to Myapplication
+     */
     public void setLinearLayout(ArrayList<RSSElement> list) {
         for (int i = 0; i < list.size(); i++) {
             DateTimeAdapter dta = new DateTimeAdapter();
@@ -346,6 +358,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This class aims to put the filteredRSSList, which are output of sort, search and filter methods,
+     * then passes the argument to method putFilteredLayout();
+     * @param
+     */
     public class putFilteredLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -358,6 +376,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /***
+     * Author: Mingzhen Ao
+     * This function aims to display news buttons then save corresponding rss feeds to Myapplication
+     */
     public class putLayout extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
@@ -380,18 +402,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Author: Mirhady Dorodjatun
+     * This class aims to refresh the rss feed which is stored in MyApplication.
+     * Sometimes when the app is used heavily, the stored value might be collected by garbage collector.
+     * This class refresh the rss feed for such occasion.
+     * @param
+     */
     public class RefreshRSSFeed extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
-            //String url = args[0];
             MyApplication app = (MyApplication) getApplication();
             app.getNewsList().clear();
             for (String s: app.getUrlList()) {
                 partialRSSList = parser.getRSSfeedFromUrl(s);
                 app.addNewsSource(partialRSSList);
             }
-
             return null;
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.refresh_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+        return super.onOptionsItemSelected(item);
     }
 }
