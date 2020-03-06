@@ -1,3 +1,5 @@
-# GP19S2
+# Android RSS Feed App
 
-Sample repository for the group project of COMP2100, 19S2.
+An RSS Feed app created using Android Studio as part of course assignment
+
+Please refer to this page's wiki for the documentations.
